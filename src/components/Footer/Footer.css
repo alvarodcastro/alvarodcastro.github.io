@@ -1,0 +1,55 @@
+.App-footer{
+    /*background-color: #293754;*/
+    /*min-height: 10vh;*/
+    background-image: linear-gradient(180deg, #1b1e23, #293754);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(5px + 2vmin);
+    color: white;
+}
+.App-footer .p-menubar {
+    background-color: transparent !important;
+}
+
+.Footer-contact-content {
+    display: flex;
+    width: 100%;
+    /*position: relative;*/
+    /*align-items: center;*/
+    /*right: 0px;*/
+;
+}
+.Footer-decoration {
+    color: white;
+    /*padding: 100px;*/
+    width: 100%;
+}
+
+.Footer-legal-content {
+    font-size: calc(8px + 1vmin);
+}
+
+.Contact-buttons {
+    display: table-column;
+    /*position:*/
+}
+
+.SocialMedia-div {
+    /*display: flex;*/
+    /*justify-content: flex-end;*/
+    /*align-self: end;*/
+    /*float: right;*/
+    /*position: relative;*/
+    /*right: 0%;*/
+    align-items: center;
+}
+
+.Recruiting-div{
+    padding: 50px
+}
+.Recruiting-text {
+    font-size: smaller;
+;
+}

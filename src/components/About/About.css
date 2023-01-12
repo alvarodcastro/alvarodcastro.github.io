@@ -1,0 +1,76 @@
+
+.About-content-class {
+    display: flex;
+    justify-content: center;
+    /*height: fit-content;*/
+    padding: 50px;
+    /*box-sizing: border-box;*/
+}
+
+.About-content-class .p-image {
+    /*position: relative;*/
+    /*display: flex;*/
+    /*posi*/
+    /*width: calc(200px + 2vmin);*/
+    margin: 50px
+}
+.About-text-class {
+    max-width: calc(40% + 2vmin);
+    /*align-self*/
+    line-height: 1.7;
+    font-size: calc(10px + 1vmin);
+}
+.About-text-class {
+    display: flow;
+    /*overflow: scroll;*/
+}
+
+.About-text-class .Skill-List-Class {
+    margin-top: 20px;
+}
+.About-text-class .p-carousel-item {
+
+    align-items: center;
+    display: grid;
+    /*display: inline;*/
+    /*justify-content: center;*/
+    /*alignment: center;*/
+    /*padding: 10px;*/
+    /*margin: 10px;*/
+    /*background-color:#293754;*/
+    /*border-radius: 8px;*/
+    /*width: border-box;*/
+    /*margin: 0 5px 0 0px;*/
+
+}
+.About-text-class .p-carousel-item span{
+    display: block;
+    /*background-color: blueviolet;*/
+    /*padding: 20px;*/
+}
+.About-text-class .p-highlight button{
+    background-color: rgba(97, 248, 255, 0.41) !important;
+}
+.About-text-class b {
+    font-size: larger;
+}
+
+.About-text-class a{
+    color: white;
+}
+.An-App-about h2{
+    animation: Appear-from-above 0.8s;
+}
+
+
+.An-App-about .About-text-class{
+    animation: Appear-from-left-long 0.8s;
+}
+
+.An-App-about .About-text-class ul{
+    animation: Appear-from-left-long 1.4s;
+}
+
+.An-App-about .About-photo-class{
+    animation: Appear-from-right-long 0.8s;
+}
