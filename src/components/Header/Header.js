@@ -7,7 +7,7 @@ const socialMedia = [
     {
         // label: 'Email',
         icon: 'pi pi-envelope',
-        url: 'mailto:alvarodecastroescribano0025@gmail.com'
+        url: 'mailto:nx9cgpt5@duck.com'
     },
     {
         // label: 'Linkedin',
@@ -17,7 +17,7 @@ const socialMedia = [
     {
         // label: 'Github',
         icon: 'pi pi-github',
-        url: 'https://github.com/ace00029'
+        url: 'https://github.com/alvarodcastro'
     },
 ];
 
@@ -35,7 +35,7 @@ function Header(){
             <header className="App-header">
                 <Menubar model={socialMedia} className={"An-App-Left-Long"}></Menubar>
                 <img src={logo} className="App-logo" alt="logo" />
-                <p className={"An-App-Above"}>
+                <p className={"An-App-Above-Long-Long"}>
                     Hello World! I'm Alvaro.
                 </p>
                 <p className={"Header-description-class An-App-Below-Long-Long"}>

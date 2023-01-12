@@ -49,6 +49,7 @@ function Navbar( ) {
             label: 'About',
             // icon: 'pi pi-question-circle',
             command: (event) => {
+                window.location.hash= "";
                 window.location.hash= "about";
             }
 
@@ -64,6 +65,7 @@ function Navbar( ) {
             label: 'Work',
             // icon: 'pi pi-code',
             command: (event) => {
+                window.location.hash= "";
                 window.location.hash= "work";
             }
         },
@@ -71,6 +73,7 @@ function Navbar( ) {
             label: 'Contact',
             // icon: 'pi pi-question-circle',
             command: (event) => {
+                window.location.hash= "";
                 window.location.hash= "contact";
             }
 
@@ -78,11 +81,15 @@ function Navbar( ) {
     ];
 
     // const start = <img alt="logo" src="src/favicon.ico" onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="mr-2"></img>;
-    const start = <img src={logo} className="App-logo-navbar" alt="logo" height="40"/>
+    const start =
+        <div className={"Navbar-First"} onClick={function () {window.location =""}}>
+            <img src={logo} className="App-logo-navbar" alt="logo" height="40"/>
+            <span className={"PageTitle-Navbar"}>ALVARO DE CASTRO</span>
+        </div>
 
     return (
             <div>
-                <Menubar model={items}className={"Navbar-class"} id={"hidden-navbar"}/>
+                <Menubar model={items} className={"Navbar-class"} id={"hidden-navbar"}/>
                 <Menubar model={items} start={start} className={"Navbar-class"} id={"top-navbar"}/>
             </div>
     );

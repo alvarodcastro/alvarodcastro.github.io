@@ -19,6 +19,7 @@
     /*position: relative;*/
     /*align-items: center;*/
     /*right: 0px;*/
+    justify-content: center;
 ;
 }
 .Footer-decoration {
@@ -37,19 +38,27 @@
 }
 
 .SocialMedia-div {
-    /*display: flex;*/
+    display: block;
     /*justify-content: flex-end;*/
-    /*align-self: end;*/
+    align-self: center;
     /*float: right;*/
     /*position: relative;*/
     /*right: 0%;*/
     align-items: center;
+
 }
 
 .Recruiting-div{
-    padding: 50px
+    padding: 50px;
+    width: 70vmin;
+    display: block;
 }
 .Recruiting-text {
     font-size: smaller;
-;
+}
+.Recruiting-text b{
+    font-size: larger;
+}
+.Footer-legal-content a{
+    color: white;
 }

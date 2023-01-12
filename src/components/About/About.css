@@ -17,7 +17,6 @@
 .About-text-class {
     max-width: calc(40% + 2vmin);
     /*align-self*/
-    line-height: 1.7;
     font-size: calc(10px + 1vmin);
 }
 .About-text-class {

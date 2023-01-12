@@ -4,6 +4,8 @@ html {
 
 .App {
     text-align: center;
+    line-height: 1.7;
+
 }
 
 @keyframes Appear-from-above {
@@ -67,6 +69,15 @@ html {
     }
 }
 
+@keyframes Appear-from-above-long-long {
+    from {
+        transform: translate(0, -850px);
+    }
+    to {
+        transform: translate(0, 0);
+        visibility: visible ;
+    }
+}
 @keyframes Appear-from-below-long {
     from {
         transform: translate(0, 550px);
@@ -146,6 +157,9 @@ html {
 
     .An-App-Above-Long {
         animation: Appear-from-above-long 0.8s;
+    }
+    .An-App-Above-Long-Long {
+        animation: Appear-from-above-long-long 1.8s;
     }
     .An-App-Below-Long {
         animation: Appear-from-below-long 0.8s;

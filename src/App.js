@@ -14,7 +14,9 @@ import Loading from "./components/Loading/Loading";
 const PAGETITLE = document.title;
 function App() {
     function focused(){
-        document.querySelector('title').textContent = PAGETITLE;
+        window.setTimeout(function(){
+            document.querySelector('title').textContent = PAGETITLE;
+        },1000)
     }
     function notFocused(){
         const notFocusTitle = 'Hey I miss you - '.concat(PAGETITLE);

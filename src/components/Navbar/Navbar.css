@@ -17,7 +17,7 @@
     font: calc(5px + 2vmin) italic bolder;
 }
 .Navbar-class:not(#hidden-navbar) .p-menuitem{
-    font: calc(5px + 2vmin) italic bolder;
+    /*font: calc(5px + 2vmin) italic bolder;*/
     animation: Appear-from-above .5s;
 }
 
@@ -77,10 +77,25 @@
 /*.p-menubar-button:hover{*/
 /*    border: 2px blueviolet;*/
 /*}*/
+.Navbar-First {
+    display: flex;
+}
+.Navbar-First:hover {
+
+}
 
 .App-logo-navbar {
     height: 5vmin;
     /*pointer-events:  ;*/
+}
+
+.PageTitle-Navbar {
+    color: white;
+    align-self: center;
+    font-size: 2vmin;
+    display: block;
+    font-weight: bolder;
+    animation: Appear-from-above 1.8s;
 }
 
 @media (prefers-reduced-motion: no-preference) {

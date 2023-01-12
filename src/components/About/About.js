@@ -43,22 +43,14 @@ function About( {photo} ) {
                     </p>
                     <p>These are some of the skills I've already acquired and
                         technologies that I have been using recently:
-                        <div className={"Skill-List-Class"}>
-                            <Carousel value={skills} itemTemplate={skillTemplate}
-                                        numVisible={3} numScroll={2} circular={true}
-                                        autoplayInterval={2000}>
-                            </Carousel>
-                        {/*    <li>Java</li>*/}
-                        {/*    <li>JavaScript</li>*/}
-                        {/*    <li>HTML/CSS</li>*/}
-                        {/*    <li>C/C++</li>*/}
-                        {/*    <li>React</li>*/}
-                        {/*    <li>GitHub</li>*/}
-                        {/*    <li>Unix</li>*/}
-                        {/*    <li>Android Development</li>*/}
-                        {/*    <li>SQL</li>*/}
-                        </div>
                     </p>
+                    <div className={"Skill-List-Class"}>
+                        <Carousel value={skills} itemTemplate={skillTemplate}
+                                    numVisible={3} numScroll={2} circular={true}
+                                    autoplayInterval={2000}>
+                        </Carousel>
+                    </div>
+
                 </div>
                 <Image src={photo} alt={"My photo"} height={"200px"}
                        className={"About-photo-class"}/>
