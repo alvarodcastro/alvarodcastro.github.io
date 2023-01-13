@@ -1,18 +1,23 @@
 .LoadingScreen-div {
-    /*justify-content: center;*/
-    /*align-items: center;*/
+    justify-content: center;
+    align-items: baseline;
     /*display: flex;*/
     background-color: #293754;
-    height: 100%;
-    position: center;
-    transform: translate(0, 150%);
+    /*height: 100%;*/
+    /*transform: translate(0, 150%);*/
     /*animation: ;*/
-    z-index: 0;
+    /*z-index: 0;*/
     color: white;
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 45%;*/
+    /*transform: translate(-50%, -50%);*/
 }
-.LoadingScreen-div-hide{
-    animation: expand-light 5s;
-}
-.endAnimation {
 
-}
+
+/*.Loading-container {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*}*/

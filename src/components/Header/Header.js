@@ -2,24 +2,7 @@ import logo from "../../portfoliologo.png";
 
 import "./Header.css"
 import {Menubar} from "primereact/menubar";
-
-const socialMedia = [
-    {
-        // label: 'Email',
-        icon: 'pi pi-envelope',
-        url: 'mailto:nx9cgpt5@duck.com'
-    },
-    {
-        // label: 'Linkedin',
-        icon: 'pi pi-linkedin',
-        url: 'https://www.linkedin.com/in/alvaro-de-castro-escribano/',
-    },
-    {
-        // label: 'Github',
-        icon: 'pi pi-github',
-        url: 'https://github.com/alvarodcastro'
-    },
-];
+import SocialMedia from "../SocialMedia/SocialMedia";
 
 function Header(){
     function scrollDown(ref) {
@@ -33,7 +16,7 @@ function Header(){
         <div>
             {/*<Navbar className={"Header-navbar"}></Navbar>*/}
             <header className="App-header">
-                <Menubar model={socialMedia} className={"An-App-Left-Long"}></Menubar>
+                <SocialMedia className={"An-App-Left"} orientation={"vertical"}></SocialMedia>
                 <img src={logo} className="App-logo" alt="logo" />
                 <p className={"An-App-Above-Long-Long"}>
                     Hello World! I'm Alvaro.
@@ -47,9 +30,7 @@ function Header(){
                     {/*<Link to={"#main"}>Go</Link>*/}
                     {/*<i className="pi pi-arrow-circle-down"*/}
                     {/*   style={{'fontSize': '1em'}}></i>*/}
-                    <a href={"/#mainContent"}>
-                        {/*<i className="pi pi-arrow-circle-down"*/}
-                        {/*     style={{'fontSize': '1em'}}></i>*/}
+                    <a href={"/#about"}>
                         <div id="mouse-scroll">
                             <div className="mouse">
                                 <div className="mouse-in"></div>
@@ -60,6 +41,7 @@ function Header(){
                                 <span className="down-arrow-3"></span>
                             </div>
                         </div>
+
                     </a>
                 </div>
             </header>

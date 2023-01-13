@@ -53,6 +53,10 @@
     width: 70vmin;
     display: block;
 }
+.Recruiting-div h3 {
+    text-decoration: underline #00f7ff;
+}
+
 .Recruiting-text {
     font-size: smaller;
 }

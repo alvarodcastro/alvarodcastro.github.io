@@ -10,6 +10,11 @@ function Navbar( ) {
 
     window.onscroll = function() {showNavBarFunction()};
 
+    function locate(section) {
+        window.location.hash = ""
+        window.location.hash = section
+    }
+
     function showNavBarFunction() {
         if (document.body.scrollTop > 1000 || document.documentElement.scrollTop > 1000) {
             document.getElementById("hidden-navbar").classList.remove("An-DisApp-Below");
@@ -35,47 +40,40 @@ function Navbar( ) {
         }
     }
 
-
+    const menuItemTemplate = (item) => {
+        return (
+            <button className="button" onClick={ () => locate(item.section)}>
+                <span className="actual-text">&nbsp;{item.label}&nbsp;</span>
+                <span className="hover-text" aria-hidden="true">&nbsp;{item.label}&nbsp;</span>
+            </button>
+        )
+    }
 
     const items = [
         {
             label: 'Home',
-            // icon: 'pi pi-home',
-            command: (event) => {
-                window.location.hash= "";
-            }
+            template: menuItemTemplate,
+            section: 'home',
         },
         {
             label: 'About',
-            // icon: 'pi pi-question-circle',
-            command: (event) => {
-                window.location.hash= "";
-                window.location.hash= "about";
-            }
+            template: menuItemTemplate,
+            section: 'about',
 
         },
         // {
         //     label: 'Ideas',
-        //     // icon: 'pi pi-file-edit',
-        //     command: (event) => {
-        //         window.location.hash= "ideas";
-        //     }
+        //     template: menuItemTemplate("ideas"),
         // },
         {
             label: 'Work',
-            // icon: 'pi pi-code',
-            command: (event) => {
-                window.location.hash= "";
-                window.location.hash= "work";
-            }
+            template: menuItemTemplate,
+            section: 'work',
         },
         {
             label: 'Contact',
-            // icon: 'pi pi-question-circle',
-            command: (event) => {
-                window.location.hash= "";
-                window.location.hash= "contact";
-            }
+            template: menuItemTemplate,
+            section: 'contact',
 
         },
     ];
@@ -84,14 +82,16 @@ function Navbar( ) {
     const start =
         <div className={"Navbar-First"} onClick={function () {window.location =""}}>
             <img src={logo} className="App-logo-navbar" alt="logo" height="40"/>
-            <span className={"PageTitle-Navbar"}>ALVARO DE CASTRO</span>
+            <span className={"PageTitle-Navbar button"}>ALVARO DE CASTRO</span>
         </div>
 
     return (
             <div>
                 <Menubar model={items} className={"Navbar-class"} id={"hidden-navbar"}/>
                 <Menubar model={items} start={start} className={"Navbar-class"} id={"top-navbar"}/>
+                {/*<MenuItem ></MenuItem>*/}
             </div>
+
     );
 }
 export default Navbar

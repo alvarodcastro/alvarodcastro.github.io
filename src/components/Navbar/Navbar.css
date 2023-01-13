@@ -21,9 +21,9 @@
     animation: Appear-from-above .5s;
 }
 
-.p-menubar{
-    padding: 100px;
-    background: #293754 !important;
+.Navbar-class.p-menubar{
+    /*padding: 100px;*/
+    background: inherit !important;
     border: 0px !important;
     border-radius: 0px !important;
 }
@@ -61,6 +61,7 @@
 
 #hidden-navbar.p-menubar ul {
     /*position: absolute;*/
+    /*background-color: inherit;*/
     right: 50%;
     transform: translate(50%);
     /*padding: 100px*/
@@ -90,9 +91,9 @@
 }
 
 .PageTitle-Navbar {
-    color: white;
+    color: white !important;
     align-self: center;
-    font-size: 2vmin;
+    font-size: 2vmin !important;
     display: block;
     font-weight: bolder;
     animation: Appear-from-above 1.8s;
@@ -121,6 +122,55 @@
     position: fixed;
 }
 
-.p-menuitem-text {
-    /*color: #61d7f7 !important;*/
+
+/* === removing default button style ===*/
+.Navbar-class  .button {
+    margin: 0;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+/* button styling */
+.Navbar-class .button {
+    --border-right: 6px;
+    --text-stroke-color: rgba(255,255,255,0.6);
+    --animation-color: #00f7ff;
+    --fs-size: 2em;
+    letter-spacing: 3px;
+    text-decoration: none;
+    font-size: inherit;
+    /*font-family: "Arial";*/
+    position: relative;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on button */
+.Navbar-class .hover-text {
+    position: absolute;
+    box-sizing: border-box;
+    content: attr(data-text);
+    color: var(--animation-color);
+    width: 0%;
+    inset: 0;
+    border-right: var(--border-right) solid var(--animation-color);
+    overflow: hidden;
+    transition: 0.5s;
+    -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.Navbar-class .button:hover .hover-text {
+    width: 100%;
+    filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+@media screen and (max-width: 960px) {
+    .Navbar-class.p-menubar.p-menubar-mobile-active .p-menubar-root-list{
+        display: flex;
+        flex-direction: inherit;
+        left: inherit;
+        top: 80%;
+    }
 }

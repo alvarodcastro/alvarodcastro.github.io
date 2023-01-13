@@ -37,10 +37,8 @@ export default class Loading extends React.Component {
             setTimeout(() => {
                 this.setState({ done: true });
                 window.location.hash = ""
-            },1200)
-        }, 1400)
-        // document.getElementById("LoadingScreen-div").classList
-        //     .add("LoadingScreen-div-hide")
+            },1500)
+        }, 1700)
     }
 
 
@@ -48,7 +46,7 @@ export default class Loading extends React.Component {
         return (
             <div>
                 {!this.state.done ? (
-                    <div className={"LoadingScreen-div"}>
+                    <div className={"LoadingScreen-div scale-out-top"}>
                         <Lottie options={defaultOptions} height={220} width={220}></Lottie>
                         <h1>Loading...</h1>
                     </div>

@@ -9,29 +9,43 @@ import Work from "../Work/Work";
 
 
 function MainContent() {
-    var observer = new IntersectionObserver(function(entries){
+    let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.4
+    }
+
+    let callback = (entries) => {
         for (let i = 0; i<entries.length; i++){
             if (entries[i]['isIntersecting'])
             {
                 console.log("Entry: ", entries[i]['target'], " is loaded");
                 // loaded.
                 // console.log(loaded)
+
+
                 let id = entries[i]['target'].id;
-                let element = document.getElementById(id);
+                // let element = document.getElementById(id);
+                let element = entries[i]['target'];
+
                 element.classList.remove("Inv-Class")
                 //Class: An-App-{id} will make the element appearance
                 element.classList.add("An-App-".concat(id))
             }
         }
-    }, { root:null, threshold: [0.7] });
+    }
+    let observer = new IntersectionObserver(callback, options);
 
     function addToObserver() {
         let divArray = document.getElementsByClassName("MainContent-Subdiv")
+        console.log("Elements found:", divArray)
         let id = null;
         for (let i=0; i<divArray.length; i++) {
             id = divArray[i].id;
             observer.observe(document.getElementById(id))
+            console.log("Element with id: ", id, " added to observer")
         }
+        // console.log("Observer has ", observer., " entries")
         // observer.observe(document.getElementById("contact"))
         // console.log("size: ", divArray.length)
     };
