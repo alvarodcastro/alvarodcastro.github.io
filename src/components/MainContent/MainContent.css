@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 .MainContent-class{
-    padding: 100px;
+    /*padding: 100px;*/
     display: flow;
     justify-content: center;
     /*display: ;*/
@@ -38,7 +38,7 @@
 
 .MainContent-class h2 {
     font-size: calc(10px + 2vmin);
-    margin-bottom: 0px;
+    margin: 0px;
 }
 
 .Inv-Class {

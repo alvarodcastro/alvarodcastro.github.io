@@ -15,9 +15,11 @@
     margin: 50px
 }
 .About-text-class {
-    max-width: calc(40% + 2vmin);
+    /*max-width: calc(40% + 2vmin);*/
+    width: 40%;
     /*align-self*/
     font-size: calc(10px + 1vmin);
+    display: initial;
 }
 .About-text-class {
     display: flow;
@@ -73,4 +75,26 @@
 
 .An-App-about .About-photo-class{
     animation: Appear-from-right-long 0.8s;
+    display: block;
+    /*width: fit-content;*/
+    /*height: fit-content;*/
+    /*margin: 50px;*/
+    align-self: flex-start;
+    object-fit: contain;
+    max-width: 80%;
+    height: auto;
+}
+
+.About-photo-class img {
+    object-fit: contain;
+    max-width: inherit;
+}
+
+@media screen and (max-width: 960px) {
+    .About-content-class {
+        display: block;
+    }
+    .About-content-class .p-image {
+        margin: 0 50px 0 50px;
+    }
 }

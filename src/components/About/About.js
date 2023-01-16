@@ -52,7 +52,7 @@ function About( {photo} ) {
                     </div>
 
                 </div>
-                <Image src={photo} alt={"My photo"} height={"200px"}
+                <Image src={photo} alt={"My photo"} height={"300px"}
                        className={"About-photo-class"}/>
             </div>
         </div>

@@ -9,12 +9,12 @@ function SocialMedia( {className, orientation} ) {
     const socialMediaItemTemplate = (socialMedia) => {
         return (
             <a href={socialMedia.url}>
-                <li className={"icon " +parseLabel(socialMedia.label)} onClick={socialMedia.url}>
+                <span className={"icon " +parseLabel(socialMedia.label)} onClick={() => socialMedia.url}>
                     {/*<a href={socialMedia.url}>*/}
                     <span className="tooltip">{socialMedia.label}</span>
                     <span><i className={socialMedia.icon}></i></span>
                     {/*</a>*/}
-                </li>
+                </span>
             </a>
         )
     }
@@ -41,8 +41,7 @@ function SocialMedia( {className, orientation} ) {
     ];
 
     return(
-        <Menubar  model={socialMedia} className={className+" SocialMedia-Buttons "
-            + orientation.valueOf()} ></Menubar>
+        <Menubar  model={socialMedia} className={className+" SocialMedia-Buttons "} ></Menubar>
     )
 }
 

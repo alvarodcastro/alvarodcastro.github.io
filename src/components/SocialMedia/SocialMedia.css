@@ -22,17 +22,6 @@
     list-style: none;
 }
 
-.SocialMedia-Buttons:not(.horizontal) ul  {
-    /*display: grid;*/
-    list-style: none;
-}
-
-.SocialMedia-Buttons:not(.vertical) ul  {
-    /*display: inline-flex;*/
-    list-style: none;
-}
-
-
 .SocialMedia-Buttons ul .icon {
     position: relative;
     background: #272f3f;
