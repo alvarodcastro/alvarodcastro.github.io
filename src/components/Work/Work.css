@@ -1,7 +1,225 @@
 .Work-content-class {
-    padding: 50px;
+    padding: 50px 280px;
+}
+
+@media screen and (max-width: 960px) {
+    .Work-content-class {
+        padding: 5px;
+    }
 }
 
 .Work-content-class p{
     font-size: calc(10px + 1vmin);
 }
+
+.Work-class .Datascroller-Class .p-datascroller > * {
+    background-color: inherit;
+    border: none;
+    color: white;
+}
+
+.Work-class .p-datascroller-header {
+    font-size: 20px;
+}
+
+.Work-class .p-datascroller-content {
+
+}
+
+.Work-class .p-datascroller-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    /*padding: 0 200px ;*/
+    /*padding: 0 200px ;*/
+}
+
+.Work-class .project-card {
+    background-color: #293754;
+    /*padding: 3px;*/
+    border-radius: 15px;
+}
+
+.Work-class .project-card img {
+    object-fit: contain;
+    width: 100%;
+    border-radius: 15px 15px 0 0 ;
+    /*padding: 10px;*/
+    /*min-width: 2vmin;*/
+}
+
+.project-card .project-name {
+    font-size: calc(10px + 2vmin);
+    font-weight: bolder;
+}
+
+.Work-class .p-button:hover {
+    background-color: rgba(0, 247, 255, 0.75);
+}
+
+.Work-class .p-datascroller-footer {
+    padding: 20px;
+}
+
+.Work-class .p-button {
+    background-color: #293754;
+    border: none;
+    /*padding: 10px;*/
+}
+
+.project-card:hover .project-name {
+    /*transform: translateY(-100%);*/
+    /*background-color: transparent;*/
+    /*text-underline: #00f7ff;*/
+    /*text-decoration: #00f7ff;*/
+    /*transition: 0.3s ease-in-out;*/
+}
+
+.project-detail {
+    /*transform: translateY(-100%);*/
+    /*background-color: white;*/
+    color: #8f92a5;
+}
+.project-description {
+    font-weight: lighter;
+}
+
+/***************************/
+.card {
+    --bg: #f7f7f8;
+    --hover-bg: #293754;
+    --hover-text: white;
+    /*max-width: 23ch;*/
+    text-align: center;
+    background: var(--bg);
+    /*padding: 1.5em;*/
+    /*padding-block: 1.8em;*/
+    position: relative;
+    overflow: hidden;
+    transition: .3s cubic-bezier(.6,.4,0,1),transform .15s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /*gap: 1em;*/
+}
+
+/*.card__body {*/
+/*    color: #8f92a5;*/
+/*    line-height: 1.5em;*/
+/*    font-size: 1em;*/
+/*}*/
+
+.card > :not(span) {
+    transition: .3s cubic-bezier(.6,.4,0,1);
+}
+
+.card > strong {
+    /*display: block;*/
+    /*font-size: 1.4rem;*/
+    /*letter-spacing: -.035em;*/
+}
+
+.card span {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--hover-text);
+    border-radius: 5px;
+    font-weight: bold;
+    top: 100%;
+    transition: all .3s cubic-bezier(.6,.4,0,1);
+}
+
+.card:hover span {
+    top: 0;
+    /*transform: translateY(-350%);*/
+    font-size: 1.2em;
+}
+
+
+.card:hover {
+    background: var(--hover-bg);
+}
+
+.card:hover>div,.card:hover>strong{
+    opacity: 0;
+}
+
+.card .project-span {
+    display: block;
+    padding: 15px;
+}
+
+.project-span a {
+    color: inherit;
+}
+.project-span .span-footer {
+
+    /*background-color: white;*/
+    /*align-self: end;*/
+    position: absolute;
+    bottom: 5%;
+    /*right: 5px;*/
+    /*display: table;*/
+    width: 95%;
+    display: -webkit-box;
+}
+.span-footer .chiplist-class span{
+    /*position: inherit;*/
+}
+
+.chiplist-class .p-menubar {
+    background-color: transparent;
+    border: none;
+}
+
+.chiplist-class .p-menubar .p-menuitem-link{
+    background-color: transparent;
+    border: none;
+    cursor:default;
+}
+.chiplist-class .p-menubar .p-menuitem-link:active{
+    background-color: transparent;
+    border: none;
+    cursor:default;
+}
+
+.chiplist-class ul {
+    gap: 20px;
+    padding-left: 20px;
+    /*display: flex;*/
+}
+.chiplist-class ul li {
+    /*padding: 5px;*/
+    font-size: 15px;
+    width: 100px;
+}
+
+.chiplist-class ul li>*:hover {
+    background-color: transparent;
+}
+
+.chiplist-class .p-menubar-button {
+    display: none;
+}
+
+.project-span a {
+    /*background-color: white;*/
+
+    /*font-size: 30px;*/
+    /*position: relative;*/
+    /*right: 5px;*/
+    /*text-align: end;*/
+    display: flex;
+    justify-content: flex-end
+}
+
+.project-span a>i {
+    font-size: 30px
+}
+ /*************************/

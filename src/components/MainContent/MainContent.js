@@ -19,9 +19,6 @@ let callback = (entries) => {
     for (let i = 0; i<entries.length; i++){
         if (entries[i]['isIntersecting'])
         {
-            console.log("Entry: ", entries[i]['target'], " is loaded");
-
-
             let id = entries[i]['target'].id;
             let element = entries[i]['target'];
 

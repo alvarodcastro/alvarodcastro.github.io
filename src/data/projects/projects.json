@@ -1,0 +1,17 @@
+{
+  "data": [
+    {
+      "name": "Personal Portfolio",
+      "description": "Personal porfolio built using Reactjs",
+
+      "image": "personal-portfolio.png",
+      "category": "web application",
+      "technologies": [
+        { "label": "React" },
+        { "label": "HTML/CSS" },
+        { "label": "JavaScript" }
+      ],
+      "link" : "https://github.com/alvarodcastro/alvarodcastro.github.io"
+    }
+  ]
+}
