@@ -1,6 +1,5 @@
 html {
     scroll-behavior: smooth;
-    /*scroll-margin-top: 50px;*/
 }
 :target:before {
     content: "";
@@ -229,14 +228,12 @@ html {
 }
 
 #Page {
-    /*visibility: hidden;*/
 }
 
 h2 {
     font-size: calc(15px + 2vmin) !important;
     text-decoration: underline #00f7ff 4px;
     text-underline-offset: 1.5rem;
-    /*text-underline-mode: ;*/
 ;
 }
 

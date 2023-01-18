@@ -5,9 +5,7 @@ import {useRef, useState, useEffect} from "react";
 import ProjectService from "../ProjectService/ProjectService";
 
 import im from "../../data/projects/images/personal-portfolio.png"
-import { Chip } from "primereact/chip";
 import TechList from "../TechList/TechList";
-import {Menubar} from "primereact/menubar";
 
 function Work() {
 
@@ -23,18 +21,7 @@ function Work() {
     // setProjects((projectService.getProjects()))
     const projectTemplate = (data) => {
         return(
-            // <div className="project-card">
-            //     <div className={"card-image"}>
-            //         <img src={im} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
-            //     </div>
-            //     <div className="project-detail">
-            //         <div className="project-name">{data.name}</div>
-            //         <div className="project-category">{data.category}</div>
-            //         <div className="project-description">{data.description}</div>
-            //     </div>
-            // </div>
-
-        <div className="card project-card">
+            <div className="card project-card">
             <div className={"card-image"}>
                 <img src={im} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={data.name} />
              </div>
@@ -43,14 +30,14 @@ function Work() {
             </strong>
             <div className="project-detail">
                 <div className="project-category">{data.category}</div>
-                {/*<div className="project-description">{data.description}</div>            */}
             </div>
             <span className={"project-span"}>
                 <div className="project-name">{data.name}</div>
                 <div className="project-description">{data.description}</div>
                 <div className={"span-footer"}>
                     <a href={data.link}><i className={"pi pi-github"}></i></a>
-                    <TechList list={data.technologies}></TechList>
+                    <TechList list={data.technologies} autoplay={1500} numScroll={1}
+                                circular={true} numVisible={1} className={"Work-Tech-List"}></TechList>
                 </div>
 
             </span>

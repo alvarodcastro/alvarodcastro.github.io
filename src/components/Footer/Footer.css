@@ -1,6 +1,4 @@
 .App-footer{
-    /*background-color: #293754;*/
-    /*min-height: 10vh;*/
     background-image: linear-gradient(180deg, #1b1e23, #293754);
     display: flex;
     flex-direction: column;
@@ -16,15 +14,11 @@
 .Footer-contact-content {
     display: flex;
     width: 100%;
-    /*position: relative;*/
-    /*align-items: center;*/
-    /*right: 0px;*/
     justify-content: center;
 ;
 }
 .Footer-decoration {
     color: white;
-    /*padding: 100px;*/
     width: 100%;
 }
 
@@ -34,16 +28,11 @@
 
 .Contact-buttons {
     display: table-column;
-    /*position:*/
 }
 
 .SocialMedia-div {
     display: block;
-    /*justify-content: flex-end;*/
     align-self: center;
-    /*float: right;*/
-    /*position: relative;*/
-    /*right: 0%;*/
     align-items: center;
 
 }

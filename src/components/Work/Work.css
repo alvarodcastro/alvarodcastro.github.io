@@ -29,14 +29,11 @@
 .Work-class .p-datascroller-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    /*padding: 0 200px ;*/
-    /*padding: 0 200px ;*/
+    gap: 50px;
 }
 
 .Work-class .project-card {
     background-color: #293754;
-    /*padding: 3px;*/
     border-radius: 15px;
 }
 
@@ -44,8 +41,6 @@
     object-fit: contain;
     width: 100%;
     border-radius: 15px 15px 0 0 ;
-    /*padding: 10px;*/
-    /*min-width: 2vmin;*/
 }
 
 .project-card .project-name {
@@ -64,20 +59,9 @@
 .Work-class .p-button {
     background-color: #293754;
     border: none;
-    /*padding: 10px;*/
-}
-
-.project-card:hover .project-name {
-    /*transform: translateY(-100%);*/
-    /*background-color: transparent;*/
-    /*text-underline: #00f7ff;*/
-    /*text-decoration: #00f7ff;*/
-    /*transition: 0.3s ease-in-out;*/
 }
 
 .project-detail {
-    /*transform: translateY(-100%);*/
-    /*background-color: white;*/
     color: #8f92a5;
 }
 .project-description {
@@ -89,11 +73,8 @@
     --bg: #f7f7f8;
     --hover-bg: #293754;
     --hover-text: white;
-    /*max-width: 23ch;*/
     text-align: center;
     background: var(--bg);
-    /*padding: 1.5em;*/
-    /*padding-block: 1.8em;*/
     position: relative;
     overflow: hidden;
     transition: .3s cubic-bezier(.6,.4,0,1),transform .15s ease;
@@ -101,26 +82,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /*gap: 1em;*/
 }
 
-/*.card__body {*/
-/*    color: #8f92a5;*/
-/*    line-height: 1.5em;*/
-/*    font-size: 1em;*/
-/*}*/
-
-.card > :not(span) {
+.card > :not(.project-span) {
     transition: .3s cubic-bezier(.6,.4,0,1);
 }
 
-.card > strong {
-    /*display: block;*/
-    /*font-size: 1.4rem;*/
-    /*letter-spacing: -.035em;*/
-}
 
-.card span {
+.card .project-span {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -135,9 +104,8 @@
     transition: all .3s cubic-bezier(.6,.4,0,1);
 }
 
-.card:hover span {
+.card:hover .project-span {
     top: 0;
-    /*transform: translateY(-350%);*/
     font-size: 1.2em;
 }
 
@@ -159,18 +127,11 @@
     color: inherit;
 }
 .project-span .span-footer {
-
-    /*background-color: white;*/
-    /*align-self: end;*/
     position: absolute;
     bottom: 5%;
-    /*right: 5px;*/
-    /*display: table;*/
     width: 95%;
     display: -webkit-box;
-}
-.span-footer .chiplist-class span{
-    /*position: inherit;*/
+    gap: 30px;
 }
 
 .chiplist-class .p-menubar {
@@ -192,7 +153,6 @@
 .chiplist-class ul {
     gap: 20px;
     padding-left: 20px;
-    /*display: flex;*/
 }
 .chiplist-class ul li {
     /*padding: 5px;*/
@@ -208,18 +168,43 @@
     display: none;
 }
 
-.project-span a {
-    /*background-color: white;*/
-
-    /*font-size: 30px;*/
-    /*position: relative;*/
-    /*right: 5px;*/
-    /*text-align: end;*/
-    display: flex;
-    justify-content: flex-end
-}
-
 .project-span a>i {
     font-size: 30px
 }
  /*************************/
+
+.An-App-work h2 {
+    animation: Appear-from-above 0.8s;
+}
+
+.An-App-work .Datascroller-Class {
+    animation: Appear-from-below 0.8s;
+}
+
+.project-span .Work-Tech-List {
+    width: inherit;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.Work-Tech-List .p-carousel-items-content{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.Work-Tech-List .p-carousel-content {
+    width: inherit;
+}
+
+.Work-Tech-List .p-highlight button{
+    background-color: rgba(97, 248, 255, 0.41) !important;
+}
+
+@media screen and (max-width: 960px) {
+    .Work-Tech-List .p-carousel-items-content{
+        display: block;
+    }
+}

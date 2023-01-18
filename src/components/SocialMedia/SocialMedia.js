@@ -10,10 +10,8 @@ function SocialMedia( {className, orientation} ) {
         return (
             <a href={socialMedia.url}>
                 <span className={"icon " +parseLabel(socialMedia.label)} onClick={() => socialMedia.url}>
-                    {/*<a href={socialMedia.url}>*/}
                     <span className="tooltip">{socialMedia.label}</span>
                     <span><i className={socialMedia.icon}></i></span>
-                    {/*</a>*/}
                 </span>
             </a>
         )

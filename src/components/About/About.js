@@ -1,27 +1,20 @@
 import "./About.css"
-import {Image} from "primereact/image";
-import {Carousel} from "primereact/carousel";
-import {Link} from "react-router-dom";
+import TechList from "../TechList/TechList";
 
 
 function About( {photo} ) {
     const skills = [
-        {   name: 'Java'    },
-        {   name: 'JavaScript'  },
-        {   name: 'HTML/CSS'  },
-        {   name: 'C/C++'  },
-        {   name: 'JavaScript'  },
-        {   name: 'React'  },
-        {   name: 'Github'  },
-        {   name: 'Unix'  },
-        {   name: 'Android Development'  },
-        {   name: 'SQL'  },
+        {   label: 'Java'    },
+        {   label: 'JavaScript'  },
+        {   label: 'HTML/CSS'  },
+        {   label: 'C/C++'  },
+        {   label: 'JavaScript'  },
+        {   label: 'React'  },
+        {   label: 'Github'  },
+        {   label: 'Unix'  },
+        {   label: 'Android Development'  },
+        {   label: 'SQL'  },
     ]
-    const skillTemplate = (skill) => {
-        return (
-            <span>{skill.name}</span>
-        )
-    }
 
     return(
         <div className={"About-class"}>
@@ -29,7 +22,7 @@ function About( {photo} ) {
             <div className={"About-content-class"}>
                 <div className={"About-text-class"}>
                     <p>
-                        Hello, my name is Alvaro and I' m a <b>developer</b> willing to
+                        Hello, my name is Alvaro and I' m a <b> software developer</b> willing to
                         create! I'm currently studying the <b>Bachelor's Degree in
                         Computer Engineering</b> at <a href={"https://www.ujaen.es"}>
                                                 Universidad de Jaen</a>
@@ -45,10 +38,8 @@ function About( {photo} ) {
                         technologies that I have been using recently:
                     </p>
                     <div className={"Skill-List-Class"}>
-                        <Carousel value={skills} itemTemplate={skillTemplate}
-                                    numVisible={3} numScroll={2} circular={true}
-                                    autoplayInterval={2000}>
-                        </Carousel>
+                        <TechList list={skills} circular={true} numVisible={3}
+                                    numScroll={2} autoplay={2000}></TechList>
                     </div>
 
                 </div>

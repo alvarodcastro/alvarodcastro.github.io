@@ -54,26 +54,12 @@ export default class MainContent extends React.Component{
         addToObserver()
     }
 
-    // const events = [
-    //     { status: 'Ordered', date: '15/10/2020 10:30', icon: 'pi pi-shopping-cart', color: '#9C27B0', image: 'game-controller.jpg' },
-    //     { status: 'Processing', date: '15/10/2020 14:00', icon: 'pi pi-cog', color: '#673AB7' },
-    //     { status: 'Shipped', date: '15/10/2020 16:15', icon: 'pi pi-shopping-cart', color: '#FF9800' },
-    //     { status: 'Delivered', date: '16/10/2020 10:00', icon: 'pi pi-check', color: '#607D8B' }
-    // ];
-
     render() {
         return (
             <div>
                 {/*<Skeleton>*/}
                 <div className={"MainContent-class"} id={"mainContent"}>
-                    {/*<Button onClick={observer.observe(document.getElementById("mainContent"))}></Button>*/}
                     <ScrollTop threshold={1000}/>
-                    {/*<div className={"Timeline-div"}>*/}
-                    {/*    <Timeline*/}
-                    {/*        value={events} layout={"vertical"} align={"left"} content={(item) => item.status}*/}
-                    {/*        className={"Timeline-class"}>*/}
-                    {/*    </Timeline>*/}
-                    {/*</div>*/}
                     <div className={"MainContent-Subdiv Inv-Class"} id={"about"}>
                         <About photo={myphoto}></About>
                     </div>

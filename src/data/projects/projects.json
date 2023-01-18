@@ -3,9 +3,8 @@
     {
       "name": "Personal Portfolio",
       "description": "Personal porfolio built using Reactjs",
-
       "image": "personal-portfolio.png",
-      "category": "web application",
+      "category": "Web Application",
       "technologies": [
         { "label": "React" },
         { "label": "HTML/CSS" },
