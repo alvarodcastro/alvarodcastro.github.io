@@ -49,7 +49,7 @@ function App() {
                 <Route exact path='/' exact element={<><Header/><MainContent/></>} />
                 {/*<Route path={'/btlo'} element={<BtloC1 />} />*/}
                 <Route path={'/btlo/:id'} element={<BtloC1 />} />
-                <Route path={'/btlo/0#about'} element={<><Header/><MainContent/></>}/>
+                {/*<Route path={'/btlo/0#about'} element={<><Header/><MainContent/></>}/>*/}
             </Routes>
         </Router>
         <Footer></Footer>
