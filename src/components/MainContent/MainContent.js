@@ -1,5 +1,3 @@
-import {Timeline} from "primereact/timeline";
-import {ScrollTop} from "primereact/scrolltop";
 import "./MainContent.css"
 import About from "../About/About";
 
@@ -59,13 +57,9 @@ export default class MainContent extends React.Component{
             <div>
                 {/*<Skeleton>*/}
                 <div className={"MainContent-class"} id={"mainContent"}>
-                    <ScrollTop threshold={1000}/>
                     <div className={"MainContent-Subdiv Inv-Class"} id={"about"}>
                         <About photo={myphoto}></About>
                     </div>
-                    {/*<div className={"MainContent-Subdiv Inv-Class"} id={"ideas"}>*/}
-                    {/*    <Ideas></Ideas>*/}
-                    {/*</div>*/}
                     <div className={"MainContent-Subdiv Inv-Class"} id={"work"}>
                         <Work></Work>
                     </div>

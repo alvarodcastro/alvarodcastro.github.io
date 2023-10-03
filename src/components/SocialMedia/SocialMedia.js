@@ -21,7 +21,7 @@ function SocialMedia( {className, orientation} ) {
         {
             label: 'Email',
             icon: 'pi pi-envelope',
-            url: 'mailto:nx9cgpt5@duck.com',
+            url: 'mailto:hello@alvarodecastro.dev',
             template: socialMediaItemTemplate
         },
         {

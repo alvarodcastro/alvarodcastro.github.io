@@ -13,9 +13,6 @@
     font-size: calc(10px + 1vmin);
     display: initial;
 }
-.About-text-class {
-    display: flow;
-}
 
 .About-text-class .Skill-List-Class {
     margin-top: 20px;

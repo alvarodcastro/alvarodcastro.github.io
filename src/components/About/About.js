@@ -39,7 +39,7 @@ function About( {photo} ) {
                     </p>
                     <div className={"Skill-List-Class"}>
                         <TechList list={skills} circular={true} numVisible={3}
-                                    numScroll={2} autoplay={2000}></TechList>
+                                    numScroll={2} autoplay={2000} chip={false}></TechList>
                     </div>
 
                 </div>

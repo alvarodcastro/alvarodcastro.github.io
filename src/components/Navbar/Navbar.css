@@ -12,6 +12,10 @@
     /*background: #282c34;*/
     /*border: 0px;*/
 }
+.Navbar-class .button {
+    box-shadow: none !important;
+    /*color: white !important;*/
+}
 
 .Navbar-class .p-menuitem{
     font: calc(5px + 2vmin) italic bolder;
@@ -74,6 +78,7 @@
 
 #hidden-navbar .p-menuitem-text{
     color: #00f7ff;
+    /*border: none;*/
 }
 /*.p-menubar-button:hover{*/
 /*    border: 2px blueviolet;*/
@@ -155,7 +160,7 @@
     color: var(--animation-color);
     width: 0%;
     inset: 0;
-    border-right: var(--border-right) solid var(--animation-color);
+    /*border-right: var(--border-right) solid var(--animation-color);*/
     overflow: hidden;
     transition: 0.5s;
     -webkit-text-stroke: 1px var(--animation-color);

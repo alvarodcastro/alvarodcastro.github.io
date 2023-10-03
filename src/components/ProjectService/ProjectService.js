@@ -22,4 +22,10 @@ export default class ProjectService extends React.Component {
         // return fetch
         return projects.data
     }
+    getProject(id){
+        return projects.data[id]
+    }
+    getProjectTech(id){
+        return projects.data[id].technologies
+    }
 }

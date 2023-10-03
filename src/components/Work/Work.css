@@ -39,7 +39,7 @@
 
 .Work-class .project-card img {
     object-fit: contain;
-    width: 100%;
+    width: 40%;
     border-radius: 15px 15px 0 0 ;
 }
 
@@ -59,13 +59,18 @@
 .Work-class .p-button {
     background-color: #293754;
     border: none;
+    /*color: white !important;*/
 }
 
 .project-detail {
     color: #8f92a5;
+    display: flow;
 }
 .project-description {
     font-weight: lighter;
+    overflow: clip;
+    /*display:flow;*/
+    padding-bottom: 10px;
 }
 
 /***************************/
@@ -186,6 +191,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    display: block;
 }
 
 .Work-Tech-List .p-carousel-items-content{

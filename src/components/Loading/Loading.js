@@ -1,7 +1,7 @@
 import "./Loading.css"
 import React from "react";
 // import FadeIn from "react-fade-in";
-import Lottie from "react-lottie";
+// import Lottie from "react-lottie";
 import ReactLoading from "react-loading";
 import {json} from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
@@ -45,19 +45,19 @@ export default class Loading extends React.Component {
     render() {
         return (
             <div>
-                {!this.state.done ? (
-                    <div className={"LoadingScreen-div scale-out-top"}>
-                        <Lottie options={defaultOptions} height={220} width={220}></Lottie>
-                        <h1>Loading...</h1>
-                    </div>
-                ) : (
-                    <div>
-                        <Navbar></Navbar>
-                        <Header></Header>
-                        <MainContent></MainContent>
-                        <Footer></Footer>
-                    </div>
-                )}
+                {/*{!this.state.done ? (*/}
+                {/*    <div className={"LoadingScreen-div scale-out-top"}>*/}
+                {/*        <Lottie options={defaultOptions} height={220} width={220}></Lottie>*/}
+                {/*        <h1>Loading...</h1>*/}
+                {/*    </div>*/}
+                {/*) : (*/}
+                {/*    <div>*/}
+                {/*        <Navbar></Navbar>*/}
+                {/*        <Header></Header>*/}
+                {/*        <MainContent></MainContent>*/}
+                {/*        <Footer></Footer>*/}
+                {/*    </div>*/}
+                {/*)}*/}
             </div>
         );
     }
