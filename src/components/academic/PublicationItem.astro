@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from '@/components/ui/Badge.astro';
+import { pubTypeLabels, pubTypeColors } from '@/utils/publications';
+import { profile } from '@/data/profile';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+}
+
+const { pub } = Astro.props;
+const { title, authors, venue, year, type, doi, pdf, code, slides, bibtex, tags, status } = pub.data;
+
+const bibtexId = `bibtex-${pub.slug}`;
+const ownerName = profile.name;
+---
+
+<article class="py-6 border-b border-[#E5E7EB] last:border-0">
+  <div class="flex items-start gap-3 flex-wrap mb-2">
+    <Badge
+      label={pubTypeLabels[type] ?? type}
+      class={pubTypeColors[type] ?? ''}
+    />
+    {status && status !== 'published' && (
+      <Badge label={status} variant="warning" />
+    )}
+  </div>
+
+  <h3 class="font-semibold text-[#111827] text-base leading-snug mb-1">
+    {title}
+  </h3>
+
+  <p class="text-sm text-[#4B5563] mb-1">
+    {authors.map((author, i) => (
+      <span>
+        {author === ownerName
+          ? <strong class="text-[#111827]">{author}</strong>
+          : author
+        }{i < authors.length - 1 ? ', ' : ''}
+      </span>
+    ))}
+  </p>
+
+  <p class="text-sm text-[#6B7280] italic mb-3">
+    {venue}, {year}
+  </p>
+
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      {tags.map((tag) => (
+        <span class="px-1.5 py-0.5 text-xs bg-gray-100 text-gray-500 rounded">
+          {tag}
+        </span>
+      ))}
+    </div>
+  )}
+
+  <div class="flex flex-wrap items-center gap-3 text-sm">
+    {doi && (
+      <a href={doi} target="_blank" rel="noopener noreferrer"
+         class="text-[#1E3A8A] hover:underline font-medium">DOI</a>
+    )}
+    {pdf && (
+      <a href={pdf} target="_blank" rel="noopener noreferrer"
+         class="text-[#1E3A8A] hover:underline font-medium">PDF</a>
+    )}
+    {code && (
+      <a href={code} target="_blank" rel="noopener noreferrer"
+         class="text-[#1E3A8A] hover:underline font-medium">Code</a>
+    )}
+    {slides && (
+      <a href={slides} target="_blank" rel="noopener noreferrer"
+         class="text-[#1E3A8A] hover:underline font-medium">Slides</a>
+    )}
+    {bibtex && (
+      <button
+        type="button"
+        class="text-[#1E3A8A] hover:underline font-medium"
+        aria-expanded="false"
+        aria-controls={bibtexId}
+        onclick={`
+          const el = document.getElementById('${bibtexId}');
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          el.classList.toggle('hidden', expanded);
+          this.setAttribute('aria-expanded', String(!expanded));
+          this.textContent = expanded ? 'BibTeX' : 'Hide BibTeX';
+        `}
+      >
+        BibTeX
+      </button>
+    )}
+  </div>
+
+  {bibtex && (
+    <div id={bibtexId} class="hidden mt-3">
+      <pre class="bibtex-block">{bibtex}</pre>
+    </div>
+  )}
+</article>

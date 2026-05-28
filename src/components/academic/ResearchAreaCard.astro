@@ -1,0 +1,23 @@
+---
+import type { ResearchArea } from '@/data/research';
+
+interface Props {
+  area: ResearchArea;
+}
+
+const { area } = Astro.props;
+---
+
+<article class="py-8 border-b border-[#E5E7EB] last:border-0">
+  <h2 id={area.slug} class="font-serif text-xl font-semibold text-[#111827] mb-3">
+    {area.title}
+  </h2>
+  <p class="text-[#4B5563] leading-relaxed mb-4 max-w-2xl">{area.description}</p>
+  <div class="flex flex-wrap gap-2">
+    {area.keywords.map((kw) => (
+      <span class="px-2 py-0.5 text-xs bg-[#F3F4F6] text-[#4B5563] rounded border border-[#E5E7EB]">
+        {kw}
+      </span>
+    ))}
+  </div>
+</article>

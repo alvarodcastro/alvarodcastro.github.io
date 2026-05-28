@@ -1,0 +1,19 @@
+---
+import Navigation from './Navigation.astro';
+import MobileNav from './MobileNav.astro';
+import { profile } from '@/data/profile';
+---
+
+<header class="sticky top-0 z-40 bg-[#FAFAFA]/95 backdrop-blur-sm border-b border-[#E5E7EB]">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between relative">
+    <a
+      href="/"
+      class="font-medium text-[#111827] hover:text-[#1E3A8A] transition-colors text-sm tracking-wide"
+      aria-label="{profile.name} — Home"
+    >
+      {profile.initials} <span class="hidden sm:inline text-gray-500 font-normal">· {profile.shortName}</span>
+    </a>
+    <Navigation />
+    <MobileNav />
+  </div>
+</header>

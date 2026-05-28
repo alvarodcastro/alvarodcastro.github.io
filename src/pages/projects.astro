@@ -1,0 +1,50 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import ProjectItem from '@/components/academic/ProjectItem.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const active = allProjects.filter((p) => p.data.status === 'active')
+  .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+const completed = allProjects.filter((p) => p.data.status === 'completed')
+  .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+const archived = allProjects.filter((p) => p.data.status === 'archived')
+  .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime());
+---
+
+<PageLayout
+  title="Projects"
+  description="Research and technical projects in automotive security, IoT, and vehicular network security."
+  pageTitle="Projects"
+  pageSubtitle="Selected research projects. Each project is described in terms of its research objective, methodology, and outcomes."
+>
+  <div class="py-8">
+    {active.length > 0 && (
+      <section aria-labelledby="active-heading" class="mb-12">
+        <h2 id="active-heading" class="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-2 pb-2 border-b border-[#E5E7EB]">
+          Active
+        </h2>
+        {active.map((p) => <ProjectItem project={p} />)}
+      </section>
+    )}
+    {completed.length > 0 && (
+      <section aria-labelledby="completed-heading" class="mb-12">
+        <h2 id="completed-heading" class="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-2 pb-2 border-b border-[#E5E7EB]">
+          Completed
+        </h2>
+        {completed.map((p) => <ProjectItem project={p} />)}
+      </section>
+    )}
+    {archived.length > 0 && (
+      <section aria-labelledby="archived-heading" class="mb-12">
+        <h2 id="archived-heading" class="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-2 pb-2 border-b border-[#E5E7EB]">
+          Archived
+        </h2>
+        {archived.map((p) => <ProjectItem project={p} />)}
+      </section>
+    )}
+    {allProjects.length === 0 && (
+      <p class="text-[#6B7280] py-12 text-center">No projects listed yet.</p>
+    )}
+  </div>
+</PageLayout>

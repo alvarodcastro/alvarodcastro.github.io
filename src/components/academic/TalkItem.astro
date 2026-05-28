@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from '@/components/ui/Badge.astro';
+import { formatMonthYear } from '@/utils/dates';
+
+interface Props {
+  talk: CollectionEntry<'talks'>;
+}
+
+const { talk } = Astro.props;
+const { title, event, location, date, type, slides, video } = talk.data;
+
+const talkTypeLabels: Record<string, string> = {
+  'conference-talk': 'Conference Talk',
+  'invited-talk': 'Invited Talk',
+  seminar: 'Seminar',
+  poster: 'Poster',
+  workshop: 'Workshop',
+  lecture: 'Lecture',
+  panel: 'Panel',
+};
+---
+
+<article class="py-5 border-b border-[#E5E7EB] last:border-0">
+  <div class="flex items-start gap-3 mb-1 flex-wrap">
+    <Badge label={talkTypeLabels[type] ?? type} />
+  </div>
+  <h3 class="font-semibold text-[#111827] text-base leading-snug mb-1">{title}</h3>
+  <p class="text-sm text-[#4B5563]">{event}</p>
+  <p class="text-sm text-[#6B7280]">
+    {location} · <time datetime={date.toISOString()}>{formatMonthYear(date)}</time>
+  </p>
+  {(slides || video) && (
+    <div class="flex gap-3 mt-2 text-sm">
+      {slides && (
+        <a href={slides} target="_blank" rel="noopener noreferrer"
+           class="text-[#1E3A8A] hover:underline font-medium">Slides</a>
+      )}
+      {video && (
+        <a href={video} target="_blank" rel="noopener noreferrer"
+           class="text-[#1E3A8A] hover:underline font-medium">Video</a>
+      )}
+    </div>
+  )}
+</article>

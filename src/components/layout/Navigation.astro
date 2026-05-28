@@ -1,0 +1,26 @@
+---
+import { navItems } from '@/data/navigation';
+
+const pathname = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+
+<nav aria-label="Primary navigation" class="hidden md:flex items-center gap-6">
+  {navItems.map((item) => (
+    <a
+      href={item.href}
+      class={`text-sm font-medium transition-colors duration-150 ${
+        isActive(item.href)
+          ? 'text-[#1E3A8A]'
+          : 'text-gray-600 hover:text-[#1E3A8A]'
+      }`}
+      aria-current={isActive(item.href) ? 'page' : undefined}
+    >
+      {item.label}
+    </a>
+  ))}
+</nav>

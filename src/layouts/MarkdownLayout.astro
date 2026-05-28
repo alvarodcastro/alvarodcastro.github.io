@@ -1,0 +1,48 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import { formatDate } from '@/utils/dates';
+
+interface Props {
+  title: string;
+  description?: string;
+  date?: Date;
+  updated?: Date;
+  tags?: string[];
+}
+
+const { title, description, date, updated, tags } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Container>
+    <article class="py-16 max-w-3xl mx-auto">
+      <header class="mb-12">
+        <h1 class="font-serif text-3xl font-semibold text-[#111827] mb-4">{title}</h1>
+        {description && <p class="text-lg text-[#4B5563] mb-4 leading-relaxed">{description}</p>}
+        <div class="flex flex-wrap items-center gap-4 text-sm text-[#6B7280]">
+          {date && (
+            <time datetime={date.toISOString()}>
+              Published {formatDate(date)}
+            </time>
+          )}
+          {updated && (
+            <span>· Updated {formatDate(updated)}</span>
+          )}
+        </div>
+        {tags && tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-4">
+            {tags.map((tag) => (
+              <span class="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded border border-gray-200">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+      <div class="prose prose-gray max-w-none">
+        <slot />
+      </div>
+    </article>
+  </Container>
+</BaseLayout>

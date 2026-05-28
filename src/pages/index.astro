@@ -1,0 +1,142 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import PublicationItem from '@/components/academic/PublicationItem.astro';
+import ProjectItem from '@/components/academic/ProjectItem.astro';
+import TalkItem from '@/components/academic/TalkItem.astro';
+import { profile } from '@/data/profile';
+import { socialLinks } from '@/data/social';
+import { getCollection } from 'astro:content';
+import { groupByYear } from '@/utils/sorting';
+
+const allPubs = await getCollection('publications');
+const featuredPubs = allPubs
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.year - a.data.year)
+  .slice(0, 3);
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.startDate.getTime() - a.data.startDate.getTime())
+  .slice(0, 3);
+
+const allTalks = await getCollection('talks');
+const recentTalks = allTalks
+  .filter((t) => t.data.featured)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout
+  title={undefined}
+  description={profile.summary}
+>
+  <!-- Hero -->
+  <section class="pt-20 pb-16 border-b border-[#E5E7EB]">
+    <Container>
+      <div class="max-w-2xl">
+        <h1 class="font-serif text-4xl sm:text-5xl font-semibold text-[#111827] leading-tight mb-4">
+          {profile.name}
+        </h1>
+        <p class="text-lg text-[#4B5563] mb-1 font-medium">{profile.title}</p>
+        <p class="text-[#6B7280] mb-6">
+          {profile.department} · {profile.institution} · {profile.location}
+        </p>
+        <p class="text-[#4B5563] leading-relaxed mb-8 max-w-xl">
+          {profile.shortBio}
+        </p>
+
+        <!-- Primary links -->
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={profile.cv}
+            class="btn-primary"
+            download
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Curriculum Vitae
+          </a>
+          <a href="/publications" class="btn-secondary">Publications</a>
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-secondary"
+              aria-label={link.label}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href={`mailto:${profile.email}`}
+            class="btn-secondary"
+          >
+            Email
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <!-- Selected Publications -->
+  {featuredPubs.length > 0 && (
+    <section class="py-16 border-b border-[#E5E7EB]">
+      <Container>
+        <div class="flex justify-between items-baseline mb-8">
+          <h2 class="font-serif text-2xl font-semibold text-[#111827]">Selected Publications</h2>
+          <a href="/publications" class="text-sm text-[#1E3A8A] hover:underline font-medium">All publications →</a>
+        </div>
+        <div>
+          {featuredPubs.map((pub) => <PublicationItem pub={pub} />)}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Selected Projects -->
+  {featuredProjects.length > 0 && (
+    <section class="py-16 border-b border-[#E5E7EB]">
+      <Container>
+        <div class="flex justify-between items-baseline mb-8">
+          <h2 class="font-serif text-2xl font-semibold text-[#111827]">Research Projects</h2>
+          <a href="/projects" class="text-sm text-[#1E3A8A] hover:underline font-medium">All projects →</a>
+        </div>
+        <div>
+          {featuredProjects.map((project) => <ProjectItem project={project} />)}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Recent Talks -->
+  {recentTalks.length > 0 && (
+    <section class="py-16 border-b border-[#E5E7EB]">
+      <Container>
+        <div class="flex justify-between items-baseline mb-8">
+          <h2 class="font-serif text-2xl font-semibold text-[#111827]">Recent Talks</h2>
+          <a href="/talks" class="text-sm text-[#1E3A8A] hover:underline font-medium">All talks →</a>
+        </div>
+        <div>
+          {recentTalks.map((talk) => <TalkItem talk={talk} />)}
+        </div>
+      </Container>
+    </section>
+  )}
+
+  <!-- Contact CTA -->
+  <section class="py-16">
+    <Container narrow>
+      <div class="text-center">
+        <h2 class="font-serif text-2xl font-semibold text-[#111827] mb-3">Get in Touch</h2>
+        <p class="text-[#4B5563] mb-6 leading-relaxed">
+          I welcome academic collaboration, research discussions, and speaking invitations.
+        </p>
+        <a href="/contact" class="btn-primary">Contact</a>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>

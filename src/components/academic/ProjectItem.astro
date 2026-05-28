@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Badge from '@/components/ui/Badge.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, summary, role, status, technologies, links } = project.data;
+
+const statusVariant: Record<string, 'success' | 'accent' | 'muted'> = {
+  active: 'success',
+  completed: 'accent',
+  archived: 'muted',
+};
+---
+
+<article class="py-6 border-b border-[#E5E7EB] last:border-0">
+  <div class="flex items-center gap-3 mb-2 flex-wrap">
+    <Badge label={status} variant={statusVariant[status] ?? 'default'} />
+    <span class="text-xs text-[#6B7280]">{role}</span>
+  </div>
+  <h3 class="font-semibold text-[#111827] text-base leading-snug mb-2">{title}</h3>
+  <p class="text-sm text-[#4B5563] leading-relaxed mb-3">{summary}</p>
+
+  {technologies.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 mb-3">
+      {technologies.map((tech) => (
+        <span class="px-2 py-0.5 text-xs bg-[#F3F4F6] text-gray-600 rounded border border-gray-200">
+          {tech}
+        </span>
+      ))}
+    </div>
+  )}
+
+  {links && Object.values(links).some(Boolean) && (
+    <div class="flex flex-wrap gap-3 text-sm">
+      {links.github && (
+        <a href={links.github} target="_blank" rel="noopener noreferrer"
+           class="text-[#1E3A8A] hover:underline font-medium">GitHub</a>
+      )}
+      {links.demo && (
+        <a href={links.demo} target="_blank" rel="noopener noreferrer"
+           class="text-[#1E3A8A] hover:underline font-medium">Demo</a>
+      )}
+      {links.paper && (
+        <a href={links.paper} target="_blank" rel="noopener noreferrer"
+           class="text-[#1E3A8A] hover:underline font-medium">Paper</a>
+      )}
+    </div>
+  )}
+</article>

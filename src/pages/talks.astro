@@ -1,0 +1,22 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import TalkItem from '@/components/academic/TalkItem.astro';
+import { getCollection } from 'astro:content';
+
+const allTalks = await getCollection('talks');
+const sorted = allTalks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<PageLayout
+  title="Talks & Conferences"
+  description="Conference talks, invited talks, seminars, posters, and workshops."
+  pageTitle="Talks & Conferences"
+  pageSubtitle="Conference presentations, invited talks, seminars, and workshops."
+>
+  <div class="py-8">
+    {sorted.length > 0
+      ? sorted.map((talk) => <TalkItem talk={talk} />)
+      : <p class="text-[#6B7280] py-12 text-center">No talks listed yet.</p>
+    }
+  </div>
+</PageLayout>

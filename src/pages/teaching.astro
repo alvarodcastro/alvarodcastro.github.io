@@ -1,0 +1,41 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Badge from '@/components/ui/Badge.astro';
+import { getCollection } from 'astro:content';
+
+const allTeaching = await getCollection('teaching');
+const sorted = allTeaching.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+
+const typeLabels: Record<string, string> = {
+  course: 'Course',
+  ta: 'Teaching Assistant',
+  supervision: 'Supervision',
+  workshop: 'Workshop',
+  'guest-lecture': 'Guest Lecture',
+  training: 'Training',
+};
+---
+
+<PageLayout
+  title="Teaching"
+  description="Teaching activities, courses, supervision, and workshops."
+  pageTitle="Teaching"
+  pageSubtitle="Teaching, mentoring, and academic training activities."
+>
+  <div class="py-8">
+    {sorted.length > 0
+      ? sorted.map((item) => (
+          <article class="py-6 border-b border-[#E5E7EB] last:border-0">
+            <div class="flex items-center gap-3 mb-2 flex-wrap">
+              <Badge label={typeLabels[item.data.type] ?? item.data.type} />
+              <span class="text-xs text-[#6B7280]">{item.data.academicYear}</span>
+            </div>
+            <h3 class="font-semibold text-[#111827] text-base mb-1">{item.data.title}</h3>
+            <p class="text-sm text-[#4B5563] mb-1">{item.data.institution} · {item.data.role}</p>
+            <p class="text-sm text-[#6B7280] leading-relaxed">{item.data.description}</p>
+          </article>
+        ))
+      : <p class="text-[#6B7280] py-12 text-center">No teaching activities listed yet.</p>
+    }
+  </div>
+</PageLayout>

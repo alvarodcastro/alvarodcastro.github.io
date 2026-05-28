@@ -1,0 +1,45 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import PublicationItem from '@/components/academic/PublicationItem.astro';
+import { getCollection } from 'astro:content';
+import { groupByYear } from '@/utils/sorting';
+
+const allPubs = await getCollection('publications');
+const grouped = groupByYear(allPubs);
+
+const allTypes = [...new Set(allPubs.map((p) => p.data.type))].sort();
+const totalCount = allPubs.length;
+---
+
+<PageLayout
+  title="Publications"
+  description={`Academic publications list. ${totalCount} publications in journals, conferences, and workshops.`}
+  pageTitle="Publications"
+  pageSubtitle={`${totalCount} publication${totalCount !== 1 ? 's' : ''} in peer-reviewed venues.`}
+>
+  <!-- Filter note -->
+  <div class="pt-6 pb-2 text-sm text-[#6B7280]">
+    Publications are sorted by year, newest first.
+    The author's name appears in <strong class="text-[#111827]">bold</strong>.
+  </div>
+
+  <!-- Publication list grouped by year -->
+  <div class="py-8">
+    {[...grouped.entries()].map(([year, pubs]) => (
+      <section aria-labelledby={`year-${year}`} class="mb-12">
+        <h2
+          id={`year-${year}`}
+          class="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-2 pb-2 border-b border-[#E5E7EB]"
+        >
+          {year}
+        </h2>
+        <div>
+          {pubs.map((pub) => <PublicationItem pub={pub} />)}
+        </div>
+      </section>
+    ))}
+    {grouped.size === 0 && (
+      <p class="text-[#6B7280] py-12 text-center">No publications yet. Check back soon.</p>
+    )}
+  </div>
+</PageLayout>

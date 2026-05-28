@@ -1,0 +1,71 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { profile } from '@/data/profile';
+import { socialLinks } from '@/data/social';
+---
+
+<PageLayout
+  title="Contact"
+  description={`Contact ${profile.name} — ${profile.title} at ${profile.institution}`}
+  pageTitle="Contact"
+  pageSubtitle="I welcome academic collaboration, research discussions, and speaking invitations."
+>
+  <div class="py-10 grid sm:grid-cols-2 gap-12 max-w-2xl">
+    <!-- Email -->
+    <div>
+      <h2 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Email</h2>
+      <a
+        href={`mailto:${profile.email}`}
+        class="text-[#1E3A8A] hover:underline font-medium text-sm"
+      >
+        {profile.email}
+      </a>
+      <p class="text-sm text-[#6B7280] mt-2 leading-relaxed">
+        For research inquiries, collaboration proposals, or speaking invitations.
+        I aim to respond within a few working days.
+      </p>
+    </div>
+
+    <!-- Profiles -->
+    <div>
+      <h2 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Academic Profiles</h2>
+      <ul class="space-y-3">
+        {socialLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 text-sm text-[#1E3A8A] hover:underline"
+            >
+              <span class="font-medium">{link.label}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Location -->
+    <div>
+      <h2 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Location</h2>
+      <p class="text-sm text-[#4B5563]">
+        {profile.department}<br />
+        {profile.institution}<br />
+        {profile.location}
+      </p>
+    </div>
+
+    <!-- Note -->
+    <div>
+      <h2 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Note</h2>
+      <p class="text-sm text-[#6B7280] leading-relaxed">
+        For security-related vulnerability reports, please contact me via email
+        with a clear description of the scope and context.
+        I follow responsible disclosure principles.
+      </p>
+    </div>
+  </div>
+</PageLayout>

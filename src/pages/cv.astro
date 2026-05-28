@@ -1,0 +1,155 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import TimelineItem from '@/components/academic/TimelineItem.astro';
+import { profile } from '@/data/profile';
+import { education, experience, skills, service, awards } from '@/data/experience';
+import { getCollection } from 'astro:content';
+import { pubTypeLabels } from '@/utils/publications';
+
+const allPubs = await getCollection('publications');
+const pubCount = allPubs.length;
+const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
+  acc[pub.data.type] = (acc[pub.data.type] ?? 0) + 1;
+  return acc;
+}, {});
+---
+
+<PageLayout
+  title="CV"
+  description={`Curriculum Vitae of ${profile.name}, ${profile.title}`}
+  pageTitle="Curriculum Vitae"
+  pageSubtitle={`${profile.name} · ${profile.title}`}
+>
+  <!-- Download button -->
+  <div class="pt-6 pb-10">
+    <a
+      href={profile.cv}
+      download
+      class="btn-primary"
+      aria-label="Download CV as PDF"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      Download PDF
+    </a>
+  </div>
+
+  <!-- Short summary -->
+  <section aria-labelledby="summary-heading" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <h2 id="summary-heading" class="font-serif text-xl font-semibold text-[#111827] mb-4">Summary</h2>
+    <p class="text-[#4B5563] leading-relaxed max-w-2xl">{profile.shortBio}</p>
+    <div class="mt-4 flex gap-6">
+      <div>
+        <p class="text-2xl font-semibold text-[#111827]">{pubCount}</p>
+        <p class="text-sm text-[#6B7280]">Publications</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section aria-labelledby="cv-education" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <h2 id="cv-education" class="font-serif text-xl font-semibold text-[#111827] mb-6">Education</h2>
+    {education.map((item, i) => (
+      <TimelineItem
+        period={item.period}
+        title={item.degree}
+        subtitle={`${item.institution}, ${item.location}`}
+        description={item.description}
+        last={i === education.length - 1}
+      />
+    ))}
+  </section>
+
+  <!-- Experience -->
+  <section aria-labelledby="cv-experience" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <h2 id="cv-experience" class="font-serif text-xl font-semibold text-[#111827] mb-6">Experience</h2>
+    {experience.map((item, i) => (
+      <TimelineItem
+        period={item.period}
+        title={item.role}
+        subtitle={`${item.organisation}, ${item.location}`}
+        description={item.description}
+        last={i === experience.length - 1}
+      />
+    ))}
+  </section>
+
+  <!-- Publications summary -->
+  {pubCount > 0 && (
+    <section aria-labelledby="cv-publications" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+      <h2 id="cv-publications" class="font-serif text-xl font-semibold text-[#111827] mb-4">Publications</h2>
+      <p class="text-[#4B5563] mb-4">
+        {pubCount} peer-reviewed publication{pubCount !== 1 ? 's' : ''}.
+        <a href="/publications" class="text-[#1E3A8A] hover:underline ml-1">View full list →</a>
+      </p>
+      <div class="flex flex-wrap gap-4">
+        {Object.entries(pubsByType).map(([type, count]) => (
+          <div class="text-sm">
+            <span class="font-medium text-[#111827]">{count}</span>
+            <span class="text-[#6B7280] ml-1">{pubTypeLabels[type] ?? type}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Skills -->
+  <section aria-labelledby="cv-skills" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <h2 id="cv-skills" class="font-serif text-xl font-semibold text-[#111827] mb-6">Skills</h2>
+    <div class="grid sm:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-3">Research</h3>
+        <ul class="space-y-1">
+          {skills.research.map((s) => (
+            <li class="text-sm text-[#4B5563]">— {s}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-3">Technical</h3>
+        <p class="text-sm text-[#4B5563]">{skills.technical.join(', ')}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Awards -->
+  {awards.length > 0 && (
+    <section aria-labelledby="cv-awards" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+      <h2 id="cv-awards" class="font-serif text-xl font-semibold text-[#111827] mb-4">Awards</h2>
+      {awards.map((award) => (
+        <div class="mb-3">
+          <p class="text-sm font-semibold text-[#111827]">{award.title} ({award.year})</p>
+          <p class="text-sm text-[#6B7280]">{award.issuer}</p>
+        </div>
+      ))}
+    </section>
+  )}
+
+  <!-- Service -->
+  {service.length > 0 && (
+    <section aria-labelledby="cv-service" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+      <h2 id="cv-service" class="font-serif text-xl font-semibold text-[#111827] mb-4">Academic Service</h2>
+      <ul class="space-y-2">
+        {service.map((item) => (
+          <li class="text-sm text-[#4B5563]">
+            <span class="font-medium text-[#111827]">{item.role}</span> — {item.venue}{item.year ? ` (${item.year})` : ''}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <!-- Languages -->
+  <section aria-labelledby="cv-languages" class="mb-12">
+    <h2 id="cv-languages" class="font-serif text-xl font-semibold text-[#111827] mb-4">Languages</h2>
+    <div class="flex gap-8">
+      {skills.languages.map((lang) => (
+        <div>
+          <p class="text-sm font-semibold text-[#111827]">{lang.language}</p>
+          <p class="text-sm text-[#6B7280]">{lang.level}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>

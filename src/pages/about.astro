@@ -1,0 +1,126 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Section from '@/components/ui/Section.astro';
+import TimelineItem from '@/components/academic/TimelineItem.astro';
+import { profile } from '@/data/profile';
+import { education, experience, skills, service, awards } from '@/data/experience';
+---
+
+<PageLayout
+  title="About"
+  description={`About ${profile.name} — ${profile.title} at ${profile.institution}`}
+  pageTitle="About"
+  pageSubtitle={`${profile.title} · ${profile.institution}`}
+>
+  <!-- Long bio -->
+  <Section id="bio">
+    <div class="max-w-2xl">
+      {profile.longBio.split('\n\n').map((para) => (
+        <p class="text-[#4B5563] leading-relaxed mb-5">{para}</p>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Education -->
+  <Section id="education" title="Education">
+    <div>
+      {education.map((item, i) => (
+        <TimelineItem
+          period={item.period}
+          title={item.degree}
+          subtitle={`${item.institution}, ${item.location}`}
+          description={item.description}
+          last={i === education.length - 1}
+        />
+      ))}
+    </div>
+  </Section>
+
+  <!-- Experience -->
+  <Section id="experience" title="Research Experience">
+    <div>
+      {experience.map((item, i) => (
+        <TimelineItem
+          period={item.period}
+          title={item.role}
+          subtitle={`${item.organisation}, ${item.location}`}
+          description={item.description}
+          last={i === experience.length - 1}
+        />
+      ))}
+    </div>
+  </Section>
+
+  <!-- Technical Skills -->
+  <Section id="skills" title="Skills and Expertise">
+    <div class="grid sm:grid-cols-2 gap-10 max-w-2xl">
+      <div>
+        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Research</h3>
+        <div class="flex flex-wrap gap-2">
+          {skills.research.map((s) => (
+            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Technical</h3>
+        <div class="flex flex-wrap gap-2">
+          {skills.technical.map((s) => (
+            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
+              {s}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Awards -->
+  {awards.length > 0 && (
+    <Section id="awards" title="Awards and Recognition">
+      <div class="max-w-2xl space-y-4">
+        {awards.map((award) => (
+          <div class="flex gap-4">
+            <span class="text-sm font-medium text-[#6B7280] w-12 shrink-0">{award.year}</span>
+            <div>
+              <p class="text-sm font-semibold text-[#111827]">{award.title}</p>
+              <p class="text-sm text-[#6B7280]">{award.issuer}</p>
+              {award.description && <p class="text-sm text-[#4B5563] mt-0.5">{award.description}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </Section>
+  )}
+
+  <!-- Service -->
+  {service.length > 0 && (
+    <Section id="service" title="Academic Service">
+      <div class="max-w-2xl space-y-2">
+        {service.map((item) => (
+          <div class="flex gap-4">
+            <span class="text-sm text-[#6B7280] w-20 shrink-0">{item.year ?? ''}</span>
+            <p class="text-sm text-[#4B5563]">
+              <span class="font-medium text-[#111827]">{item.role}</span>
+              {' — '}{item.venue}
+            </p>
+          </div>
+        ))}
+      </div>
+    </Section>
+  )}
+
+  <!-- Languages -->
+  <Section id="languages" title="Languages">
+    <div class="flex flex-wrap gap-6 max-w-2xl">
+      {skills.languages.map((lang) => (
+        <div>
+          <p class="text-sm font-semibold text-[#111827]">{lang.language}</p>
+          <p class="text-sm text-[#6B7280]">{lang.level}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+</PageLayout>

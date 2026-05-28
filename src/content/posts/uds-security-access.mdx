@@ -1,0 +1,56 @@
+---
+title: "Understanding UDS Security Access in Automotive ECUs"
+description: "A technical note on the Security Access service (0x27) in the Unified Diagnostic Services protocol — how it works, common weaknesses, and what secure implementations look like."
+date: 2025-04-10
+draft: false
+tags:
+  - automotive security
+  - UDS
+  - ECU
+  - diagnostic protocols
+readingTime: true
+---
+
+## Background
+
+The Unified Diagnostic Services (UDS) protocol — standardised as ISO 14229 — defines the communication layer between diagnostic tools and Electronic Control Units (ECUs) in modern vehicles. One of its most security-relevant services is **Security Access (0x27)**, which gates privileged operations such as ECU flashing, memory reads, and configuration changes.
+
+Understanding how Security Access works — and how it is commonly misconfigured — is essential context for automotive security research and assessment.
+
+> **Ethical use note:** This post describes mechanisms at a conceptual and protocol level. It does not include specific bypass techniques, seed-key algorithms, or details enabling exploitation of production vehicles. All research described here follows responsible disclosure principles.
+
+## How Security Access Works
+
+The Security Access service implements a seed-key challenge-response mechanism:
+
+1. The client (tester) requests a seed from the ECU by sending a `requestSeed` sub-function.
+2. The ECU returns a random (or pseudo-random) seed value.
+3. The client computes a key from the seed using a secret algorithm, and sends it back.
+4. If the key is correct, the ECU transitions to an unlocked security level, enabling privileged services.
+
+Different security levels (odd sub-function values: `0x01`, `0x03`, `0x05`, …) protect different service tiers.
+
+## Common Weaknesses
+
+Research across multiple ECU families has identified recurring patterns:
+
+- **Weak or static seeds:** Some ECUs generate seeds with insufficient entropy, or return a fixed seed in certain diagnostic states.
+- **Algorithm exposure through reverse engineering:** Seed-key algorithms compiled into diagnostic software (e.g. DLLs) can be extracted and replicated.
+- **No brute-force protection:** UDS includes a delay timer mechanism (`exceededNumberOfAttempts`), but implementations sometimes fail to enforce it properly.
+- **Level conflation:** Using the same algorithm across multiple security levels undermines tiered access control.
+
+## What Secure Implementations Look Like
+
+A well-designed Security Access implementation:
+
+- Uses cryptographically strong random seeds (≥ 32 bits).
+- Implements HMAC or asymmetric cryptography for key derivation, rather than custom symmetric algorithms.
+- Enforces attempt limits and progressive delay penalties.
+- Separates security levels with distinct algorithms and keys.
+- Rotates keys per session where feasible.
+
+## Further Reading
+
+- ISO 14229-1:2020 — Unified Diagnostic Services specification
+- AUTOSAR Security documentation (secure onboard communication)
+- ENISA — Cybersecurity Challenges in the Uptake of Artificial Intelligence in Autonomous Driving
