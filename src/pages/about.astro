@@ -21,6 +21,21 @@ import { education, experience, skills, service, awards } from '@/data/experienc
     </div>
   </Section>
 
+<!-- Experience -->
+  <Section id="experience" title="Research Experience">
+    <div>
+      {experience.map((item, i) => (
+        <TimelineItem
+          period={item.period}
+          title={item.role}
+          subtitle={`${item.organisation}, ${item.location}`}
+          description={item.description}
+          last={i === experience.length - 1}
+        />
+      ))}
+    </div>
+  </Section>
+
   <!-- Education -->
   <Section id="education" title="Education">
     <div>
@@ -31,21 +46,6 @@ import { education, experience, skills, service, awards } from '@/data/experienc
           subtitle={`${item.institution}, ${item.location}`}
           description={item.description}
           last={i === education.length - 1}
-        />
-      ))}
-    </div>
-  </Section>
-
-  <!-- Experience -->
-  <Section id="experience" title="Research Experience">
-    <div>
-      {experience.map((item, i) => (
-        <TimelineItem
-          period={item.period}
-          title={item.role}
-          subtitle={`${item.organisation}, ${item.location}`}
-          description={item.description}
-          last={i === experience.length - 1}
         />
       ))}
     </div>
@@ -78,7 +78,7 @@ import { education, experience, skills, service, awards } from '@/data/experienc
   </Section>
 
   <!-- Awards -->
-  {awards.length > 0 && (
+  {awards?.length > 0 && (
     <Section id="awards" title="Awards and Recognition">
       <div class="max-w-2xl space-y-4">
         {awards.map((award) => (
@@ -96,7 +96,7 @@ import { education, experience, skills, service, awards } from '@/data/experienc
   )}
 
   <!-- Service -->
-  {service.length > 0 && (
+  {service?.length > 0 && (
     <Section id="service" title="Academic Service">
       <div class="max-w-2xl space-y-2">
         {service.map((item) => (
