@@ -11,7 +11,7 @@ import { profile } from '@/data/profile';
       class="font-medium text-[#111827] hover:text-[#1E3A8A] transition-colors text-sm tracking-wide"
       aria-label="{profile.name} — Home"
     >
-      {profile.initials} <span class="hidden sm:inline text-gray-500 font-normal">· {profile.shortName}</span>
+      <span class="hidden sm:inline text-gray-500 font-normal">{profile.shortName}</span>
     </a>
     <Navigation />
     <MobileNav />
