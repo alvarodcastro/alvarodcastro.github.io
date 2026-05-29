@@ -17,6 +17,7 @@ export const pubTypeLabels: Record<string, string> = {
   poster: 'Poster',
   demo: 'Demo',
   thesis: 'Thesis',
+  'technical-report': 'Technical Report',
 };
 
 export const pubStatusLabels: Record<string, string> = {
@@ -36,4 +37,5 @@ export const pubTypeColors: Record<string, string> = {
   poster: 'bg-pink-50 text-pink-800 border-pink-200',
   demo: 'bg-teal-50 text-teal-800 border-teal-200',
   thesis: 'bg-gray-50 text-gray-800 border-gray-200',
+  'technical-report': 'bg-yellow-50 text-yellow-800 border-yellow-200',
 };

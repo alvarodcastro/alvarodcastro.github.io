@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 
 const publicationTypes = [
   'journal', 'conference', 'workshop', 'preprint',
-  'book-chapter', 'poster', 'demo', 'thesis',
+  'book-chapter', 'poster', 'demo', 'thesis', 'technical-report',
 ] as const;
 
 const publicationStatuses = [
