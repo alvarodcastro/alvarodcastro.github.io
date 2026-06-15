@@ -12,7 +12,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     label: 'Google Scholar',
-    href: 'https://scholar.google.com/citations?user=YOURPROFILE',
+    href: 'https://scholar.google.com/citations?user=xpj_l24AAAAJ&hl',
     icon: 'scholar',
   },
   {
