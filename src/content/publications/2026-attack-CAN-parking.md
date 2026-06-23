@@ -6,7 +6,7 @@ authors:
 venue: "ACM Workshop on Secure and Trustworthy Cyber-Physical Systems"
 year: 2026
 type: "workshop"
-status: "accepted"
+status: "published"
 doi: "https://doi.org/10.1145/3806008.3811701"
 tags:
   - CAN bus
