@@ -1,0 +1,128 @@
+name: Sync ORCID Publications
+
+# ─── Triggers ────────────────────────────────────────────────────────────────
+on:
+  # Run every Monday at 08:00 UTC
+  schedule:
+    - cron: '0 8 * * 1'
+
+  # Allow manual runs from the Actions tab (useful for testing)
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — print what would be created without writing files'
+        required: false
+        default: false
+        type: boolean
+
+# ─── Permissions ─────────────────────────────────────────────────────────────
+permissions:
+  contents: write        # push new branch
+  pull-requests: write   # open PR
+
+# ─── Job ─────────────────────────────────────────────────────────────────────
+jobs:
+  sync:
+    name: Fetch and create publication files
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # 2. Set up Node.js (matches the version used for the Astro build)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Run the sync script
+      #    ORCID_ID and OWNER_NAME are stored as repository secrets.
+      #    See README section "ORCID sync setup" for instructions.
+      - name: Run ORCID sync
+        id: sync
+        env:
+          ORCID_ID:   ${{ secrets.ORCID_ID }}
+          OWNER_NAME: ${{ secrets.OWNER_NAME }}
+          DRY_RUN:    ${{ inputs.dry_run || false }}
+        run: node scripts/sync-orcid.mjs
+
+      # 4. Check whether the script created any new files
+      - name: Check for new files
+        id: check
+        run: |
+          # List untracked files inside the publications directory
+          NEW=$(git status --porcelain src/content/publications/ | grep '^?' | awk '{print $2}')
+          if [ -z "$NEW" ]; then
+            echo "new_files=false" >> "$GITHUB_OUTPUT"
+            echo "No new publication files detected."
+          else
+            echo "new_files=true" >> "$GITHUB_OUTPUT"
+            COUNT=$(echo "$NEW" | wc -l | tr -d ' ')
+            echo "new_files_count=$COUNT" >> "$GITHUB_OUTPUT"
+            echo "Detected $COUNT new file(s):"
+            echo "$NEW"
+          fi
+
+      # 5. Commit and push on a new branch (only if files were created)
+      - name: Create branch and commit
+        if: steps.check.outputs.new_files == 'true' && inputs.dry_run != 'true'
+        id: commit
+        run: |
+          DATE=$(date +%Y%m%d)
+          BRANCH="orcid-sync/${DATE}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/content/publications/
+          git commit -m "chore: add ${{ steps.check.outputs.new_files_count }} publication(s) from ORCID [skip ci]"
+          git push origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      # 6. Open a Pull Request so you can review before merging
+      - name: Open Pull Request
+        if: steps.check.outputs.new_files == 'true' && inputs.dry_run != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ steps.commit.outputs.branch }}';
+            const count  = '${{ steps.check.outputs.new_files_count }}';
+            const today  = new Date().toISOString().slice(0, 10);
+
+            const { data: pr } = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `chore: ORCID sync — ${count} new publication(s) (${today})`,
+              head:  branch,
+              base:  'main',
+              body: [
+                '## ORCID Publication Sync',
+                '',
+                `This PR was created automatically by the **Sync ORCID Publications** workflow on ${today}.`,
+                '',
+                `It adds **${count} new publication file(s)** fetched from your ORCID record.`,
+                '',
+                '### Before merging, please:',
+                '',
+                '- [ ] Review each new file in `src/content/publications/`',
+                '- [ ] Verify the author list is correct and your name matches exactly',
+                '- [ ] Add a `pdf:` link if a preprint or accepted manuscript is available',
+                '- [ ] Add a `bibtex:` entry if you want BibTeX export on the site',
+                '- [ ] Set `featured: true` on papers you want on the homepage',
+                '- [ ] Add relevant `tags:` (e.g. `automotive security`, `VANET`)',
+                '- [ ] Remove the `<!-- TODO -->` comment from each file once done',
+                '',
+                '---',
+                '_Automated by [sync-orcid.mjs](../blob/main/scripts/sync-orcid.mjs)_',
+              ].join('\n'),
+            });
+
+            console.log(`PR created: ${pr.html_url}`);
+
+      # 7. No-op summary when nothing was found
+      - name: Nothing to do
+        if: steps.check.outputs.new_files == 'false'
+        run: echo "All ORCID works are already present in the repository. Nothing to sync."
