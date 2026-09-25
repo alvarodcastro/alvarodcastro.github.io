@@ -34,8 +34,15 @@ const statusVariant: Record<string, 'success' | 'accent' | 'muted'> = {
     </div>
   )}
 
-  {links && Object.values(links).some(Boolean) && (
-    <div class="flex flex-wrap gap-3 text-sm">
+  <div class="flex flex-wrap items-center gap-3 text-sm">
+    <a
+      href={`/projects/${project.slug}`}
+      class="inline-flex items-center rounded-md border border-[#1E3A8A] px-3 py-1.5 font-medium text-[#1E3A8A] transition-colors hover:bg-blue-50"
+    >
+      Project page
+    </a>
+    {links && Object.values(links).some(Boolean) && (
+      <>
       {links.github && (
         <a href={links.github} target="_blank" rel="noopener noreferrer"
            class="text-[#1E3A8A] hover:underline font-medium">GitHub</a>
@@ -48,6 +55,7 @@ const statusVariant: Record<string, 'success' | 'accent' | 'muted'> = {
         <a href={links.paper} target="_blank" rel="noopener noreferrer"
            class="text-[#1E3A8A] hover:underline font-medium">Paper</a>
       )}
-    </div>
-  )}
+      </>
+    )}
+  </div>
 </article>
