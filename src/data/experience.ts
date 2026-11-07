@@ -29,6 +29,13 @@ export interface ServiceItem {
 
 export const education: EducationItem[] = [
   {
+    degree: 'PhD in Brain, Mind, and Computer Science',
+    institution: 'Università degli Studi di Padova',
+    location: 'Padova, Italy',
+    period: '2026 – 2029',
+    description: 'Specialization in cybersecurity',
+  },
+  {
     degree: 'MSc in Computer Scienceand Engineering (90 ECTS)',
     institution: 'University of Málaga',
     location: 'Málaga, Spain',
@@ -59,6 +66,22 @@ export const education: EducationItem[] = [
 ];
 
 export const experience: ExperienceItem[] = [
+  {
+    role: 'Marie Skłodowska-Curie Fellow',
+    organisation: 'MSCA DN SecReSy4You',
+    location: 'Padova, Italy',
+    period: '2026 – current',
+    description:
+      '',
+  },
+  {
+    role: 'PhD Cybersecurity Researcher',
+    organisation: 'SPRITZ - Security and Privacy Research Group',
+    location: 'Padova, Italy',
+    period: '2026 – current',
+    description:
+      '',
+  },
   {
     role: 'Cybersecurity Researcher',
     organisation: 'University of Málaga',
