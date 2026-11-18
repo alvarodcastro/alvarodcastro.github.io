@@ -124,6 +124,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
         <div class="mb-3">
           <p class="text-sm font-semibold text-[#111827]">{award.title} ({award.year})</p>
           <p class="text-sm text-[#6B7280]">{award.issuer}</p>
+          {award.description && <p class="mt-1 max-w-2xl text-sm leading-relaxed text-[#4B5563]">{award.description}</p>}
         </div>
       ))}
     </section>

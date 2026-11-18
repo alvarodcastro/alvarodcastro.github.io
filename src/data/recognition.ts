@@ -11,6 +11,21 @@ export interface RecognitionItem {
 
 export const recognition: RecognitionItem[] = [
   {
+    period: '2026',
+    mark: 'Finalist',
+    type: 'Academic recognition',
+    title: 'TFG–TFM MONDRAGON Sariak Awards',
+    programme: 'MONDRAGON Corporation · 2026 edition',
+    description:
+      'Selected as a finalist for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks,” focused on security-auditing methods for CAN bus and UDS environments.',
+    facts: [
+      'MSc thesis',
+      'University of Málaga',
+      'Automotive cybersecurity',
+    ],
+    href: 'https://shakinghub.com/premios-tfg-tfm-mondragon-sariak-2026/?lang=en',
+  },
+  {
     period: '2026 — present',
     mark: 'MSCA',
     type: 'European research fellowship',
@@ -23,6 +38,6 @@ export const recognition: RecognitionItem[] = [
       '10 doctoral researchers',
       '8 European countries',
     ],
-    href: 'https://cordis.europa.eu/project/id/101227389',
+    href: 'https://secresy4you.eu/',
   },
 ];

@@ -144,7 +144,7 @@ const focusAreas = [
 
         <div class="border-y border-[#c8c6bf]">
           {recognition.map((item) => (
-            <article class="grid gap-6 py-8 sm:grid-cols-[9rem_1fr] sm:gap-10 sm:py-10">
+            <article class="grid gap-6 border-b border-[#d8d6cf] py-8 last:border-0 sm:grid-cols-[9rem_1fr] sm:gap-10 sm:py-10">
               <div>
                 <p class="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#DF5B38]">{item.period}</p>
                 <p class="mt-4 font-serif text-4xl font-medium tracking-[-0.04em] text-[#1E3A8A]">{item.mark}</p>
@@ -163,7 +163,7 @@ const focusAreas = [
                 </ul>
                 {item.href && (
                   <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link mt-6">
-                    View official project record <span aria-hidden="true">↗</span>
+                    More about the project <span aria-hidden="true">↗</span>
                   </a>
                 )}
               </div>

@@ -101,12 +101,13 @@ export const experience: ExperienceItem[] = [
 ];
 
 export const awards: AwardItem[] = [
-  // {
-  //   title: 'Best Paper Award',
-  //   issuer: 'IEEE VTC – Security Track',
-  //   year: 2024,
-  //   description: 'Awarded for research on misbehavior detection in vehicular networks.',
-  // },
+  {
+    title: 'Finalist, TFG–TFM MONDRAGON Sariak Awards',
+    issuer: 'MONDRAGON Corporation',
+    year: 2026,
+    description:
+      'Recognized for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
+  },
 ];
 
 export const service: ServiceItem[] = [
