@@ -11,21 +11,6 @@ export interface RecognitionItem {
 
 export const recognition: RecognitionItem[] = [
   {
-    period: '2026',
-    mark: 'Finalist',
-    type: 'Academic recognition',
-    title: 'TFG–TFM MONDRAGON Sariak Awards',
-    programme: 'Danobatgroup Digital Transformation · IKERLAN Most Innovative Project',
-    description:
-      'Selected as a finalist in both the Danobatgroup Award for Digital Transformation and the transversal IKERLAN Award for the Most Innovative Project for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
-    facts: [
-      'Digital Transformation finalist',
-      'Most Innovative Project finalist',
-      'University of Málaga',
-    ],
-    href: 'https://shakinghub.com/premios-tfg-tfm-mondragon-sariak-2026/?lang=en',
-  },
-  {
     period: '2026 — present',
     mark: 'MSCA',
     type: 'European research fellowship',
@@ -39,5 +24,20 @@ export const recognition: RecognitionItem[] = [
       '8 European countries',
     ],
     href: 'https://secresy4you.eu/',
+  },
+  {
+    period: '2026',
+    mark: 'Finalist',
+    type: 'Academic recognition',
+    title: 'TFG–TFM MONDRAGON Sariak Awards',
+    programme: 'Danobatgroup Digital Transformation · IKERLAN Most Innovative Project',
+    description:
+      'Selected as a finalist in both the Danobatgroup Award for Digital Transformation and the transversal IKERLAN Award for the Most Innovative Project for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
+    facts: [
+      'Digital Transformation finalist',
+      'Most Innovative Project finalist',
+      'University of Málaga',
+    ],
+    href: 'https://shakinghub.com/premios-tfg-tfm-mondragon-sariak-2026/?lang=en',
   },
 ];
