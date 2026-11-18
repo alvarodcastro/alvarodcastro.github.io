@@ -15,7 +15,7 @@ const bibtexId = `bibtex-${pub.slug}`;
 const ownerName = profile.name;
 ---
 
-<article class="py-6 border-b border-[#E5E7EB] last:border-0">
+<article class="border-b border-[#d8d6cf] py-7 last:border-0">
   <div class="flex items-start gap-3 flex-wrap mb-2">
     <Badge
       label={pubTypeLabels[type] ?? type}
@@ -26,22 +26,22 @@ const ownerName = profile.name;
     )}
   </div>
 
-  <h3 class="font-semibold text-[#111827] text-base leading-snug mb-1">
+  <h3 class="mb-2 font-serif text-xl font-medium leading-snug text-[#172033]">
     {title}
   </h3>
 
-  <p class="text-sm text-[#4B5563] mb-1">
+  <p class="mb-1 text-sm text-[#555b67]">
     {authors.map((author, i) => (
       <span>
         {author === ownerName
-          ? <strong class="text-[#111827]">{author}</strong>
+          ? <strong class="text-[#172033]">{author}</strong>
           : author
         }{i < authors.length - 1 ? ', ' : ''}
       </span>
     ))}
   </p>
 
-  <p class="text-sm text-[#6B7280] italic mb-3">
+  <p class="mb-3 text-sm italic text-[#73766f]">
     {venue}, {year}
   </p>
 

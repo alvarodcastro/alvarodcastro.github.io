@@ -7,7 +7,6 @@ import { groupByYear } from '@/utils/sorting';
 const allPubs = await getCollection('publications');
 const grouped = groupByYear(allPubs);
 
-const allTypes = [...new Set(allPubs.map((p) => p.data.type))].sort();
 const totalCount = allPubs.length;
 ---
 

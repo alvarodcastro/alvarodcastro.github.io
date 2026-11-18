@@ -6,13 +6,16 @@ export default {
       colors: {
         accent: {
           DEFAULT: '#1E3A8A',
-          hover: '#1e40af',
+          hover: '#14265B',
         },
-        border: '#E5E7EB',
+        signal: '#DF5B38',
+        paper: '#F3F1EB',
+        ink: '#172033',
+        border: '#D8D6CF',
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
-        serif: ['Charter', 'Georgia', 'serif'],
+        sans: ['Manrope', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'serif'],
       },
       maxWidth: {
         content: '64rem',   // max-w-5xl equivalent
@@ -25,11 +28,11 @@ export default {
             color: '#111827',
             a: {
               color: '#1E3A8A',
-              '&:hover': { color: '#1e40af' },
+              '&:hover': { color: '#DF5B38' },
             },
             'h1,h2,h3,h4': {
-              fontFamily: 'Charter, Georgia, serif',
-              color: '#111827',
+              fontFamily: 'Newsreader, Georgia, serif',
+              color: '#172033',
             },
             code: {
               backgroundColor: '#F3F4F6',
