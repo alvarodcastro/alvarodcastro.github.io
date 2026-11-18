@@ -3,7 +3,7 @@ import PageLayout from '@/layouts/PageLayout.astro';
 import Section from '@/components/ui/Section.astro';
 import TimelineItem from '@/components/academic/TimelineItem.astro';
 import { profile } from '@/data/profile';
-import { education, experience, skills, service, awards } from '@/data/experience';
+import { education, experience, skills, service, awards, technicalPractice } from '@/data/experience';
 ---
 
 <PageLayout
@@ -51,29 +51,32 @@ import { education, experience, skills, service, awards } from '@/data/experienc
     </div>
   </Section>
 
-  <!-- Technical Skills -->
-  <Section id="skills" title="Skills and Expertise">
-    <div class="grid sm:grid-cols-2 gap-10 max-w-2xl">
-      <div>
-        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Research</h3>
-        <div class="flex flex-wrap gap-2">
-          {skills.research.map((s) => (
-            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Technical</h3>
-        <div class="flex flex-wrap gap-2">
-          {skills.technical.map((s) => (
-            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
+  <!-- Technical practice -->
+  <Section
+    id="technical-practice"
+    title="Technical practice"
+    subtitle="Methods and tools I use to move from a security question to a reproducible experiment."
+  >
+    <div class="max-w-4xl border-y border-[#c8c6bf]">
+      {technicalPractice.map((practice, index) => (
+        <article class="grid gap-3 border-b border-[#d8d6cf] py-6 last:border-0 sm:grid-cols-[2.5rem_13rem_1fr] sm:gap-6 sm:py-7">
+          <span class="pt-1 text-[0.68rem] font-bold tracking-[0.14em] text-[#DF5B38]">
+            0{index + 1}
+          </span>
+          <div>
+            <h3 class="font-serif text-xl font-medium text-[#172033]">{practice.title}</h3>
+            <p class="mt-1 text-xs leading-5 text-[#73766f]">{practice.description}</p>
+          </div>
+          <p class="self-center font-mono text-[0.72rem] font-medium uppercase leading-6 tracking-[0.08em] text-[#555b67]">
+            {practice.stack.map((technology, technologyIndex) => (
+              <span>
+                {technology}
+                {technologyIndex < practice.stack.length - 1 && <span class="mx-2 text-[#b0ada6]">/</span>}
+              </span>
+            ))}
+          </p>
+        </article>
+      ))}
     </div>
   </Section>
 
