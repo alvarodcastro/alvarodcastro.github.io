@@ -1,16 +1,24 @@
 ---
 interface Props {
   title: string;
+  titleMeta?: string;
   subtitle?: string;
   subtitleSecondary?: string;
 }
 
-const { title, subtitle, subtitleSecondary } = Astro.props;
+const { title, titleMeta, subtitle, subtitleSecondary } = Astro.props;
 ---
 
 <div data-reveal class="border-b border-[#d8d6cf] pb-10 pt-16 sm:pb-12 sm:pt-20">
   <p class="eyebrow mb-4">Alvaro de Castro · {title}</p>
-  <h1 class="max-w-4xl font-serif text-4xl font-medium tracking-[-0.035em] text-[#172033] sm:text-6xl">{title}</h1>
+  <div class="flex flex-wrap items-start gap-3">
+    <h1 class="max-w-4xl font-serif text-4xl font-medium tracking-[-0.035em] text-[#172033] sm:text-6xl">{title}</h1>
+    {titleMeta && (
+      <span class="mt-1 inline-flex rounded-full border border-[#c8c6bf] px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.1em] text-[#1E3A8A] sm:mt-2">
+        {titleMeta}
+      </span>
+    )}
+  </div>
   {(subtitle || subtitleSecondary) && (
     <div class="mt-4 max-w-2xl">
       {subtitle && <p class="text-base leading-7 text-[#5f6470] sm:text-lg">{subtitle}</p>}

@@ -12,13 +12,13 @@ const totalCount = allPubs.length;
 
 <PageLayout
   title="Publications"
-  description={`Academic publications list. ${totalCount} publications in journals, conferences, and workshops.`}
+  description={`Academic publications and research outputs. ${totalCount} items listed.`}
   pageTitle="Publications"
-  pageSubtitle={`${totalCount} publication${totalCount !== 1 ? 's' : ''} in peer-reviewed venues.`}
+  pageTitleMeta={`${totalCount} total`}
 >
   <!-- Filter note -->
   <div data-reveal class="pt-6 pb-2 text-sm text-[#6B7280]">
-    Publications are sorted by year, newest first.
+    Items are sorted by year, newest first.
     The author's name appears in <strong class="text-[#111827]">bold</strong>.
   </div>
 
