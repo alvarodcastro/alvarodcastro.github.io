@@ -49,7 +49,17 @@ const bioParagraphs = profile.longBio
     </div>
   </Section>
 
-<!-- Experience -->
+  <!-- Prospective students -->
+  <Section id="prospective-students" title="For Prospective Students">
+    <div class="max-w-2xl">
+      <p class="text-[#4B5563] leading-relaxed">{profile.prospectiveStudents}</p>
+      <a href="/contact" class="text-link mt-4">
+        Get in touch <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </Section>
+
+  <!-- Experience -->
   <Section id="experience" title="Research Experience">
     <div>
       {experience.map((item, i) => (

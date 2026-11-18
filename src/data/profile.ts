@@ -22,6 +22,8 @@ As PhD Student in the SPRITZ Security and Privacy Research Group, I work under t
 
 My broader interests include IoT security, critical-infrastructure protection, and the intersection of machine learning with cybersecurity for detection and deception tasks.
 
-Beyond research, I enjoy mentoring students and spending time in nature, especially in the mountains.`,
+Outside research, I enjoy spending time in nature, especially in the mountains.`,
+  prospectiveStudents:
+    'I enjoy mentoring students interested in cybersecurity, particularly in automotive, autonomous, and cyber-physical systems. If you would like to discuss a thesis, research project, or possible collaboration in these areas, feel free to get in touch.',
   cv: '/cv.pdf',
 };
