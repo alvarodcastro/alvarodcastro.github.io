@@ -9,7 +9,7 @@ const year = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-5 py-9 sm:px-8">
     <div class="flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
       <div>
-        <a href="/" class="font-serif text-xl font-semibold text-[#172033] hover:text-[#DF5B38]">
+        <a href="/" class="font-serif text-xl font-semibold text-[#172033] transition-colors duration-300 hover:text-[#DF5B38]">
           {profile.name}
         </a>
         <p class="mt-1 max-w-md text-sm leading-relaxed text-[#73766f]">
@@ -22,7 +22,7 @@ const year = new Date().getFullYear();
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-xs font-bold text-[#666a73] transition-colors hover:text-[#DF5B38]"
+            class="text-xs font-bold text-[#666a73] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#DF5B38]"
           >
             {link.label}
           </a>

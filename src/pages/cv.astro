@@ -21,7 +21,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
   pageSubtitle={`${profile.name} · ${profile.title}`}
 >
   <!-- Download button -->
-  <div class="pt-6 pb-10">
+  <div data-reveal class="pt-6 pb-10">
     <a
       href={profile.cv}
       download
@@ -36,7 +36,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
   </div>
 
   <!-- Short summary -->
-  <section aria-labelledby="summary-heading" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+  <section data-reveal aria-labelledby="summary-heading" class="mb-12 pb-12 border-b border-[#E5E7EB]">
     <h2 id="summary-heading" class="font-serif text-xl font-semibold text-[#111827] mb-4">Summary</h2>
     <p class="text-[#4B5563] leading-relaxed max-w-2xl">{profile.shortBio}</p>
     <div class="mt-4 flex gap-6">
@@ -49,7 +49,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
 
 
   <!-- Experience -->
-  <section aria-labelledby="cv-experience" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+  <section data-reveal aria-labelledby="cv-experience" class="mb-12 pb-12 border-b border-[#E5E7EB]">
     <h2 id="cv-experience" class="font-serif text-xl font-semibold text-[#111827] mb-6">Experience</h2>
     {experience.map((item, i) => (
       <TimelineItem
@@ -63,7 +63,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
   </section>
   
   <!-- Education -->
-  <section aria-labelledby="cv-education" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+  <section data-reveal aria-labelledby="cv-education" class="mb-12 pb-12 border-b border-[#E5E7EB]">
     <h2 id="cv-education" class="font-serif text-xl font-semibold text-[#111827] mb-6">Education</h2>
     {education.map((item, i) => (
       <TimelineItem
@@ -80,7 +80,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
 
   <!-- Publications summary -->
   {pubCount > 0 && (
-    <section aria-labelledby="cv-publications" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <section data-reveal aria-labelledby="cv-publications" class="mb-12 pb-12 border-b border-[#E5E7EB]">
       <h2 id="cv-publications" class="font-serif text-xl font-semibold text-[#111827] mb-4">Publications</h2>
       <p class="text-[#4B5563] mb-4">
         {pubCount} publication{pubCount !== 1 ? 's' : ''}.
@@ -98,7 +98,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
   )}
 
   <!-- Skills -->
-  <section aria-labelledby="cv-skills" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+  <section data-reveal aria-labelledby="cv-skills" class="mb-12 pb-12 border-b border-[#E5E7EB]">
     <h2 id="cv-skills" class="font-serif text-xl font-semibold text-[#111827] mb-6">Skills</h2>
     <div class="grid sm:grid-cols-2 gap-8">
       <div>
@@ -118,7 +118,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
 
   <!-- Awards -->
   {awards?.length > 0 && (
-    <section aria-labelledby="cv-awards" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <section data-reveal aria-labelledby="cv-awards" class="mb-12 pb-12 border-b border-[#E5E7EB]">
       <h2 id="cv-awards" class="font-serif text-xl font-semibold text-[#111827] mb-4">Awards</h2>
       {awards.map((award) => (
         <div class="mb-3">
@@ -132,7 +132,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
 
   <!-- Service -->
   {service?.length > 0 && (
-    <section aria-labelledby="cv-service" class="mb-12 pb-12 border-b border-[#E5E7EB]">
+    <section data-reveal aria-labelledby="cv-service" class="mb-12 pb-12 border-b border-[#E5E7EB]">
       <h2 id="cv-service" class="font-serif text-xl font-semibold text-[#111827] mb-4">Academic Service</h2>
       <ul class="space-y-2">
         {service.map((item) => (
@@ -145,7 +145,7 @@ const pubsByType = allPubs.reduce<Record<string, number>>((acc, pub) => {
   )}
 
   <!-- Languages -->
-  <section aria-labelledby="cv-languages" class="mb-12">
+  <section data-reveal aria-labelledby="cv-languages" class="mb-12">
     <h2 id="cv-languages" class="font-serif text-xl font-semibold text-[#111827] mb-4">Languages</h2>
     <div class="flex gap-8">
       {skills.languages.map((lang) => (

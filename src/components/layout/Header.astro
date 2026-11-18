@@ -4,14 +4,14 @@ import MobileNav from './MobileNav.astro';
 import { profile } from '@/data/profile';
 ---
 
-<header class="sticky top-0 z-40 border-b border-[#d8d6cf]/80 bg-[#f3f1eb]/90 backdrop-blur-xl">
+<header data-site-header class="sticky top-0 z-40 border-b border-[#d8d6cf]/80 bg-[#f3f1eb]/90 backdrop-blur-xl">
   <div class="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between px-5 sm:px-8">
     <a
       href="/"
       class="group inline-flex items-center gap-3 text-[#172033]"
       aria-label={`${profile.name} — Home`}
     >
-      <span class="grid h-8 w-8 place-items-center rounded-full border border-[#172033] font-serif text-base font-semibold transition-colors group-hover:border-[#DF5B38] group-hover:text-[#DF5B38]">
+      <span class="grid h-8 w-8 place-items-center rounded-full border border-[#172033] font-serif text-base font-semibold transition-all duration-300 group-hover:rotate-[-7deg] group-hover:scale-105 group-hover:border-[#DF5B38] group-hover:text-[#DF5B38]">
         A
       </span>
       <span class="hidden text-sm font-bold tracking-[-0.01em] sm:inline">{profile.name}</span>
@@ -21,7 +21,7 @@ import { profile } from '@/data/profile';
       <Navigation />
       <a
         href={`mailto:${profile.email}`}
-        class="hidden rounded-full border border-[#c8c6bf] px-4 py-2 text-xs font-bold text-[#172033] transition-colors hover:border-[#DF5B38] hover:text-[#DF5B38] sm:inline-flex md:hidden lg:inline-flex"
+        class="hidden rounded-full border border-[#c8c6bf] px-4 py-2 text-xs font-bold text-[#172033] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#DF5B38] hover:bg-[#faf9f5] hover:text-[#DF5B38] sm:inline-flex md:hidden lg:inline-flex"
       >
         Let’s talk
       </a>

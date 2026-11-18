@@ -8,7 +8,8 @@ const { class: className = '', hover = false } = Astro.props;
 ---
 
 <div
-  class={`rounded-2xl border border-[#d8d6cf] bg-[#faf9f5] p-6 ${hover ? 'transition-all duration-200 hover:-translate-y-0.5 hover:border-[#b9b7b0] hover:shadow-[0_12px_30px_rgba(23,32,51,0.06)]' : ''} ${className}`}
+  data-reveal
+  class={`rounded-2xl border border-[#d8d6cf] bg-[#faf9f5] p-6 ${hover ? 'transition-all duration-300 hover:-translate-y-1 hover:border-[#b9b7b0] hover:shadow-[0_16px_36px_rgba(23,32,51,0.08)]' : ''} ${className}`}
 >
   <slot />
 </div>

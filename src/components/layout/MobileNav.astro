@@ -10,7 +10,7 @@ import { profile } from '@/data/profile';
     aria-expanded="false"
     aria-controls="mobile-menu"
     aria-label="Open navigation menu"
-    class="grid h-10 w-10 place-items-center rounded-full border border-[#c8c6bf] text-[#172033] transition-colors hover:border-[#DF5B38] hover:text-[#DF5B38]"
+    class="grid h-10 w-10 place-items-center rounded-full border border-[#c8c6bf] text-[#172033] transition-all duration-300 hover:scale-105 hover:border-[#DF5B38] hover:text-[#DF5B38] active:scale-95"
   >
     <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 8h14M5 16h14" />
@@ -23,13 +23,14 @@ import { profile } from '@/data/profile';
   <nav
     id="mobile-menu"
     aria-label="Mobile navigation"
-    class="absolute left-0 right-0 top-full z-50 hidden border-b border-[#d8d6cf] bg-[#f3f1eb] shadow-[0_18px_40px_rgba(23,32,51,0.08)]"
+    aria-hidden="true"
+    class="pointer-events-none invisible absolute left-0 right-0 top-full z-50 -translate-y-2 border-b border-[#d8d6cf] bg-[#f3f1eb] opacity-0 shadow-[0_18px_40px_rgba(23,32,51,0.08)] transition-[opacity,transform,visibility] duration-300 ease-out"
   >
     <div class="mx-auto flex max-w-6xl flex-col px-5 py-5 sm:px-8">
       {navItems.map((item, index) => (
         <a
           href={item.href}
-          class="flex items-center justify-between border-b border-[#d8d6cf] py-3.5 text-sm font-bold text-[#172033] last:border-0 hover:text-[#DF5B38]"
+          class="flex items-center justify-between border-b border-[#d8d6cf] py-3.5 text-sm font-bold text-[#172033] transition-all duration-300 last:border-0 hover:pl-1 hover:text-[#DF5B38]"
         >
           <span>{item.label}</span>
           <span class="text-[0.65rem] font-semibold text-[#92948e]">0{index + 1}</span>
@@ -41,24 +42,34 @@ import { profile } from '@/data/profile';
 </div>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const iconOpen = document.getElementById('icon-open');
-  const iconClose = document.getElementById('icon-close');
-
   function setMenu(open: boolean) {
-    menu?.classList.toggle('hidden', !open);
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+
+    menu?.classList.toggle('pointer-events-none', !open);
+    menu?.classList.toggle('invisible', !open);
+    menu?.classList.toggle('-translate-y-2', !open);
+    menu?.classList.toggle('opacity-0', !open);
+    menu?.setAttribute('aria-hidden', String(!open));
     btn?.setAttribute('aria-expanded', String(open));
     btn?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
   }
 
-  btn?.addEventListener('click', () => setMenu(menu?.classList.contains('hidden') ?? true));
-
   document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    const btn = target.closest('#mobile-menu-btn');
+
+    if (btn) {
+      setMenu(btn.getAttribute('aria-expanded') !== 'true');
+      return;
+    }
+
     const wrapper = document.getElementById('mobile-nav-wrapper');
-    if (wrapper && !wrapper.contains(event.target as Node)) setMenu(false);
+    if (wrapper && !wrapper.contains(target)) setMenu(false);
   });
 
   document.addEventListener('keydown', (event) => {

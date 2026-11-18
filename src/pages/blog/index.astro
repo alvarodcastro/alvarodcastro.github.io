@@ -18,7 +18,7 @@ const sorted = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTi
       ? (
         <div class="divide-y divide-[#E5E7EB]">
           {sorted.map((post) => (
-            <article class="py-6">
+            <article data-reveal class="interactive-row py-6">
               <div class="flex flex-wrap items-center gap-3 mb-2">
                 <time
                   datetime={post.data.date.toISOString()}

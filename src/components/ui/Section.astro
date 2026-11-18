@@ -9,7 +9,7 @@ interface Props {
 const { title, subtitle, id, class: className = '' } = Astro.props;
 ---
 
-<section id={id} class={`py-14 sm:py-16 ${className}`} aria-labelledby={title ? `${id}-heading` : undefined}>
+<section data-reveal id={id} class={`py-14 sm:py-16 ${className}`} aria-labelledby={title ? `${id}-heading` : undefined}>
   {title && (
     <div class="mb-9">
       <h2
