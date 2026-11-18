@@ -1,5 +1,7 @@
 ---
 import { buildTitle, defaultSEO } from '@/utils/seo';
+import { profile } from '@/data/profile';
+import { socialLinks } from '@/data/social';
 
 interface Props {
   title?: string;
@@ -19,10 +21,44 @@ const {
 
 const pageTitle = buildTitle(title);
 const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const siteURL = new URL('/', Astro.site).href;
+const isHomePage = Astro.url.pathname === '/';
+const homeStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${siteURL}#website`,
+      name: defaultSEO.siteName,
+      url: siteURL,
+      publisher: { '@id': `${siteURL}#person` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteURL}#person`,
+      name: profile.name,
+      url: siteURL,
+      image: new URL(profile.photo.src, Astro.site).href,
+      jobTitle: 'MSCA Fellow and PhD Student in Cybersecurity',
+      affiliation: {
+        '@type': 'Organization',
+        name: profile.institution,
+        url: 'https://www.unipd.it/',
+      },
+      memberOf: {
+        '@type': 'Organization',
+        name: profile.department,
+        url: 'https://spritz.math.unipd.it/',
+      },
+      sameAs: socialLinks.map((link) => link.href),
+    },
+  ],
+};
 ---
 
 <title>{pageTitle}</title>
 <meta name="description" content={description} />
+<meta name="author" content={defaultSEO.siteName} />
 <link rel="canonical" href={canonicalURL} />
 {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
@@ -39,3 +75,7 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 <meta name="twitter:title" content={pageTitle} />
 <meta name="twitter:description" content={description} />
 {ogImage && <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />}
+
+{isHomePage && (
+  <script type="application/ld+json" set:html={JSON.stringify(homeStructuredData)} />
+)}
