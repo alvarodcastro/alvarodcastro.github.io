@@ -18,9 +18,9 @@ export const profile = {
   longBio:
     `I am a Marie Skłodowska-Curie Doctoral Fellow at the University of Padua within the SecReSy4You MSCA Doctoral Network.
 
-As part of the SPRITZ Security and Privacy Research Group, I work under the supervision of Prof. Mauro Conti and Prof. Alessandro Brighente. My research focuses on security challenges in automotive, autonomous, and cyber-physical systems.
+As PhD Student in the SPRITZ Security and Privacy Research Group, I work under the supervision of Prof. Mauro Conti and Prof. Alessandro Brighente. My research focuses on security challenges in automotive, autonomous, and cyber-physical systems.
 
-My broader interests include IoT security, critical-infrastructure protection, and the intersection of machine learning with cybersecurity—particularly for detection and deception tasks.
+My broader interests include IoT security, critical-infrastructure protection, and the intersection of machine learning with cybersecurity for detection and deception tasks.
 
 Beyond research, I enjoy mentoring students and spending time in nature, especially in the mountains.`,
   cv: '/cv.pdf',

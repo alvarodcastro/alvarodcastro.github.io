@@ -137,6 +137,7 @@ export const skills = {
   languages: [
     { language: 'Spanish', level: 'Native' },
     { language: 'English', level: 'Professional working proficiency (C1)' },
+    { language: 'Italian', level: 'Entry Level (A1)' }
     { language: 'German', level: 'Entry Level (A1)' }
   ],
 };
