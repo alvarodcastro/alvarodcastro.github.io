@@ -20,7 +20,7 @@ export const profile = {
 
 As a PhD student in the SPRITZ Security and Privacy Research Group, I work under the supervision of Prof. Mauro Conti and Prof. Alessandro Brighente. My research focuses on context-aware threat detection, collaborative perception security, and cyber-physical resilience in automotive, autonomous, and other cyber-physical systems.
 
-My broader interests include IoT security, critical-infrastructure protection, and the intersection of machine learning with cybersecurity for detection and deception tasks. My previous work includes adversary profiling, while my current work examines attacks and defenses in drone-based cyber-physical systems and collaborative perception security in automotive environments.
+My broader interests span IoT and critical-infrastructure security, adversary profiling, attacks and defenses in drone-based cyber-physical systems, automotive collaborative perception security, and the use of machine learning for detection and deception tasks.
 
 Outside research, I enjoy spending time in nature, especially in the mountains.`,
   prospectiveStudents:
