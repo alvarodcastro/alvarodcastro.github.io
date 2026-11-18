@@ -23,6 +23,28 @@ const seoProps = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f3f1eb" />
+    <script is:inline>
+      (() => {
+        let theme = 'light';
+
+        try {
+          const stored = localStorage.getItem('theme');
+          theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        } catch {
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        const dark = theme === 'dark';
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        document
+          .querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', dark ? '#0c111b' : '#f3f1eb');
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ViewTransitions />
     <SEO {...seoProps} />
