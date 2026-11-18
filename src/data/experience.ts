@@ -27,12 +27,6 @@ export interface ServiceItem {
   year?: string;
 }
 
-export interface TechnicalPracticeItem {
-  title: string;
-  description: string;
-  stack: string[];
-}
-
 export const education: EducationItem[] = [
   {
     degree: 'PhD in Brain, Mind, and Computer Science',
@@ -119,29 +113,6 @@ export const service: ServiceItem[] = [
   // { role: 'Reviewer', venue: 'IEEE Transactions on Intelligent Transportation Systems', year: '2024–present' },
   // { role: 'Reviewer', venue: 'IEEE Vehicular Technology Conference (VTC)', year: '2023–present' },
   // { role: 'Reviewer', venue: 'ACNS Workshop on Automotive and Industrial Cyber Security (AutoSec)', year: '2024' },
-];
-
-export const technicalPractice: TechnicalPracticeItem[] = [
-  {
-    title: 'Security analysis',
-    description: 'From system boundaries and threat models to concrete attack surfaces.',
-    stack: ['TARA', 'STRIDE', 'Vulnerability assessment', 'Reverse engineering', 'Protocol analysis'],
-  },
-  {
-    title: 'Automotive & CPS',
-    description: 'Instrumenting and testing connected systems close to the network and hardware layers.',
-    stack: ['CAN', 'UDS', 'SocketCAN', 'MQTT', 'Wireshark'],
-  },
-  {
-    title: 'Research engineering',
-    description: 'Building reproducible prototypes, experiments, and analysis tooling.',
-    stack: ['Python', 'C', 'C++', 'Linux', 'Docker', 'Git', 'Scapy'],
-  },
-  {
-    title: 'ML & computer vision',
-    description: 'Evaluating detection pipelines and their behavior under adversarial inputs.',
-    stack: ['PyTorch', 'scikit-learn', 'OpenCV', 'YOLO', 'PaddleOCR'],
-  },
 ];
 
 export const skills = {
