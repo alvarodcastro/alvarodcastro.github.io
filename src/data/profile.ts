@@ -6,8 +6,11 @@ export const profile = {
   department: 'SPRITZ Security and Privacy Research Group',
   location: 'Padova, Italy',
   email: 'decastro@math.unipd.it',
-  // Add the final portrait here after placing it in public/images/.
-  photo: null as { src: string; alt: string; position?: string } | null,
+  photo: {
+    src: '/images/alvaro-de-castro.jpeg',
+    alt: 'Portrait of Alvaro de Castro',
+    position: 'center 30%',
+  },
   summary:
     'MSCA Doctoral Fellow researching the security of automotive, autonomous, and cyber-physical systems at the University of Padua.',
   shortBio:

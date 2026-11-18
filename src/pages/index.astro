@@ -6,6 +6,7 @@ import { socialLinks } from '@/data/social';
 import { recognition } from '@/data/recognition';
 import { getCollection } from 'astro:content';
 import { pubTypeLabels } from '@/utils/publications';
+import { existsSync } from 'node:fs';
 
 const allPubs = await getCollection('publications');
 const featuredPubs = allPubs
@@ -15,6 +16,10 @@ const featuredPubs = allPubs
 
 const githubUrl = socialLinks.find((link) => link.label === 'GitHub')?.href
   ?? 'https://github.com/alvarodcastro';
+
+const hasProfilePhoto = existsSync(
+  new URL(`../../public${profile.photo.src}`, import.meta.url),
+);
 
 const focusAreas = [
   {
@@ -57,7 +62,7 @@ const focusAreas = [
         </div>
 
         <div>
-          {profile.photo && (
+          {hasProfilePhoto && (
             <figure class="mb-6 overflow-hidden rounded-[1.5rem] border border-[#c8c6bf] bg-[#e6e3dc]">
               <img
                 src={profile.photo.src}
