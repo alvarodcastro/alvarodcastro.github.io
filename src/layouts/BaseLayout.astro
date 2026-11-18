@@ -29,12 +29,8 @@ const seoProps = Astro.props;
 
         try {
           const stored = localStorage.getItem('theme');
-          theme = stored === 'dark' || stored === 'light'
-            ? stored
-            : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        } catch {
-          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+          if (stored === 'dark' || stored === 'light') theme = stored;
+        } catch {}
 
         const dark = theme === 'dark';
         document.documentElement.classList.toggle('dark', dark);

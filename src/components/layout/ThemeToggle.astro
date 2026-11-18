@@ -38,9 +38,6 @@
 <script>
   type Theme = 'light' | 'dark';
 
-  const root = document.documentElement;
-  const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
-
   const readStoredTheme = (): Theme | null => {
     try {
       const stored = localStorage.getItem('theme');
@@ -62,15 +59,20 @@
     });
   };
 
-  const applyTheme = (theme: Theme, persist = false) => {
+  const updateDocumentTheme = (target: Document, theme: Theme) => {
     const isDark = theme === 'dark';
+    const targetRoot = target.documentElement;
 
-    root.classList.toggle('dark', isDark);
-    root.dataset.theme = theme;
-    root.style.colorScheme = theme;
-    document
+    targetRoot.classList.toggle('dark', isDark);
+    targetRoot.dataset.theme = theme;
+    targetRoot.style.colorScheme = theme;
+    target
       .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
       ?.setAttribute('content', isDark ? '#0c111b' : '#f3f1eb');
+  };
+
+  const applyTheme = (theme: Theme, persist = false) => {
+    updateDocumentTheme(document, theme);
 
     if (persist) {
       try {
@@ -83,7 +85,7 @@
     syncToggle(theme);
   };
 
-  const currentTheme = (): Theme => root.classList.contains('dark') ? 'dark' : 'light';
+  const currentTheme = (): Theme => document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 
   document.addEventListener('click', (event) => {
     if (!(event.target instanceof Element)) return;
@@ -102,11 +104,21 @@
     }
   });
 
-  systemTheme.addEventListener('change', (event) => {
-    if (readStoredTheme()) return;
-    applyTheme(event.matches ? 'dark' : 'light');
+  document.addEventListener('astro:before-swap', (event) => {
+    const transitionEvent = event as Event & { newDocument: Document };
+    const selectedTheme = readStoredTheme() ?? currentTheme();
+    updateDocumentTheme(transitionEvent.newDocument, selectedTheme);
   });
 
-  document.addEventListener('astro:page-load', () => applyTheme(currentTheme()));
+  document.addEventListener('astro:page-load', () => {
+    applyTheme(readStoredTheme() ?? currentTheme());
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== 'theme') return;
+    if (event.newValue !== 'dark' && event.newValue !== 'light') return;
+    applyTheme(event.newValue);
+  });
+
   syncToggle(currentTheme());
 </script>
