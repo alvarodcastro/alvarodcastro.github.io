@@ -2,13 +2,24 @@
 interface Props {
   title: string;
   subtitle?: string;
+  subtitleSecondary?: string;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, subtitleSecondary } = Astro.props;
 ---
 
 <div data-reveal class="border-b border-[#d8d6cf] pb-10 pt-16 sm:pb-12 sm:pt-20">
   <p class="eyebrow mb-4">Alvaro de Castro · {title}</p>
   <h1 class="max-w-4xl font-serif text-4xl font-medium tracking-[-0.035em] text-[#172033] sm:text-6xl">{title}</h1>
-  {subtitle && <p class="mt-4 max-w-2xl whitespace-pre-line text-base leading-7 text-[#5f6470] sm:text-lg">{subtitle}</p>}
+  {(subtitle || subtitleSecondary) && (
+    <div class="mt-4 max-w-2xl">
+      {subtitle && <p class="text-base leading-7 text-[#5f6470] sm:text-lg">{subtitle}</p>}
+      {subtitleSecondary && (
+        <p class="mt-2 flex items-center gap-2 text-sm font-semibold tracking-[0.01em] text-[#1E3A8A]">
+          <span class="h-px w-5 shrink-0 bg-[#DF5B38]" aria-hidden="true"></span>
+          {subtitleSecondary}
+        </p>
+      )}
+    </div>
+  )}
 </div>

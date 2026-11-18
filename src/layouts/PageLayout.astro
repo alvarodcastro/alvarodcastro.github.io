@@ -8,16 +8,17 @@ interface Props {
   description?: string;
   pageTitle?: string;
   pageSubtitle?: string;
+  pageSubtitleSecondary?: string;
   ogImage?: string;
 }
 
-const { title, description, pageTitle, pageSubtitle, ogImage } = Astro.props;
+const { title, description, pageTitle, pageSubtitle, pageSubtitleSecondary, ogImage } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
   <Container>
-    {(pageTitle ?? pageSubtitle) && (
-      <PageHeader title={pageTitle ?? title} subtitle={pageSubtitle} />
+    {(pageTitle ?? pageSubtitle ?? pageSubtitleSecondary) && (
+      <PageHeader title={pageTitle ?? title} subtitle={pageSubtitle} subtitleSecondary={pageSubtitleSecondary} />
     )}
     <slot />
   </Container>
