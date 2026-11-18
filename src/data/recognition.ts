@@ -15,13 +15,13 @@ export const recognition: RecognitionItem[] = [
     mark: 'Finalist',
     type: 'Academic recognition',
     title: 'TFG–TFM MONDRAGON Sariak Awards',
-    programme: 'MONDRAGON Corporation · 2026 edition',
+    programme: 'Danobatgroup Digital Transformation · IKERLAN Most Innovative Project',
     description:
-      'Selected as a finalist for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks,” focused on security-auditing methods for CAN bus and UDS environments.',
+      'Selected as a finalist in both the Danobatgroup Award for Digital Transformation and the transversal IKERLAN Award for the Most Innovative Project for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
     facts: [
-      'MSc thesis',
+      'Digital Transformation finalist',
+      'Most Innovative Project finalist',
       'University of Málaga',
-      'Automotive cybersecurity',
     ],
     href: 'https://shakinghub.com/premios-tfg-tfm-mondragon-sariak-2026/?lang=en',
   },

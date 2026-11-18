@@ -102,11 +102,11 @@ export const experience: ExperienceItem[] = [
 
 export const awards: AwardItem[] = [
   {
-    title: 'Finalist, TFG–TFM MONDRAGON Sariak Awards',
-    issuer: 'MONDRAGON Corporation',
+    title: 'Finalist, Digital Transformation & Most Innovative Project',
+    issuer: 'TFG–TFM MONDRAGON Sariak Awards · Danobatgroup / IKERLAN',
     year: 2026,
     description:
-      'Recognized for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
+      'Selected in the Danobatgroup thematic category and the transversal IKERLAN award for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
   },
 ];
 
