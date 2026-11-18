@@ -16,7 +16,7 @@ const { title, description, date, updated, tags } = Astro.props;
 
 <BaseLayout title={title} description={description}>
   <Container>
-    <article class="py-16 max-w-3xl mx-auto">
+    <article data-reveal class="py-16 max-w-3xl mx-auto">
       <header class="mb-12">
         <h1 class="font-serif text-3xl font-semibold text-[#111827] mb-4">{title}</h1>
         {description && <p class="text-lg text-[#4B5563] mb-4 leading-relaxed">{description}</p>}

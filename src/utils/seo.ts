@@ -7,13 +7,14 @@ export interface SEOMeta {
 }
 
 export const defaultSEO = {
-  siteName: 'Álvaro Researcher',
-  titleTemplate: '%s | Álvaro Researcher',
+  siteName: 'Alvaro de Castro',
+  homeTitle: 'Alvaro de Castro — PhD Student & Cybersecurity Researcher',
+  titleTemplate: '%s | Alvaro de Castro',
   description:
-    'Academic portfolio of a cybersecurity researcher and PhD student at the University of Málaga. Research in automotive security, IoT, V2X networks, and critical infrastructure.',
+    'Academic website of Alvaro de Castro, an MSCA Fellow and PhD student at the University of Padua researching automotive and cyber-physical systems security.',
 };
 
 export function buildTitle(pageTitle?: string): string {
-  if (!pageTitle) return defaultSEO.siteName;
+  if (!pageTitle) return defaultSEO.homeTitle;
   return defaultSEO.titleTemplate.replace('%s', pageTitle);
 }

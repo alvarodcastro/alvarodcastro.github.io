@@ -25,9 +25,17 @@ export interface ServiceItem {
   role: string;
   venue: string;
   year?: string;
+  href?: string;
 }
 
 export const education: EducationItem[] = [
+  {
+    degree: 'PhD in Brain, Mind, and Computer Science',
+    institution: 'Università degli Studi di Padova',
+    location: 'Padova, Italy',
+    period: '2026 – 2029',
+    description: 'Specialization in cybersecurity',
+  },
   {
     degree: 'MSc in Computer Scienceand Engineering (90 ECTS)',
     institution: 'University of Málaga',
@@ -60,10 +68,26 @@ export const education: EducationItem[] = [
 
 export const experience: ExperienceItem[] = [
   {
+    role: 'Marie Skłodowska-Curie Fellow',
+    organisation: 'MSCA DN SecReSy4You',
+    location: 'Padova, Italy',
+    period: 'Oct 2026 – current',
+    description:
+      '',
+  },
+  {
+    role: 'PhD Cybersecurity Researcher',
+    organisation: 'SPRITZ - Security and Privacy Research Group',
+    location: 'Padova, Italy',
+    period: 'Oct 2026 – current',
+    description:
+      '',
+  },
+  {
     role: 'Cybersecurity Researcher',
     organisation: 'University of Málaga',
     location: 'Málaga, Spain',
-    period: '2024 – current',
+    period: 'Jul 2024 – Oct 2026',
     description:
       'Contributed to automotive and industrial cybersecurity research projects.',
   },
@@ -78,18 +102,22 @@ export const experience: ExperienceItem[] = [
 ];
 
 export const awards: AwardItem[] = [
-  // {
-  //   title: 'Best Paper Award',
-  //   issuer: 'IEEE VTC – Security Track',
-  //   year: 2024,
-  //   description: 'Awarded for research on misbehavior detection in vehicular networks.',
-  // },
+  {
+    title: 'Finalist, Digital Transformation & Most Innovative Project',
+    issuer: 'TFG–TFM MONDRAGON Sariak Awards · Danobatgroup / IKERLAN',
+    year: 2026,
+    description:
+      'Selected in the Danobatgroup thematic category and the transversal IKERLAN award for the MSc thesis “Development of Security Auditing Solutions for Automotive In-Vehicle Networks.”',
+  },
 ];
 
 export const service: ServiceItem[] = [
-  // { role: 'Reviewer', venue: 'IEEE Transactions on Intelligent Transportation Systems', year: '2024–present' },
-  // { role: 'Reviewer', venue: 'IEEE Vehicular Technology Conference (VTC)', year: '2023–present' },
-  // { role: 'Reviewer', venue: 'ACNS Workshop on Automotive and Industrial Cyber Security (AutoSec)', year: '2024' },
+  {
+    role: 'Staff member',
+    venue: 'Hackén Cybersecurity Congress, Jaén',
+    year: 'Present',
+    href: 'https://hacken.es/',
+  },
 ];
 
 export const skills = {
@@ -109,6 +137,7 @@ export const skills = {
   languages: [
     { language: 'Spanish', level: 'Native' },
     { language: 'English', level: 'Professional working proficiency (C1)' },
+    { language: 'Italian', level: 'Entry Level (A1)' },
     { language: 'German', level: 'Entry Level (A1)' }
   ],
 };

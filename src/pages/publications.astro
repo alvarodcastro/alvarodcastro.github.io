@@ -7,26 +7,25 @@ import { groupByYear } from '@/utils/sorting';
 const allPubs = await getCollection('publications');
 const grouped = groupByYear(allPubs);
 
-const allTypes = [...new Set(allPubs.map((p) => p.data.type))].sort();
 const totalCount = allPubs.length;
 ---
 
 <PageLayout
   title="Publications"
-  description={`Academic publications list. ${totalCount} publications in journals, conferences, and workshops.`}
+  description={`Academic publications and research outputs. ${totalCount} items listed.`}
   pageTitle="Publications"
-  pageSubtitle={`${totalCount} publication${totalCount !== 1 ? 's' : ''} in peer-reviewed venues.`}
+  pageTitleMeta={`${totalCount} total`}
 >
   <!-- Filter note -->
-  <div class="pt-6 pb-2 text-sm text-[#6B7280]">
-    Publications are sorted by year, newest first.
+  <div data-reveal class="pt-6 pb-2 text-sm text-[#6B7280]">
+    Items are sorted by year, newest first.
     The author's name appears in <strong class="text-[#111827]">bold</strong>.
   </div>
 
   <!-- Publication list grouped by year -->
   <div class="py-8">
     {[...grouped.entries()].map(([year, pubs]) => (
-      <section aria-labelledby={`year-${year}`} class="mb-12">
+      <section data-reveal aria-labelledby={`year-${year}`} class="mb-12">
         <h2
           id={`year-${year}`}
           class="text-sm font-semibold text-[#6B7280] uppercase tracking-widest mb-2 pb-2 border-b border-[#E5E7EB]"

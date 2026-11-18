@@ -1,0 +1,71 @@
+<script>
+  let revealObserver: IntersectionObserver | undefined;
+  let scrollListenerBound = false;
+  let initialiseFrame = 0;
+
+  const revealEverything = () => {
+    document.documentElement.classList.remove('motion-ready');
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((item) => {
+      item.classList.add('is-visible');
+    });
+  };
+
+  const syncHeader = () => {
+    document
+      .querySelector<HTMLElement>('[data-site-header]')
+      ?.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+
+  const initialiseMotion = () => {
+    revealObserver?.disconnect();
+
+    const items = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealEverything();
+      syncHeader();
+      return;
+    }
+
+    items.forEach((item) => item.classList.remove('is-visible'));
+    document.documentElement.classList.add('motion-ready');
+
+    revealObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          requestAnimationFrame(() => entry.target.classList.add('is-visible'));
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -7% 0px',
+      },
+    );
+
+    items.forEach((item) => revealObserver?.observe(item));
+    syncHeader();
+
+    if (!scrollListenerBound) {
+      window.addEventListener('scroll', syncHeader, { passive: true });
+      scrollListenerBound = true;
+    }
+  };
+
+  const scheduleInitialisation = () => {
+    cancelAnimationFrame(initialiseFrame);
+    initialiseFrame = requestAnimationFrame(initialiseMotion);
+  };
+
+  document.addEventListener('astro:page-load', scheduleInitialisation);
+  document.addEventListener('astro:before-swap', () => revealObserver?.disconnect());
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleInitialisation, { once: true });
+  } else {
+    scheduleInitialisation();
+  }
+</script>

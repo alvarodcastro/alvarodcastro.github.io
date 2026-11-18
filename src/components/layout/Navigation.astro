@@ -9,14 +9,14 @@ function isActive(href: string): boolean {
 }
 ---
 
-<nav aria-label="Primary navigation" class="hidden md:flex items-center gap-6">
+<nav aria-label="Primary navigation" class="hidden items-center gap-6 md:flex lg:gap-8">
   {navItems.map((item) => (
     <a
       href={item.href}
-      class={`text-sm font-medium transition-colors duration-150 ${
+      class={`nav-item relative py-2 text-xs font-bold transition-colors duration-300 ${
         isActive(item.href)
-          ? 'text-[#1E3A8A]'
-          : 'text-gray-600 hover:text-[#1E3A8A]'
+          ? 'text-[#1E3A8A] after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-[#DF5B38]'
+          : 'text-[#666a73] hover:text-[#172033]'
       }`}
       aria-current={isActive(item.href) ? 'page' : undefined}
     >

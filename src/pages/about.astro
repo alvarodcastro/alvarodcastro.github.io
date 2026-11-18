@@ -4,24 +4,62 @@ import Section from '@/components/ui/Section.astro';
 import TimelineItem from '@/components/academic/TimelineItem.astro';
 import { profile } from '@/data/profile';
 import { education, experience, skills, service, awards } from '@/data/experience';
+
+const bioLinks = {
+  SecReSy4You: 'https://secresy4you.eu/',
+  'SPRITZ Security and Privacy Research Group': 'https://spritz.math.unipd.it/',
+  'Prof. Mauro Conti': 'https://www.math.unipd.it/~conti/',
+  'Prof. Alessandro Brighente': 'https://www.math.unipd.it/~abrighen/',
+} as const;
+
+const escapedBioLinkLabels = Object.keys(bioLinks)
+  .sort((a, b) => b.length - a.length)
+  .map((label) => label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+const bioLinkPattern = new RegExp(`(${escapedBioLinkLabels.join('|')})`, 'g');
+const bioParagraphs = profile.longBio
+  .split('\n\n')
+  .map((paragraph) => paragraph.split(bioLinkPattern));
 ---
 
 <PageLayout
   title="About"
   description={`About ${profile.name} — ${profile.title} at ${profile.institution}`}
   pageTitle="About"
-  pageSubtitle={`${profile.title} · ${profile.institution}`}
+  pageSubtitle={profile.title}
+  pageSubtitleSecondary={profile.institution}
 >
   <!-- Long bio -->
   <Section id="bio">
     <div class="max-w-2xl">
-      {profile.longBio.split('\n\n').map((para) => (
-        <p class="text-[#4B5563] leading-relaxed mb-5">{para}</p>
+      {bioParagraphs.map((segments) => (
+        <p class="text-[#4B5563] leading-relaxed mb-5">
+          {segments.map((segment) => bioLinks[segment as keyof typeof bioLinks] ? (
+            <a
+              href={bioLinks[segment as keyof typeof bioLinks]}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${segment} (opens in a new tab)`}
+              class="font-semibold text-[#1E3A8A] underline decoration-[#9ca9ce] decoration-1 underline-offset-[3px] transition-colors duration-300 hover:text-[#DF5B38] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1E3A8A]"
+            >
+              {segment}<span class="ml-0.5 inline-block text-[0.7em] no-underline" aria-hidden="true">↗</span>
+            </a>
+          ) : segment)}
+        </p>
       ))}
     </div>
   </Section>
 
-<!-- Experience -->
+  <!-- Prospective students -->
+  <Section id="prospective-students" title="For Prospective Students">
+    <div class="max-w-2xl">
+      <p class="text-[#4B5563] leading-relaxed">{profile.prospectiveStudents}</p>
+      <a href="/contact" class="text-link mt-4">
+        Get in touch <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </Section>
+
+  <!-- Experience -->
   <Section id="experience" title="Research Experience">
     <div>
       {experience.map((item, i) => (
@@ -51,32 +89,6 @@ import { education, experience, skills, service, awards } from '@/data/experienc
     </div>
   </Section>
 
-  <!-- Technical Skills -->
-  <Section id="skills" title="Skills and Expertise">
-    <div class="grid sm:grid-cols-2 gap-10 max-w-2xl">
-      <div>
-        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Research</h3>
-        <div class="flex flex-wrap gap-2">
-          {skills.research.map((s) => (
-            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold text-[#6B7280] uppercase tracking-wide mb-4">Technical</h3>
-        <div class="flex flex-wrap gap-2">
-          {skills.technical.map((s) => (
-            <span class="px-2.5 py-1 text-sm bg-white border border-[#E5E7EB] text-[#4B5563] rounded-lg">
-              {s}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  </Section>
-
   <!-- Awards -->
   {awards?.length > 0 && (
     <Section id="awards" title="Awards and Recognition">
@@ -97,14 +109,25 @@ import { education, experience, skills, service, awards } from '@/data/experienc
 
   <!-- Service -->
   {service?.length > 0 && (
-    <Section id="service" title="Academic Service">
+    <Section id="service" title="Community & Service">
       <div class="max-w-2xl space-y-2">
         {service.map((item) => (
           <div class="flex gap-4">
             <span class="text-sm text-[#6B7280] w-20 shrink-0">{item.year ?? ''}</span>
             <p class="text-sm text-[#4B5563]">
               <span class="font-medium text-[#111827]">{item.role}</span>
-              {' — '}{item.venue}
+              {' — '}
+              {item.href ? (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-link"
+                  aria-label={`${item.venue} (opens in a new tab)`}
+                >
+                  {item.venue}<span aria-hidden="true">↗</span>
+                </a>
+              ) : item.venue}
             </p>
           </div>
         ))}

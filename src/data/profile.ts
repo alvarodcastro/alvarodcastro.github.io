@@ -1,21 +1,29 @@
 export const profile = {
   name: 'Alvaro de Castro',
   shortName: 'A. de Castro',
-  // initials: '',
-  title: 'Cybersecurity Researcher',
-  institution: 'University of Málaga',
-  department: 'NICS Lab',
-  location: 'Málaga, Spain',
-  email: 'alvarodc@uma.es',
+  title: 'MSCA Fellow · PhD Student · Cybersecurity Researcher',
+  institution: 'Università degli Studi di Padova',
+  department: 'SPRITZ Security and Privacy Research Group',
+  location: 'Padova, Italy',
+  email: 'decastro@math.unipd.it',
+  photo: {
+    src: '/images/alvaro-de-castro.jpeg',
+    alt: 'Portrait of Alvaro de Castro',
+    position: 'center 30%',
+  },
   summary:
-    'Cybersecurity researcher working on automotive, cyber physical systems, and industrial internet of things (IIoT) cybersecurity.',
+    'MSCA Doctoral Fellow researching the security of automotive, autonomous, and cyber-physical systems at the University of Padua.',
   shortBio:
-    'I am a cybersecurity researcher at the University of Málaga, where I focus on security challenges in automotive environments, industrial IoT ecosystems, and critical infrastructure security. ',
-  longBio: `I am a cybersecurity researcher at the University of Málaga, Spain, where I work within the Network and Information Computer Security (NICS) group.
+    'I am a Marie Skłodowska-Curie Doctoral Fellow at the University of Padua, where I research security challenges in automotive, autonomous, and cyber-physical systems.',
+  longBio:
+    `I am a Marie Skłodowska-Curie Doctoral Fellow at the University of Padua within the SecReSy4You MSCA Doctoral Network.
 
-My broader research interests span IoT security, critical infrastructure protection, and the intersection of machine learning with cybersecurity — particularly in detection and deception tasks. 
+As a PhD student in the SPRITZ Security and Privacy Research Group, I work under the supervision of Prof. Mauro Conti and Prof. Alessandro Brighente. My research focuses on context-aware threat detection, collaborative perception security, and cyber-physical resilience in automotive, autonomous, and other cyber-physical systems.
 
+My broader interests span IoT and critical-infrastructure security, machine learning for detection and deception tasks, adversary profiling, automotive security, and attacks and defenses in other cyber-physical systems.
 
-When not doing research, I enjoy mentoring students, contributing to open-source security tooling, and sharing technical knowledge through writing and conference talks.`,
+Outside research, I enjoy spending time in nature, hiking, and mountains.`,
+  prospectiveStudents:
+    'I enjoy mentoring students interested in cybersecurity, particularly in automotive, autonomous, and cyber-physical systems. If you would like to discuss a thesis, research project, or possible collaboration in these areas, feel free to get in touch.',
   cv: '/cv.pdf',
 };

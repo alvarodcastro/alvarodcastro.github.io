@@ -1,0 +1,124 @@
+<button
+  type="button"
+  data-theme-toggle
+  aria-label="Switch to dark mode"
+  aria-pressed="false"
+  title="Switch to dark mode"
+  class="theme-toggle relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full border border-[#c8c6bf] text-[#172033] transition-all duration-300 hover:scale-105 hover:border-[#DF5B38] hover:text-[#DF5B38] active:scale-95"
+>
+  <svg
+    class="theme-icon-moon absolute h-[1.1rem] w-[1.1rem]"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path>
+  </svg>
+  <svg
+    class="theme-icon-sun absolute h-[1.15rem] w-[1.15rem]"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="3.5"></circle>
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"></path>
+  </svg>
+</button>
+
+<script>
+  type Theme = 'light' | 'dark';
+
+  const readStoredTheme = (): Theme | null => {
+    try {
+      const stored = localStorage.getItem('theme');
+      return stored === 'dark' || stored === 'light' ? stored : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const syncToggle = (theme: Theme) => {
+    const isDark = theme === 'dark';
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+      const nextTheme = isDark ? 'light' : 'dark';
+      const label = `Switch to ${nextTheme} mode`;
+
+      button.setAttribute('aria-label', label);
+      button.setAttribute('aria-pressed', String(isDark));
+      button.setAttribute('title', label);
+    });
+  };
+
+  const updateDocumentTheme = (target: Document, theme: Theme) => {
+    const isDark = theme === 'dark';
+    const targetRoot = target.documentElement;
+
+    targetRoot.classList.toggle('dark', isDark);
+    targetRoot.dataset.theme = theme;
+    targetRoot.style.colorScheme = theme;
+    target
+      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+      ?.setAttribute('content', isDark ? '#0c111b' : '#f3f1eb');
+  };
+
+  const applyTheme = (theme: Theme, persist = false) => {
+    updateDocumentTheme(document, theme);
+
+    if (persist) {
+      try {
+        localStorage.setItem('theme', theme);
+      } catch {
+        // The theme still works for this page when storage is unavailable.
+      }
+    }
+
+    syncToggle(theme);
+  };
+
+  const currentTheme = (): Theme => document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return;
+    if (!event.target.closest('[data-theme-toggle]')) return;
+
+    const nextTheme: Theme = currentTheme() === 'dark' ? 'light' : 'dark';
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const transitionDocument = document as Document & {
+      startViewTransition?: (callback: () => void) => unknown;
+    };
+
+    if (!reduceMotion && transitionDocument.startViewTransition) {
+      transitionDocument.startViewTransition(() => applyTheme(nextTheme, true));
+    } else {
+      applyTheme(nextTheme, true);
+    }
+  });
+
+  document.addEventListener('astro:before-swap', (event) => {
+    const transitionEvent = event as Event & { newDocument: Document };
+    const selectedTheme = readStoredTheme() ?? currentTheme();
+    updateDocumentTheme(transitionEvent.newDocument, selectedTheme);
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    applyTheme(readStoredTheme() ?? currentTheme());
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key !== 'theme') return;
+    if (event.newValue !== 'dark' && event.newValue !== 'light') return;
+    applyTheme(event.newValue);
+  });
+
+  syncToggle(currentTheme());
+</script>

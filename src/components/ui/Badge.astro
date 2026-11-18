@@ -8,14 +8,14 @@ interface Props {
 const { label, variant = 'default', class: className = '' } = Astro.props;
 
 const variants: Record<string, string> = {
-  default: 'bg-gray-100 text-gray-700 border-gray-200',
-  accent: 'bg-blue-50 text-[#1E3A8A] border-blue-200',
-  success: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-  warning: 'bg-amber-50 text-amber-800 border-amber-200',
-  muted: 'bg-gray-50 text-gray-500 border-gray-200',
+  default: 'bg-transparent text-[#666a73] border-[#c8c6bf]',
+  accent: 'bg-transparent text-[#1E3A8A] border-[#9ca9ce]',
+  success: 'bg-transparent text-emerald-800 border-emerald-300',
+  warning: 'bg-transparent text-amber-800 border-amber-300',
+  muted: 'bg-transparent text-[#81847f] border-[#d8d6cf]',
 };
 ---
 
-<span class={`inline-flex items-center px-2 py-0.5 text-xs font-medium rounded border ${variants[variant]} ${className}`}>
+<span class={`inline-flex items-center rounded-full border px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.08em] ${variants[variant]} ${className}`}>
   {label}
 </span>

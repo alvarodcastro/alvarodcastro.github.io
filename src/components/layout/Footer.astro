@@ -5,31 +5,33 @@ import { socialLinks } from '@/data/social';
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-[#E5E7EB] mt-24">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+<footer class="mt-20 border-t border-[#d8d6cf] sm:mt-28">
+  <div class="mx-auto max-w-6xl px-5 py-9 sm:px-8">
+    <div class="flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
       <div>
-        <p class="font-medium text-[#111827] text-sm">{profile.name}</p>
-        <p class="text-sm text-[#6B7280] mt-0.5">{profile.title}</p>
-        <p class="text-sm text-[#6B7280]">{profile.institution}</p>
+        <a href="/" class="font-serif text-xl font-semibold text-[#172033] transition-colors duration-300 hover:text-[#DF5B38]">
+          {profile.name}
+        </a>
+        <p class="mt-1 max-w-md text-sm leading-relaxed text-[#73766f]">
+          Cybersecurity research for connected, autonomous, and cyber-physical systems.
+        </p>
       </div>
-      <nav aria-label="Social links" class="flex items-center gap-4 flex-wrap">
+      <nav aria-label="Social links" class="flex flex-wrap items-center gap-x-5 gap-y-2">
         {socialLinks.map((link) => (
           <a
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="text-sm text-[#6B7280] hover:text-[#1E3A8A] transition-colors"
-            aria-label={link.label}
+            class="text-xs font-bold text-[#666a73] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#DF5B38]"
           >
             {link.label}
           </a>
         ))}
       </nav>
     </div>
-    <div class="mt-8 pt-6 border-t border-[#E5E7EB] flex flex-col sm:flex-row justify-between gap-2 text-xs text-[#9CA3AF]">
-      <span>© {year} {profile.name}. All rights reserved.</span>
-      <span>Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:text-[#1E3A8A] transition-colors">Astro</a></span>
+    <div class="mt-8 flex flex-col justify-between gap-2 border-t border-[#d8d6cf] pt-5 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[#92948e] sm:flex-row">
+      <span>© {year} {profile.name}</span>
+      <span>Padova, Italy · Built with Astro</span>
     </div>
   </div>
 </footer>

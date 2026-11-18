@@ -1,19 +1,33 @@
 ---
 import Navigation from './Navigation.astro';
 import MobileNav from './MobileNav.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { profile } from '@/data/profile';
 ---
 
-<header class="sticky top-0 z-40 bg-[#FAFAFA]/95 backdrop-blur-sm border-b border-[#E5E7EB]">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between relative">
+<header data-site-header class="sticky top-0 z-40 border-b border-[#d8d6cf]/80 bg-[#f3f1eb]/90 backdrop-blur-xl">
+  <div class="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between px-5 sm:px-8">
     <a
       href="/"
-      class="font-medium text-[#111827] hover:text-[#1E3A8A] transition-colors text-sm tracking-wide"
-      aria-label="{profile.name} — Home"
+      class="group inline-flex items-center gap-3 text-[#172033]"
+      aria-label={`${profile.name} — Home`}
     >
-      <span class="hidden sm:inline text-gray-500 font-normal">{profile.shortName}</span>
+      <span class="grid h-8 w-8 place-items-center rounded-full border border-[#172033] font-serif text-base font-semibold transition-all duration-300 group-hover:rotate-[-7deg] group-hover:scale-105 group-hover:border-[#DF5B38] group-hover:text-[#DF5B38]">
+        A
+      </span>
+      <span class="hidden text-sm font-bold tracking-[-0.01em] sm:inline">{profile.name}</span>
     </a>
-    <Navigation />
-    <MobileNav />
+
+    <div class="flex items-center gap-5">
+      <Navigation />
+      <a
+        href="/contact"
+        class="hidden rounded-full border border-[#c8c6bf] px-4 py-2 text-xs font-bold text-[#172033] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#DF5B38] hover:bg-[#faf9f5] hover:text-[#DF5B38] sm:inline-flex md:hidden lg:inline-flex"
+      >
+        Let’s talk
+      </a>
+      <MobileNav />
+      <ThemeToggle />
+    </div>
   </div>
 </header>

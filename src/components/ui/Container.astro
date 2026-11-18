@@ -7,6 +7,6 @@ interface Props {
 const { narrow = false, class: className = '' } = Astro.props;
 ---
 
-<div class={`mx-auto px-4 sm:px-6 ${narrow ? 'max-w-3xl' : 'max-w-5xl'} ${className}`}>
+<div class={`mx-auto px-5 sm:px-8 ${narrow ? 'max-w-3xl' : 'max-w-6xl'} ${className}`}>
   <slot />
 </div>

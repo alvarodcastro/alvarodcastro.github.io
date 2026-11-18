@@ -9,63 +9,69 @@ import { navItems } from '@/data/navigation';
     aria-expanded="false"
     aria-controls="mobile-menu"
     aria-label="Open navigation menu"
-    class="p-2 rounded-lg text-gray-600 hover:text-[#1E3A8A] hover:bg-gray-100 transition-colors"
+    class="grid h-10 w-10 place-items-center rounded-full border border-[#c8c6bf] text-[#172033] transition-all duration-300 hover:scale-105 hover:border-[#DF5B38] hover:text-[#DF5B38] active:scale-95"
   >
-    <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+    <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 8h14M5 16h14" />
     </svg>
-    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 6l12 12M18 6L6 18" />
     </svg>
   </button>
 
   <nav
     id="mobile-menu"
     aria-label="Mobile navigation"
-    class="hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-sm z-50"
+    aria-hidden="true"
+    class="pointer-events-none invisible absolute left-0 right-0 top-full z-50 -translate-y-2 border-b border-[#d8d6cf] bg-[#f3f1eb] opacity-0 shadow-[0_18px_40px_rgba(23,32,51,0.08)] transition-[opacity,transform,visibility] duration-300 ease-out"
   >
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-1">
-      {navItems.map((item) => (
+    <div class="mx-auto flex max-w-6xl flex-col px-5 py-5 sm:px-8">
+      {navItems.map((item, index) => (
         <a
           href={item.href}
-          class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#1E3A8A] transition-colors"
+          class="flex items-center justify-between border-b border-[#d8d6cf] py-3.5 text-sm font-bold text-[#172033] transition-all duration-300 last:border-0 hover:pl-1 hover:text-[#DF5B38]"
         >
-          {item.label}
+          <span>{item.label}</span>
+          <span class="text-[0.65rem] font-semibold text-[#92948e]">0{index + 1}</span>
         </a>
       ))}
+      <a href="/contact" class="btn-primary mt-4">Let’s talk</a>
     </div>
   </nav>
 </div>
 
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const iconOpen = document.getElementById('icon-open');
-  const iconClose = document.getElementById('icon-close');
+  function setMenu(open: boolean) {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
 
-  btn?.addEventListener('click', () => {
-    const isOpen = menu?.classList.contains('hidden') === false;
-    if (isOpen) {
-      menu?.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-      iconOpen?.classList.remove('hidden');
-      iconClose?.classList.add('hidden');
-    } else {
-      menu?.classList.remove('hidden');
-      btn.setAttribute('aria-expanded', 'true');
-      iconOpen?.classList.add('hidden');
-      iconClose?.classList.remove('hidden');
+    menu?.classList.toggle('pointer-events-none', !open);
+    menu?.classList.toggle('invisible', !open);
+    menu?.classList.toggle('-translate-y-2', !open);
+    menu?.classList.toggle('opacity-0', !open);
+    menu?.setAttribute('aria-hidden', String(!open));
+    btn?.setAttribute('aria-expanded', String(open));
+    btn?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    iconOpen?.classList.toggle('hidden', open);
+    iconClose?.classList.toggle('hidden', !open);
+  }
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    const btn = target.closest('#mobile-menu-btn');
+
+    if (btn) {
+      setMenu(btn.getAttribute('aria-expanded') !== 'true');
+      return;
     }
+
+    const wrapper = document.getElementById('mobile-nav-wrapper');
+    if (wrapper && !wrapper.contains(target)) setMenu(false);
   });
 
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    const wrapper = document.getElementById('mobile-nav-wrapper');
-    if (wrapper && !wrapper.contains(e.target as Node)) {
-      menu?.classList.add('hidden');
-      btn?.setAttribute('aria-expanded', 'false');
-      iconOpen?.classList.remove('hidden');
-      iconClose?.classList.add('hidden');
-    }
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenu(false);
   });
 </script>
