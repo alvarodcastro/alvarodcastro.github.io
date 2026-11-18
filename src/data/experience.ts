@@ -25,6 +25,7 @@ export interface ServiceItem {
   role: string;
   venue: string;
   year?: string;
+  href?: string;
 }
 
 export const education: EducationItem[] = [
@@ -111,9 +112,12 @@ export const awards: AwardItem[] = [
 ];
 
 export const service: ServiceItem[] = [
-  // { role: 'Reviewer', venue: 'IEEE Transactions on Intelligent Transportation Systems', year: '2024–present' },
-  // { role: 'Reviewer', venue: 'IEEE Vehicular Technology Conference (VTC)', year: '2023–present' },
-  // { role: 'Reviewer', venue: 'ACNS Workshop on Automotive and Industrial Cyber Security (AutoSec)', year: '2024' },
+  {
+    role: 'Staff member',
+    venue: 'Hackén Cybersecurity Congress, Jaén',
+    year: 'Present',
+    href: 'https://hacken.es/',
+  },
 ];
 
 export const skills = {

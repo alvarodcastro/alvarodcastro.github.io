@@ -22,6 +22,6 @@ As part of the SPRITZ Security and Privacy Research Group, I work under the supe
 
 My broader interests include IoT security, critical-infrastructure protection, and the intersection of machine learning with cybersecurity—particularly for detection and deception tasks.
 
-Beyond research, I enjoy mentoring students, contributing to open-source security tools, and sharing technical knowledge through writing and talks.`,
+Beyond research, I enjoy mentoring students and spending time in nature, especially in the mountains.`,
   cv: '/cv.pdf',
 };
