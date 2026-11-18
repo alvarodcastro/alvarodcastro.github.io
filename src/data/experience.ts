@@ -70,7 +70,7 @@ export const experience: ExperienceItem[] = [
     role: 'Marie Skłodowska-Curie Fellow',
     organisation: 'MSCA DN SecReSy4You',
     location: 'Padova, Italy',
-    period: '2026 – current',
+    period: 'Oct 2026 – current',
     description:
       '',
   },
@@ -78,7 +78,7 @@ export const experience: ExperienceItem[] = [
     role: 'PhD Cybersecurity Researcher',
     organisation: 'SPRITZ - Security and Privacy Research Group',
     location: 'Padova, Italy',
-    period: '2026 – current',
+    period: 'Oct 2026 – current',
     description:
       '',
   },
@@ -86,7 +86,7 @@ export const experience: ExperienceItem[] = [
     role: 'Cybersecurity Researcher',
     organisation: 'University of Málaga',
     location: 'Málaga, Spain',
-    period: '2024 – current',
+    period: 'Jul 2024 – Oct 2026',
     description:
       'Contributed to automotive and industrial cybersecurity research projects.',
   },
