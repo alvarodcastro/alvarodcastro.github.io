@@ -1,0 +1,331 @@
+---
+import { updateCategoryMeta, type AcademicUpdate } from '@/data/updates';
+import { getInitialCalendarMonth, hasExactUpdateDate } from '@/utils/updates';
+
+interface Props {
+  updates: AcademicUpdate[];
+  label?: string;
+}
+
+const { updates, label = 'Academic updates calendar' } = Astro.props;
+const calendarUpdates = updates
+  .filter((update) => hasExactUpdateDate(update.date))
+  .map(({ date, slug, title, category }) => ({ date, slug, title, category }));
+const initialMonth = getInitialCalendarMonth(updates);
+const categoryColors = Object.fromEntries(
+  Object.entries(updateCategoryMeta).map(([category, meta]) => [
+    category,
+    { color: meta.color, darkColor: meta.darkColor },
+  ])
+);
+const calendarData = JSON.stringify({ updates: calendarUpdates, categoryColors }).replace(
+  /</g,
+  '\\u003c'
+);
+---
+
+<updates-calendar data-initial-month={initialMonth} aria-label={label}>
+  <div class="calendar-header">
+    <button type="button" data-calendar-previous aria-label="Show previous month">
+      <span aria-hidden="true">←</span>
+    </button>
+    <p data-calendar-label aria-live="polite"></p>
+    <button type="button" data-calendar-next aria-label="Show next month">
+      <span aria-hidden="true">→</span>
+    </button>
+  </div>
+
+  <div class="calendar-weekdays" aria-hidden="true">
+    <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span
+      >Su</span
+    >
+  </div>
+  <div data-calendar-grid class="calendar-grid" role="grid"></div>
+  <p class="calendar-note">Only updates with a verified day are marked.</p>
+  <script type="application/json" data-calendar-data set:html={calendarData} />
+</updates-calendar>
+
+<script>
+  interface CalendarUpdate {
+    date: string;
+    slug: string;
+    title: string;
+    category: string;
+  }
+
+  interface CategoryColors {
+    color: string;
+    darkColor: string;
+  }
+
+  interface CalendarData {
+    updates: CalendarUpdate[];
+    categoryColors: Record<string, CategoryColors>;
+  }
+
+  class AcademicUpdatesCalendar extends HTMLElement {
+    private month = new Date();
+    private updates: CalendarUpdate[] = [];
+    private categoryColors: Record<string, CategoryColors> = {};
+    private labelElement: HTMLElement | null = null;
+    private gridElement: HTMLElement | null = null;
+    private previousButton: HTMLButtonElement | null = null;
+    private nextButton: HTMLButtonElement | null = null;
+
+    connectedCallback() {
+      if (this.dataset.ready === 'true') return;
+
+      const dataElement = this.querySelector<HTMLScriptElement>('[data-calendar-data]');
+      const initialMonth = this.dataset.initialMonth;
+      if (!dataElement || !initialMonth) return;
+
+      const data = JSON.parse(dataElement.textContent ?? '{}') as CalendarData;
+      this.updates = data.updates ?? [];
+      this.categoryColors = data.categoryColors ?? {};
+      const [year, month] = initialMonth.split('-').map(Number);
+      this.month = new Date(Date.UTC(year, month - 1, 1));
+      this.labelElement = this.querySelector('[data-calendar-label]');
+      this.gridElement = this.querySelector('[data-calendar-grid]');
+      this.previousButton = this.querySelector('[data-calendar-previous]');
+      this.nextButton = this.querySelector('[data-calendar-next]');
+
+      this.previousButton?.addEventListener('click', () => this.changeMonth(-1));
+      this.nextButton?.addEventListener('click', () => this.changeMonth(1));
+      this.dataset.ready = 'true';
+      this.render();
+    }
+
+    private changeMonth(offset: number) {
+      this.month = new Date(
+        Date.UTC(this.month.getUTCFullYear(), this.month.getUTCMonth() + offset, 1)
+      );
+      this.render();
+    }
+
+    private render() {
+      if (!this.gridElement || !this.labelElement) return;
+
+      const year = this.month.getUTCFullYear();
+      const month = this.month.getUTCMonth();
+      const monthLabel = new Intl.DateTimeFormat('en-GB', {
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }).format(this.month);
+      const previousMonth = new Date(Date.UTC(year, month - 1, 1));
+      const nextMonth = new Date(Date.UTC(year, month + 1, 1));
+      const navigationLabel = new Intl.DateTimeFormat('en-GB', {
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+      });
+
+      this.labelElement.textContent = monthLabel;
+      this.gridElement.setAttribute('aria-label', monthLabel);
+      this.previousButton?.setAttribute(
+        'aria-label',
+        `Show ${navigationLabel.format(previousMonth)}`
+      );
+      this.nextButton?.setAttribute('aria-label', `Show ${navigationLabel.format(nextMonth)}`);
+      this.gridElement.replaceChildren();
+
+      const firstWeekday = (new Date(Date.UTC(year, month, 1)).getUTCDay() + 6) % 7;
+      const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+
+      for (let index = 0; index < firstWeekday; index += 1) {
+        const emptyCell = document.createElement('span');
+        emptyCell.className = 'calendar-day calendar-day--empty';
+        emptyCell.setAttribute('role', 'gridcell');
+        emptyCell.setAttribute('aria-hidden', 'true');
+        this.gridElement.append(emptyCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayUpdates = this.updates.filter((update) => update.date === date);
+
+        if (dayUpdates.length === 0) {
+          const dayCell = document.createElement('span');
+          dayCell.className = 'calendar-day';
+          dayCell.setAttribute('role', 'gridcell');
+          dayCell.textContent = String(day);
+          this.gridElement.append(dayCell);
+          continue;
+        }
+
+        const link = document.createElement('a');
+        const destination =
+          dayUpdates.length === 1 ? dayUpdates[0].slug : `date-${dayUpdates[0].date}`;
+        const longDate = new Intl.DateTimeFormat('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          timeZone: 'UTC',
+        }).format(new Date(`${date}T00:00:00Z`));
+        const activityLabel = dayUpdates.length === 1 ? 'update' : 'updates';
+
+        link.className = 'calendar-day calendar-day--marked';
+        link.href = `/updates/#${destination}`;
+        link.setAttribute('role', 'gridcell');
+        link.setAttribute(
+          'aria-label',
+          `${dayUpdates.length} ${activityLabel} on ${longDate}: ${dayUpdates
+            .map((update) => update.title)
+            .join('; ')}`
+        );
+
+        const number = document.createElement('span');
+        number.textContent = String(day);
+        link.append(number);
+
+        const markers = document.createElement('span');
+        markers.className = 'calendar-markers';
+        markers.setAttribute('aria-hidden', 'true');
+        [...new Set(dayUpdates.map((update) => update.category))].forEach((category) => {
+          const marker = document.createElement('span');
+          const colors = this.categoryColors[category];
+          marker.className = 'calendar-marker';
+          marker.title = category;
+          if (colors) {
+            marker.style.setProperty('--category-color', colors.color);
+            marker.style.setProperty('--category-color-dark', colors.darkColor);
+          }
+          markers.append(marker);
+        });
+        link.append(markers);
+        this.gridElement.append(link);
+      }
+    }
+  }
+
+  if (!customElements.get('updates-calendar')) {
+    customElements.define('updates-calendar', AcademicUpdatesCalendar);
+  }
+</script>
+
+<style>
+  updates-calendar {
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+    border-block: 1px solid var(--color-border);
+    padding-block: 0.75rem 0.65rem;
+  }
+
+  .calendar-header {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr 2.25rem;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .calendar-header p {
+    color: var(--color-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .calendar-header button {
+    display: inline-grid;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    place-items: center;
+    color: var(--color-accent);
+    font-size: 0.9rem;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .calendar-header button:hover {
+    color: var(--color-signal);
+    background: rgb(23 32 51 / 0.04);
+  }
+
+  .calendar-weekdays,
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.15rem;
+  }
+
+  .calendar-weekdays {
+    margin-top: 0.55rem;
+    color: var(--color-text-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .calendar-grid {
+    margin-top: 0.25rem;
+  }
+
+  :global(.calendar-day) {
+    display: grid;
+    min-width: 1.75rem;
+    min-height: 2rem;
+    place-content: center;
+    color: var(--color-text-muted);
+    font-size: 0.68rem;
+    line-height: 1;
+    text-align: center;
+  }
+
+  :global(.calendar-day--marked) {
+    position: relative;
+    border-bottom: 1px solid var(--color-text);
+    color: var(--color-text);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  :global(.calendar-day--marked:hover) {
+    background: rgb(30 58 138 / 0.07);
+    color: var(--color-accent);
+  }
+
+  :global(.calendar-markers) {
+    position: absolute;
+    right: 0.2rem;
+    bottom: 0.16rem;
+    left: 0.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.12rem;
+  }
+
+  :global(.calendar-marker) {
+    width: 0.23rem;
+    height: 0.23rem;
+    border-radius: 9999px;
+    background: var(--category-color);
+  }
+
+  :global(html.dark .calendar-marker) {
+    background: var(--category-color-dark);
+  }
+
+  .calendar-note {
+    margin-top: 0.6rem;
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+    line-height: 1.45;
+  }
+
+  :global(html.dark) .calendar-header button:hover,
+  :global(html.dark) :global(.calendar-day--marked:hover) {
+    background: rgb(145 170 255 / 0.09);
+  }
+
+  @media (max-width: 639px) {
+    updates-calendar {
+      max-width: 100%;
+    }
+
+    :global(.calendar-day) {
+      min-height: 2.35rem;
+    }
+  }
+</style>

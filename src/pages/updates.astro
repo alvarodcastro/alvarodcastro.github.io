@@ -1,0 +1,275 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import UpdatesCalendar from '@/components/updates/UpdatesCalendar.astro';
+import UpdateEntry from '@/components/updates/UpdateEntry.astro';
+import {
+  academicUpdates,
+  updateCategoryMeta,
+  type AcademicUpdate,
+  type UpdateCategory,
+} from '@/data/updates';
+import { hasExactUpdateDate, sortUpdates } from '@/utils/updates';
+
+interface MonthGroup {
+  key: string;
+  label: string;
+  updates: AcademicUpdate[];
+}
+
+interface YearGroup {
+  year: string;
+  months: MonthGroup[];
+}
+
+const sortedUpdates = sortUpdates(academicUpdates);
+const usedCategories = (Object.keys(updateCategoryMeta) as UpdateCategory[]).filter((category) =>
+  sortedUpdates.some((update) => update.category === category)
+);
+const exactDateCounts = sortedUpdates.reduce<Record<string, number>>((counts, update) => {
+  if (hasExactUpdateDate(update.date)) counts[update.date] = (counts[update.date] ?? 0) + 1;
+  return counts;
+}, {});
+
+const yearGroups = sortedUpdates.reduce<YearGroup[]>((years, update) => {
+  const year = update.date.slice(0, 4);
+  let yearGroup = years.find((group) => group.year === year);
+  if (!yearGroup) {
+    yearGroup = { year, months: [] };
+    years.push(yearGroup);
+  }
+
+  const hasMonth = update.date.length >= 7;
+  const monthKey = hasMonth ? update.date.slice(0, 7) : `${year}-00`;
+  let monthGroup = yearGroup.months.find((group) => group.key === monthKey);
+  if (!monthGroup) {
+    const label = hasMonth
+      ? new Intl.DateTimeFormat('en-GB', { month: 'long', timeZone: 'UTC' }).format(
+          new Date(`${monthKey}-01T00:00:00Z`)
+        )
+      : 'Other updates';
+    monthGroup = { key: monthKey, label, updates: [] };
+    yearGroup.months.push(monthGroup);
+  }
+  monthGroup.updates.push(update);
+  return years;
+}, []);
+---
+
+<PageLayout
+  title="Updates"
+  description="Academic and research activities by Alvaro de Castro."
+  pageTitle="Updates"
+  pageSubtitle="Academic, research, and professional activities, recorded as they happen."
+>
+  <section class="py-12 sm:py-16" aria-label="Updates archive">
+    <div class="grid gap-12 lg:grid-cols-[15rem_1fr] lg:gap-16">
+      <aside class="space-y-10 lg:sticky lg:top-28 lg:self-start">
+        <div>
+          <h2 class="font-serif text-2xl font-medium tracking-[-0.02em] text-[#172033]">
+            Calendar
+          </h2>
+          <p class="mt-2 text-xs leading-5 text-[#73766f]">
+            Select a marked date to jump to its update.
+          </p>
+          <div class="mt-5">
+            <UpdatesCalendar updates={sortedUpdates} label="All academic updates by month" />
+          </div>
+        </div>
+
+        <div data-update-filters>
+          <h2 class="font-serif text-2xl font-medium tracking-[-0.02em] text-[#172033]">Filter</h2>
+          <div class="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start">
+            <button type="button" class="update-filter" data-filter="all" aria-pressed="true">
+              All updates
+              <span class="filter-count">{sortedUpdates.length}</span>
+            </button>
+            {
+              usedCategories.map((category) => {
+                const meta = updateCategoryMeta[category];
+                const count = sortedUpdates.filter((update) => update.category === category).length;
+                const style = `--category-color: ${meta.color}; --category-color-dark: ${meta.darkColor};`;
+
+                return (
+                  <button
+                    type="button"
+                    class="update-filter"
+                    data-filter={category}
+                    aria-pressed="false"
+                    style={style}
+                  >
+                    <span class="filter-marker" aria-hidden="true" />
+                    {meta.filterLabel}
+                    <span class="filter-count">{count}</span>
+                  </button>
+                );
+              })
+            }
+          </div>
+          <p class="sr-only" data-filter-status aria-live="polite"></p>
+        </div>
+      </aside>
+
+      <div>
+        {
+          yearGroups.map((yearGroup) => (
+            <section
+              data-year-group
+              aria-labelledby={`updates-${yearGroup.year}`}
+              class="mb-14 last:mb-0"
+            >
+              <h2
+                id={`updates-${yearGroup.year}`}
+                class="border-b border-[#c8c6bf] pb-4 font-serif text-4xl font-medium tracking-[-0.035em] text-[#172033] sm:text-5xl"
+              >
+                {yearGroup.year}
+              </h2>
+
+              {yearGroup.months.map((monthGroup) => (
+                <section
+                  data-month-group
+                  class="mt-9"
+                  aria-labelledby={`updates-${monthGroup.key}`}
+                >
+                  <h3
+                    id={`updates-${monthGroup.key}`}
+                    class="text-[0.72rem] font-bold uppercase tracking-[0.16em] text-[#73766f]"
+                  >
+                    {monthGroup.label}
+                  </h3>
+                  <div class="mt-3 border-y border-[#c8c6bf]">
+                    {monthGroup.updates.map((update, index) => {
+                      const previousUpdate = monthGroup.updates[index - 1];
+                      const isFirstOnDate = previousUpdate?.date !== update.date;
+                      const hasMultipleOnDate = (exactDateCounts[update.date] ?? 0) > 1;
+                      const dateAnchorId =
+                        hasMultipleOnDate && isFirstOnDate ? `date-${update.date}` : undefined;
+
+                      return (
+                        <UpdateEntry
+                          update={update}
+                          showLinks
+                          headingLevel="h4"
+                          dateAnchorId={dateAnchorId}
+                        />
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<script>
+  function initialiseUpdateFilters() {
+    document.querySelectorAll<HTMLElement>('[data-update-filters]').forEach((filterRoot) => {
+      if (filterRoot.dataset.ready === 'true') return;
+
+      const buttons = [...filterRoot.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+      const status = filterRoot.querySelector<HTMLElement>('[data-filter-status]');
+
+      const applyFilter = (category: string, announce = true) => {
+        const entries = [...document.querySelectorAll<HTMLElement>('[data-update-entry]')];
+        entries.forEach((entry) => {
+          entry.hidden = category !== 'all' && entry.dataset.updateCategory !== category;
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-month-group]').forEach((month) => {
+          month.hidden = !month.querySelector('[data-update-entry]:not([hidden])');
+        });
+        document.querySelectorAll<HTMLElement>('[data-year-group]').forEach((year) => {
+          year.hidden = !year.querySelector('[data-month-group]:not([hidden])');
+        });
+
+        buttons.forEach((button) => {
+          button.setAttribute('aria-pressed', String(button.dataset.filter === category));
+        });
+
+        if (status && announce) {
+          const visibleCount = entries.filter((entry) => !entry.hidden).length;
+          status.textContent = `${visibleCount} ${visibleCount === 1 ? 'update' : 'updates'} shown.`;
+        }
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => applyFilter(button.dataset.filter ?? 'all'));
+      });
+
+      filterRoot.dataset.ready = 'true';
+      applyFilter('all', false);
+
+      const revealHashTarget = () => {
+        if (!window.location.hash) return;
+        const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+        if (!target) return;
+
+        applyFilter('all', false);
+        const entry = target.matches('[data-update-entry]')
+          ? target
+          : target.closest<HTMLElement>('[data-update-entry]');
+        entry?.focus({ preventScroll: true });
+      };
+
+      revealHashTarget();
+      window.addEventListener('hashchange', revealHashTarget);
+    });
+  }
+
+  initialiseUpdateFilters();
+  document.addEventListener('astro:page-load', initialiseUpdateFilters);
+</script>
+
+<style>
+  .update-filter {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid transparent;
+    padding: 0.25rem 0.1rem;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    text-align: left;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .update-filter:hover {
+    color: var(--color-text);
+  }
+
+  .update-filter[aria-pressed='true'] {
+    border-color: var(--color-signal);
+    color: var(--color-text);
+  }
+
+  .filter-marker {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: none;
+    border-radius: 9999px;
+    background: var(--category-color);
+  }
+
+  .filter-count {
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
+  :global(html.dark) .filter-marker {
+    background: var(--category-color-dark);
+  }
+
+  [data-year-group][hidden],
+  [data-month-group][hidden],
+  [data-update-entry][hidden] {
+    display: none;
+  }
+</style>

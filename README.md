@@ -6,15 +6,15 @@ A minimalistic, academic-grade portfolio built with [Astro](https://astro.build)
 
 ## Stack
 
-| Tool | Purpose |
-|------|---------|
-| Astro 4 | Static site generation |
-| TypeScript | Type safety throughout |
-| Tailwind CSS | Utility-first styling |
-| MDX | Rich content for blog posts |
+| Tool                      | Purpose                      |
+| ------------------------- | ---------------------------- |
+| Astro 4                   | Static site generation       |
+| TypeScript                | Type safety throughout       |
+| Tailwind CSS              | Utility-first styling        |
+| MDX                       | Rich content for blog posts  |
 | Astro Content Collections | Type-safe content management |
-| GitHub Actions | CI/CD pipeline |
-| GitHub Pages | Hosting |
+| GitHub Actions            | CI/CD pipeline               |
+| GitHub Pages              | Hosting                      |
 
 ---
 
@@ -64,7 +64,8 @@ src/
 │   ├── social.ts       # GitHub, Scholar, ORCID, LinkedIn
 │   ├── research.ts     # Research area descriptions
 │   ├── navigation.ts   # Navigation links
-│   └── experience.ts   # Education, experience, awards, skills
+│   ├── experience.ts   # Education, experience, funding, awards, service, languages
+│   └── updates.ts      # Chronological academic updates shown on the home page
 ├── layouts/            # BaseLayout, PageLayout, MarkdownLayout
 ├── pages/              # One .astro file per route
 ├── styles/             # global.css (Tailwind base + custom layers)
@@ -81,9 +82,32 @@ Edit `src/data/profile.ts` — name, title, institution, email, bio text.
 
 Edit `src/data/social.ts` — GitHub, Google Scholar, ORCID, LinkedIn URLs.
 
-Edit `src/data/experience.ts` — education, work experience, awards, service, skills.
+Edit `src/data/experience.ts` — education, work experience, fellowships and grants, awards, service, and languages.
 
 Edit `src/data/research.ts` — research area titles, descriptions, and keywords.
+
+### Academic updates
+
+Add an item to `src/data/updates.ts`. The home page and `/updates/` share this source, sort entries newest first, and update automatically, so no layout changes are needed.
+
+Use only the date precision you can verify: `YYYY`, `YYYY-MM`, or `YYYY-MM-DD`.
+Only a full `YYYY-MM-DD` date is marked on the calendar; month-only and year-only updates remain in the chronological lists without an invented day. Keep the `slug` stable after publishing because it is the update's permanent anchor.
+
+```ts
+{
+  slug: 'example-seminar-talk',
+  date: '2027-03',
+  category: 'Talk',
+  title: 'Presented research at Example Seminar',
+  description: 'A concise, factual description of the activity.',
+  location: 'Padova, Italy', // optional
+  links: [ // optional
+    { label: 'Event page', href: 'https://example.org/event' },
+  ],
+},
+```
+
+Allowed categories are `Research`, `Publication`, `Award`, `Fellowship`, `Talk`, `Conference`, `Event`, and `Academic Service`. Their shared labels and accessible light/dark colors are defined once in `updateCategoryMeta` in the same file.
 
 ### Publications
 
@@ -96,15 +120,15 @@ YYYY-short-title.md
 Required frontmatter fields:
 
 ```yaml
-title: "Paper title"
+title: 'Paper title'
 authors:
-  - "Your Name"          # Must match profile.name exactly to be bolded
-  - "Coauthor Name"
-venue: "Venue name"
+  - 'Your Name' # Must match profile.name exactly to be bolded
+  - 'Coauthor Name'
+venue: 'Venue name'
 year: 2025
-type: "conference"       # journal | conference | workshop | preprint | book-chapter | poster | demo | thesis
-status: "published"      # published | accepted | under-review | preprint | in-preparation
-featured: true           # show on homepage
+type: 'conference' # journal | conference | workshop | preprint | book-chapter | poster | demo | thesis
+status: 'published' # published | accepted | under-review | preprint | in-preparation
+featured: true # show on homepage
 ```
 
 Optional: `doi`, `pdf`, `code`, `slides`, `bibtex`, `tags`.
@@ -116,11 +140,11 @@ The body of the file is not currently rendered on the publications page but can 
 Create a new file in `src/content/talks/`:
 
 ```yaml
-title: "Talk title"
-event: "Conference or event name"
-location: "City, Country"
+title: 'Talk title'
+event: 'Conference or event name'
+location: 'City, Country'
 date: 2025-06-15
-type: "conference-talk"  # conference-talk | invited-talk | seminar | poster | workshop | lecture | panel
+type: 'conference-talk' # conference-talk | invited-talk | seminar | poster | workshop | lecture | panel
 featured: true
 ```
 
@@ -131,11 +155,11 @@ Optional: `slides`, `video`, `tags`.
 Create a new file in `src/content/projects/`. The body (Markdown) is not currently rendered on the listing page but can be used for extended notes.
 
 ```yaml
-title: "Project title"
-summary: "One paragraph summary."
+title: 'Project title'
+summary: 'One paragraph summary.'
 startDate: 2024-01-01
-status: "active"         # active | completed | archived
-role: "Lead Researcher"
+status: 'active' # active | completed | archived
+role: 'Lead Researcher'
 technologies:
   - Python
   - Linux
@@ -149,8 +173,8 @@ Optional: `endDate`, `links.github`, `links.demo`, `links.paper`, `tags`.
 Create a new `.md` or `.mdx` file in `src/content/posts/`:
 
 ```yaml
-title: "Post title"
-description: "Short description."
+title: 'Post title'
+description: 'Short description.'
 date: 2025-05-01
 draft: false
 tags:
@@ -164,13 +188,13 @@ Set `draft: true` to hide a post from the listing.
 Create a new file in `src/content/teaching/`:
 
 ```yaml
-title: "Course or activity name"
-institution: "University name"
-academicYear: "2024–2025"
-role: "Teaching Assistant"
-type: "ta"               # course | ta | supervision | workshop | guest-lecture | training
-description: "Short description."
-order: 10                # higher numbers appear first
+title: 'Course or activity name'
+institution: 'University name'
+academicYear: '2024–2025'
+role: 'Teaching Assistant'
+type: 'ta' # course | ta | supervision | workshop | guest-lecture | training
+description: 'Short description.'
+order: 10 # higher numbers appear first
 ```
 
 ---
@@ -217,12 +241,12 @@ Body uses **Inter** (loaded from Google Fonts). Headings use **Charter/Georgia**
 
 ## Lighthouse targets
 
-| Category | Target |
-|---------|--------|
-| Performance | 95+ |
-| Accessibility | 95+ |
-| SEO | 95+ |
-| Best Practices | 95+ |
+| Category       | Target |
+| -------------- | ------ |
+| Performance    | 95+    |
+| Accessibility  | 95+    |
+| SEO            | 95+    |
+| Best Practices | 95+    |
 
 ---
 
@@ -243,9 +267,9 @@ The repository includes an automated workflow that periodically fetches your pub
 
 Go to your repository → **Settings → Secrets and variables → Actions → New repository secret** and add:
 
-| Secret name | Value |
-|-------------|-------|
-| `ORCID_ID`   | Your ORCID iD, e.g. `0000-0000-0000-0000` |
+| Secret name  | Value                                                                           |
+| ------------ | ------------------------------------------------------------------------------- |
+| `ORCID_ID`   | Your ORCID iD, e.g. `0000-0000-0000-0000`                                       |
 | `OWNER_NAME` | Your name exactly as it appears in ORCID author lists, e.g. `Álvaro Researcher` |
 
 **Step 2 — Grant Actions write permission**
@@ -262,15 +286,15 @@ Each new file looks like this:
 
 ```markdown
 ---
-title: "Your Paper Title"
+title: 'Your Paper Title'
 authors:
-  - "Álvaro Researcher"
-  - "Coauthor Name"
-venue: "IEEE Some Conference"
+  - 'Álvaro Researcher'
+  - 'Coauthor Name'
+venue: 'IEEE Some Conference'
 year: 2025
-type: "conference"
-status: "published"
-doi: "https://doi.org/10.1109/example"
+type: 'conference'
+status: 'published'
+doi: 'https://doi.org/10.1109/example'
 pdf: ~
 code: ~
 slides: ~
