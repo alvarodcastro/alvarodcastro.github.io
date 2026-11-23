@@ -152,7 +152,7 @@ export const academicUpdates: AcademicUpdate[] = [
     slug: 'smart-parking-paper-accepted-sat-cps-2026',
     date: '2026-04-18',
     category: 'Publication',
-    title: 'Smart-parking CPS security paper accepted at SaT-CPS 2026',
+    title: 'Paper accepted at 6th ACM Workshop on Secure and Trustworthy Cyber-Physical Systems (SaT-CPS) 2026',
     description:
       'The paper “Attack Modelling and Intrusion Detection in a CAN-Based Smart Parking Cyber-Physical System” was accepted for presentation at the 6th ACM Workshop on Secure and Trustworthy Cyber-Physical Systems.',
     links: [
