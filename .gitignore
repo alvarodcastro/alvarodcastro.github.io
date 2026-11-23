@@ -20,5 +20,11 @@ Thumbs.db
 .idea/
 *.swp
 
+# Agent tooling
+.agents/
+skills-lock.json
+
+# Local review artifacts
+.artifacts/
 
 src/content/drafts/*

@@ -1,0 +1,136 @@
+---
+import type { AcademicUpdate } from '@/data/updates';
+import { formatUpdateDate } from '@/utils/updates';
+import UpdateCategory from './UpdateCategory.astro';
+
+interface Props {
+  update: AcademicUpdate;
+  compact?: boolean;
+  showLinks?: boolean;
+  revealDelay?: number;
+  dateAnchorId?: string;
+  headingLevel?: 'h3' | 'h4';
+}
+
+const {
+  update,
+  compact = false,
+  showLinks = false,
+  revealDelay,
+  dateAnchorId,
+  headingLevel = 'h3',
+} = Astro.props;
+const permalink = `/updates/#${update.slug}`;
+const titleClass = [
+  'font-serif font-medium leading-snug tracking-[-0.015em] text-[#172033]',
+  compact ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-[1.7rem]',
+];
+---
+
+<article
+  id={compact ? undefined : update.slug}
+  tabindex={compact ? undefined : '-1'}
+  data-update-entry
+  data-update-category={update.category}
+  data-update-date={update.date}
+  data-reveal={compact ? '' : undefined}
+  style={revealDelay === undefined ? undefined : `--reveal-delay: ${revealDelay}ms`}
+  class:list={[
+    'update-entry interactive-row relative grid gap-4 border-b border-[#d8d6cf] py-7 last:border-0 sm:gap-8',
+    compact ? 'sm:grid-cols-[7rem_1fr] sm:py-8' : 'sm:grid-cols-[8rem_1fr] sm:py-9',
+  ]}
+>
+  {dateAnchorId && <span id={dateAnchorId} class="date-anchor" aria-hidden="true" />}
+
+  <div>
+    <time
+      datetime={update.date}
+      class="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#73766f]"
+    >
+      {formatUpdateDate(update.date)}
+    </time>
+    <div class="mt-2">
+      <UpdateCategory category={update.category} />
+    </div>
+    {update.location && <p class="mt-2 text-xs leading-5 text-[#73766f]">{update.location}</p>}
+  </div>
+
+  <div>
+    {
+      headingLevel === 'h4' ? (
+        <h4 class:list={titleClass}>
+          <a href={permalink} class="update-title-link">
+            {update.title}
+          </a>
+        </h4>
+      ) : (
+        <h3 class:list={titleClass}>
+          <a href={permalink} class="update-title-link">
+            {update.title}
+          </a>
+        </h3>
+      )
+    }
+    <p class="mt-2 max-w-2xl text-sm leading-6 text-[#666a73]">{update.description}</p>
+
+    {
+      showLinks && update.links && update.links.length > 0 && (
+        <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2" aria-label="Related links">
+          {update.links.map((link) => {
+            const isExternal = link.href.startsWith('http');
+
+            return (
+              <li>
+                <a
+                  href={link.href}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                  class="text-link text-xs"
+                  aria-label={isExternal ? `${link.label} (opens in a new tab)` : undefined}
+                >
+                  {link.label}
+                  <span aria-hidden="true">{isExternal ? '↗' : '→'}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .update-entry,
+  .date-anchor {
+    scroll-margin-top: 6rem;
+  }
+
+  .date-anchor {
+    position: absolute;
+    top: 0;
+  }
+
+  .update-entry:focus-visible {
+    outline-offset: 0.4rem;
+  }
+
+  .update-title-link {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    transition:
+      color 200ms ease,
+      text-decoration-color 200ms ease;
+  }
+
+  .update-title-link:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .update-title-link:focus-visible {
+    text-decoration-color: currentColor;
+  }
+</style>

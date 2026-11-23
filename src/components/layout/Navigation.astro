@@ -1,5 +1,5 @@
 ---
-import { navItems } from '@/data/navigation';
+import { moreNavItems, navItems } from '@/data/navigation';
 
 const pathname = Astro.url.pathname;
 
@@ -7,20 +7,150 @@ function isActive(href: string): boolean {
   if (href === '/') return pathname === '/';
   return pathname.startsWith(href);
 }
+
+const moreIsActive = moreNavItems.some((item) => isActive(item.href));
 ---
 
 <nav aria-label="Primary navigation" class="hidden items-center gap-6 md:flex lg:gap-8">
-  {navItems.map((item) => (
-    <a
-      href={item.href}
-      class={`nav-item relative py-2 text-xs font-bold transition-colors duration-300 ${
-        isActive(item.href)
+  {
+    navItems.map((item) => (
+      <a
+        href={item.href}
+        class={`nav-item relative py-2 text-xs font-bold transition-colors duration-300 ${
+          isActive(item.href)
+            ? 'text-[#1E3A8A] after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-[#DF5B38]'
+            : 'text-[#666a73] hover:text-[#172033]'
+        }`}
+        aria-current={isActive(item.href) ? 'page' : undefined}
+      >
+        {item.label}
+      </a>
+    ))
+  }
+
+  <div class="relative" data-more-navigation>
+    <button
+      type="button"
+      data-more-toggle
+      aria-expanded="false"
+      aria-controls="more-navigation-panel"
+      class:list={[
+        'nav-item relative inline-flex items-center gap-1.5 py-2 text-xs font-bold transition-colors duration-300',
+        moreIsActive
           ? 'text-[#1E3A8A] after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-1 after:-translate-x-1/2 after:rounded-full after:bg-[#DF5B38]'
-          : 'text-[#666a73] hover:text-[#172033]'
-      }`}
-      aria-current={isActive(item.href) ? 'page' : undefined}
+          : 'text-[#666a73] hover:text-[#172033]',
+      ]}
     >
-      {item.label}
-    </a>
-  ))}
+      More
+      <svg
+        data-more-chevron
+        aria-hidden="true"
+        viewBox="0 0 12 12"
+        class="h-3 w-3 transition-transform duration-200"
+      >
+        <path
+          d="m3 4.5 3 3 3-3"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.4"></path>
+      </svg>
+    </button>
+
+    <div
+      id="more-navigation-panel"
+      data-more-panel
+      hidden
+      class="absolute right-0 top-[calc(100%+0.55rem)] z-50 w-40 border border-[#d8d6cf] bg-[#f3f1eb] p-1.5 shadow-[0_14px_32px_rgba(23,32,51,0.1)]"
+    >
+      {
+        moreNavItems.map((item) => (
+          <a
+            href={item.href}
+            data-more-link
+            class:list={[
+              'block border-b border-[#d8d6cf] px-3 py-2.5 text-xs font-bold transition-colors duration-200 last:border-0 hover:text-[#DF5B38]',
+              isActive(item.href) ? 'text-[#1E3A8A]' : 'text-[#172033]',
+            ]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </nav>
+
+<script>
+  function setMoreNavigation(open: boolean, restoreFocus = false) {
+    const toggle = document.querySelector<HTMLButtonElement>('[data-more-toggle]');
+    const panel = document.querySelector<HTMLElement>('[data-more-panel]');
+    const chevron = document.querySelector<HTMLElement>('[data-more-chevron]');
+    if (!toggle || !panel) return;
+
+    toggle.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+    chevron?.classList.toggle('rotate-180', open);
+    if (restoreFocus) toggle.focus();
+  }
+
+  function initialiseMoreNavigation() {
+    setMoreNavigation(false);
+  }
+
+  if (!document.documentElement.dataset.moreNavigationReady) {
+    document.documentElement.dataset.moreNavigationReady = 'true';
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as Element;
+      const toggle = target.closest('[data-more-toggle]');
+      const wrapper = target.closest('[data-more-navigation]');
+
+      if (toggle) {
+        setMoreNavigation(toggle.getAttribute('aria-expanded') !== 'true');
+        return;
+      }
+
+      if (!wrapper || target.closest('[data-more-link]')) setMoreNavigation(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const target = event.target as HTMLElement;
+      const wrapper = target.closest<HTMLElement>('[data-more-navigation]');
+      const toggle = wrapper?.querySelector<HTMLButtonElement>('[data-more-toggle]');
+      const links = wrapper
+        ? [...wrapper.querySelectorAll<HTMLAnchorElement>('[data-more-link]')]
+        : [];
+
+      if (event.key === 'Escape') {
+        const openToggle = document.querySelector<HTMLButtonElement>(
+          '[data-more-toggle][aria-expanded="true"]'
+        );
+        const isOpen = Boolean(openToggle);
+        if (isOpen) {
+          event.preventDefault();
+          setMoreNavigation(false, true);
+        }
+        return;
+      }
+
+      if (!wrapper || !toggle || !['ArrowDown', 'ArrowUp'].includes(event.key)) return;
+
+      event.preventDefault();
+      setMoreNavigation(true);
+      const currentIndex = links.indexOf(target as HTMLAnchorElement);
+      if (target === toggle) {
+        (event.key === 'ArrowDown' ? links[0] : links.at(-1))?.focus();
+        return;
+      }
+
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
+      links[(currentIndex + direction + links.length) % links.length]?.focus();
+    });
+  }
+
+  initialiseMoreNavigation();
+  document.addEventListener('astro:page-load', initialiseMoreNavigation);
+</script>

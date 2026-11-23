@@ -1,0 +1,40 @@
+---
+import { updateCategoryMeta, type UpdateCategory } from '@/data/updates';
+
+interface Props {
+  category: UpdateCategory;
+}
+
+const { category } = Astro.props;
+const meta = updateCategoryMeta[category];
+const categoryStyle = `--category-color: ${meta.color}; --category-color-dark: ${meta.darkColor};`;
+---
+
+<span class="update-category" style={categoryStyle}>
+  <span class="update-category__marker" aria-hidden="true"></span>
+  {meta.label}
+</span>
+
+<style>
+  .update-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--category-color);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .update-category__marker {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: none;
+    border-radius: 9999px;
+    background: currentColor;
+  }
+
+  :global(html.dark) .update-category {
+    color: var(--category-color-dark);
+  }
+</style>

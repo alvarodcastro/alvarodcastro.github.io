@@ -3,7 +3,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Container from '@/components/ui/Container.astro';
 import { profile } from '@/data/profile';
 import { socialLinks } from '@/data/social';
-import { recognition } from '@/data/recognition';
+import { academicUpdates } from '@/data/updates';
+import UpdatesCalendar from '@/components/updates/UpdatesCalendar.astro';
+import UpdateEntry from '@/components/updates/UpdateEntry.astro';
+import { sortUpdates } from '@/utils/updates';
 import { getCollection } from 'astro:content';
 import { pubTypeLabels } from '@/utils/publications';
 import { existsSync } from 'node:fs';
@@ -14,28 +17,31 @@ const featuredPubs = allPubs
   .sort((a, b) => b.data.year - a.data.year)
   .slice(0, 3);
 
-const githubUrl = socialLinks.find((link) => link.label === 'GitHub')?.href
-  ?? 'https://github.com/alvarodcastro';
+const latestUpdates = sortUpdates(academicUpdates).slice(0, 5);
 
-const hasProfilePhoto = existsSync(
-  new URL(`../../public${profile.photo.src}`, import.meta.url),
-);
+const githubUrl =
+  socialLinks.find((link) => link.label === 'GitHub')?.href ?? 'https://github.com/alvarodcastro';
+
+const hasProfilePhoto = existsSync(new URL(`../../public${profile.photo.src}`, import.meta.url));
 
 const focusAreas = [
   {
     number: '01',
     title: 'Context-aware threat detection',
-    description: 'Developing intrusion and anomaly-detection methods that use operational and environmental context to identify insider and sensor-based attacks.',
+    description:
+      'Developing intrusion and anomaly-detection methods that use operational and environmental context to identify insider and sensor-based attacks.',
   },
   {
     number: '02',
     title: 'Collaborative perception security',
-    description: 'Securing shared environmental information in autonomous systems and evaluating data received from connected, apparently trusted participants.',
+    description:
+      'Securing shared environmental information in autonomous systems and evaluating data received from connected, apparently trusted participants.',
   },
   {
     number: '03',
     title: 'Cyber-physical resilience',
-    description: 'Studying how stealthy attacks affect safety-sensitive decisions in transportation and other cyber-physical systems.',
+    description:
+      'Studying how stealthy attacks affect safety-sensitive decisions in transportation and other cyber-physical systems.',
   },
 ];
 ---
@@ -43,63 +49,116 @@ const focusAreas = [
 <BaseLayout title={undefined} description={profile.summary}>
   <section class="pb-20 pt-14 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
     <Container>
-      <div class="grid gap-14 lg:grid-cols-[minmax(0,1.45fr)_minmax(19rem,0.55fr)] lg:items-end lg:gap-20">
+      <div
+        class="grid gap-14 lg:grid-cols-[minmax(0,1.45fr)_minmax(19rem,0.55fr)] lg:items-end lg:gap-20"
+      >
         <div>
           <p data-reveal class="eyebrow">{profile.name} · Cybersecurity researcher</p>
-          <h1 data-reveal style="--reveal-delay: 90ms" class="mt-6 max-w-4xl font-serif text-[clamp(3.2rem,8vw,6.9rem)] font-medium leading-[0.89] tracking-[-0.055em] text-[#172033]">
+          <h1
+            data-reveal
+            style="--reveal-delay: 90ms"
+            class="mt-6 max-w-4xl font-serif text-[clamp(3.2rem,8vw,6.9rem)] font-medium leading-[0.89] tracking-[-0.055em] text-[#172033]"
+          >
             Security for systems that <span class="text-[#1E3A8A]">move, sense,</span> and decide.
           </h1>
-          <p data-reveal style="--reveal-delay: 170ms" class="mt-8 max-w-2xl text-base leading-7 text-[#555b67] sm:text-lg sm:leading-8">
-            {profile.shortBio} My work turns real attack surfaces into reproducible experiments and practical defenses.
+          <p
+            data-reveal
+            style="--reveal-delay: 170ms"
+            class="mt-8 max-w-2xl text-base leading-7 text-[#555b67] sm:text-lg sm:leading-8"
+          >
+            {profile.shortBio} My work turns real attack surfaces into reproducible experiments and practical
+            defenses.
           </p>
-          <div data-reveal style="--reveal-delay: 240ms" class="mt-9 flex flex-wrap gap-3">
-            <a href="/publications" class="btn-primary">
-              View publications
-              <span aria-hidden="true">→</span>
+          <div data-reveal style="--reveal-delay: 240ms" class="mt-9">
+            <div class="flex flex-wrap gap-3">
+              <a href="/publications/" class="btn-primary">
+                View publications
+                <span aria-hidden="true">→</span>
+              </a>
+              <a href="/cv/" class="btn-secondary">View CV</a>
+            </div>
+            <a href={`mailto:${profile.email}`} class="text-link mt-4">
+              Email me <span aria-hidden="true">→</span>
             </a>
-            <a href={`mailto:${profile.email}`} class="btn-secondary">Email me</a>
           </div>
         </div>
 
         <div>
-          {hasProfilePhoto && (
-            <figure data-reveal="fade" style="--reveal-delay: 130ms" class="portrait-card mb-6 overflow-hidden rounded-[1.5rem] border border-[#c8c6bf] bg-[#e6e3dc]">
-              <img
-                src={profile.photo.src}
-                alt={profile.photo.alt}
-                width="720"
-                height="900"
-                loading="eager"
-                fetchpriority="high"
-                class="aspect-[4/5] w-full object-cover grayscale-[12%]"
-                style={`object-position: ${profile.photo.position ?? 'center'};`}
-              />
-            </figure>
-          )}
-          <aside data-reveal style="--reveal-delay: 220ms" class="relative overflow-hidden border-y border-[#c8c6bf] py-7 lg:mb-1" aria-label="Current position">
-            <div class="ambient-ring pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[#DF5B38]/30" aria-hidden="true"></div>
-            <div class="ambient-ring ambient-ring-slow pointer-events-none absolute -right-5 -top-5 h-24 w-24 rounded-full border border-[#1E3A8A]/20" aria-hidden="true"></div>
+          {
+            hasProfilePhoto && (
+              <figure
+                data-reveal="fade"
+                style="--reveal-delay: 130ms"
+                class="portrait-card mb-6 overflow-hidden rounded-[1.5rem] border border-[#c8c6bf] bg-[#e6e3dc]"
+              >
+                <img
+                  src={profile.photo.src}
+                  alt={profile.photo.alt}
+                  width="720"
+                  height="900"
+                  loading="eager"
+                  fetchpriority="high"
+                  class="aspect-[4/5] w-full object-cover grayscale-[12%]"
+                  style={`object-position: ${profile.photo.position ?? 'center'};`}
+                />
+              </figure>
+            )
+          }
+          <aside
+            data-reveal
+            style="--reveal-delay: 220ms"
+            class="relative overflow-hidden border-y border-[#c8c6bf] py-7 lg:mb-1"
+            aria-label="Current position"
+          >
+            <div
+              class="ambient-ring pointer-events-none absolute -right-14 -top-14 h-40 w-40 rounded-full border border-[#DF5B38]/30"
+              aria-hidden="true"
+            >
+            </div>
+            <div
+              class="ambient-ring ambient-ring-slow pointer-events-none absolute -right-5 -top-5 h-24 w-24 rounded-full border border-[#1E3A8A]/20"
+              aria-hidden="true"
+            >
+            </div>
             <p class="eyebrow">Current</p>
             <dl class="mt-7 space-y-5">
               <div class="grid grid-cols-[3.5rem_1fr] gap-3">
-                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">Role</dt>
-                <dd class="text-sm font-semibold leading-5 text-[#172033]">Marie Skłodowska-Curie Doctoral Fellow</dd>
+                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">
+                  Role
+                </dt>
+                <dd class="text-sm font-semibold leading-5 text-[#172033]">
+                  Marie Skłodowska-Curie Doctoral Fellow
+                </dd>
               </div>
               <div class="grid grid-cols-[3.5rem_1fr] gap-3">
-                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">Group</dt>
-                <dd class="text-sm font-semibold leading-5 text-[#172033]">SPRITZ · University of Padua</dd>
+                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">
+                  Group
+                </dt>
+                <dd class="text-sm font-semibold leading-5 text-[#172033]">
+                  SPRITZ · University of Padua
+                </dd>
               </div>
               <div class="grid grid-cols-[3.5rem_1fr] gap-3">
-                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">Based</dt>
+                <dt class="text-[0.65rem] font-bold uppercase tracking-[0.15em] text-[#92948e]">
+                  Based
+                </dt>
                 <dd class="text-sm font-semibold leading-5 text-[#172033]">Padova, Italy</dd>
               </div>
             </dl>
             <div class="mt-7 flex flex-wrap gap-x-4 gap-y-2 border-t border-[#d8d6cf] pt-5">
-              {socialLinks.map((link) => (
-                <a href={link.href} target="_blank" rel="noopener noreferrer" class="text-link text-xs">
-                  {link.label}<span aria-hidden="true">↗</span>
-                </a>
-              ))}
+              {
+                socialLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-link text-xs"
+                  >
+                    {link.label}
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                ))
+              }
             </div>
           </aside>
         </div>
@@ -112,115 +171,160 @@ const focusAreas = [
       <div class="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
         <div data-reveal>
           <p class="eyebrow">Research focus</p>
-          <h2 id="focus-heading" class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl">
+          <h2
+            id="focus-heading"
+            class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl"
+          >
             Where the digital meets the physical
           </h2>
         </div>
         <div class="divide-y divide-[#d8d6cf] border-y border-[#d8d6cf]">
-          {focusAreas.map((area, index) => (
-            <article data-reveal style={`--reveal-delay: ${Math.min(index * 70, 210)}ms`} class="interactive-row grid gap-3 py-6 sm:grid-cols-[3rem_12rem_1fr] sm:gap-6">
-              <span class="text-[0.68rem] font-bold tracking-[0.14em] text-[#DF5B38]">{area.number}</span>
-              <h3 class="font-serif text-xl font-medium text-[#172033]">{area.title}</h3>
-              <p class="max-w-xl text-sm leading-6 text-[#666a73]">{area.description}</p>
-            </article>
-          ))}
+          {
+            focusAreas.map((area, index) => (
+              <article
+                data-reveal
+                style={`--reveal-delay: ${Math.min(index * 70, 210)}ms`}
+                class="interactive-row grid gap-3 py-6 sm:grid-cols-[3rem_12rem_1fr] sm:gap-6"
+              >
+                <span class="text-[0.68rem] font-bold tracking-[0.14em] text-[#DF5B38]">
+                  {area.number}
+                </span>
+                <h3 class="font-serif text-xl font-medium text-[#172033]">{area.title}</h3>
+                <p class="max-w-xl text-sm leading-6 text-[#666a73]">{area.description}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
     </Container>
   </section>
 
-  <section class="section-rule bg-[#faf9f5]/60 py-16 sm:py-24" aria-labelledby="recognition-heading">
+  <section class="section-rule bg-[#faf9f5]/60 py-16 sm:py-24" aria-labelledby="updates-heading">
     <Container>
       <div class="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
         <div data-reveal>
-          <p class="eyebrow">Recognition & funding</p>
-          <h2 id="recognition-heading" class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl">
-            Support behind the research
+          <p class="eyebrow">Academic activity</p>
+          <h2
+            id="updates-heading"
+            class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl"
+          >
+            Latest Updates
           </h2>
           <p class="mt-4 max-w-xs text-sm leading-6 text-[#73766f]">
-            Fellowships, grants, and distinctions supporting my academic work.
+            Recent academic and professional milestones.
           </p>
+          <a href="/updates/" class="text-link mt-6">
+            View all updates <span aria-hidden="true">→</span>
+          </a>
+          <div class="mt-8">
+            <UpdatesCalendar updates={academicUpdates} label="Recent academic updates by month" />
+          </div>
         </div>
 
         <div class="border-y border-[#c8c6bf]">
-          {recognition.map((item, index) => (
-            <article data-reveal style={`--reveal-delay: ${Math.min(index * 80, 240)}ms`} class="interactive-row grid gap-6 border-b border-[#d8d6cf] py-8 last:border-0 sm:grid-cols-[9rem_1fr] sm:gap-10 sm:py-10">
-              <div>
-                <p class="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#DF5B38]">{item.period}</p>
-                <p class="mt-4 font-serif text-4xl font-medium tracking-[-0.04em] text-[#1E3A8A]">{item.mark}</p>
-              </div>
-              <div>
-                <p class="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#81847f]">{item.type}</p>
-                <h3 class="mt-2 font-serif text-2xl font-medium leading-tight tracking-[-0.02em] text-[#172033] sm:text-3xl">
-                  {item.title}
-                </h3>
-                <p class="mt-2 text-sm font-bold text-[#1E3A8A]">{item.programme}</p>
-                <p class="mt-4 max-w-2xl text-sm leading-6 text-[#666a73]">{item.description}</p>
-                <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2" aria-label="Programme details">
-                  {item.facts.map((fact) => (
-                    <li class="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-[#81847f]">{fact}</li>
-                  ))}
-                </ul>
-                {item.href && (
-                  <a href={item.href} target="_blank" rel="noopener noreferrer" class="text-link mt-6">
-                    More about the project <span aria-hidden="true">↗</span>
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
+          {
+            latestUpdates.map((update, index) => (
+              <UpdateEntry update={update} compact revealDelay={Math.min(index * 80, 240)} />
+            ))
+          }
         </div>
       </div>
     </Container>
   </section>
 
-  {featuredPubs.length > 0 && (
-    <section class="section-rule py-16 sm:py-24" aria-labelledby="publications-heading">
-      <Container>
-        <div class="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
-          <div data-reveal>
-            <p class="eyebrow">Publications</p>
-            <h2 id="publications-heading" class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl">
-              Selected papers and reports
-            </h2>
-            <a href="/publications" class="text-link mt-6">Complete list <span aria-hidden="true">→</span></a>
+  {
+    featuredPubs.length > 0 && (
+      <section class="section-rule py-16 sm:py-24" aria-labelledby="publications-heading">
+        <Container>
+          <div class="grid gap-10 lg:grid-cols-[15rem_1fr] lg:gap-16">
+            <div data-reveal>
+              <p class="eyebrow">Publications</p>
+              <h2
+                id="publications-heading"
+                class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl"
+              >
+                Selected papers and reports
+              </h2>
+              <a href="/publications" class="text-link mt-6">
+                Complete list <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <div class="divide-y divide-[#d8d6cf] border-y border-[#d8d6cf]">
+              {featuredPubs.map((publication, index) => (
+                <article
+                  data-reveal
+                  style={`--reveal-delay: ${Math.min(index * 70, 210)}ms`}
+                  class="interactive-row py-6"
+                >
+                  <div class="mb-3 flex flex-wrap items-center gap-3 text-[0.67rem] font-bold uppercase tracking-[0.13em] text-[#81847f]">
+                    <span class="text-[#DF5B38]">{publication.data.year}</span>
+                    <span>{pubTypeLabels[publication.data.type] ?? publication.data.type}</span>
+                  </div>
+                  <h3 class="font-serif text-xl font-medium leading-snug text-[#172033] sm:text-2xl">
+                    {publication.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm leading-6 text-[#666a73]">{publication.data.venue}</p>
+                  <div class="mt-3 flex flex-wrap gap-4">
+                    {publication.data.doi && (
+                      <a
+                        href={publication.data.doi}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-link text-xs"
+                      >
+                        DOI ↗
+                      </a>
+                    )}
+                    {publication.data.pdf && (
+                      <a
+                        href={publication.data.pdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-link text-xs"
+                      >
+                        PDF ↗
+                      </a>
+                    )}
+                    {publication.data.code && (
+                      <a
+                        href={publication.data.code}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-link text-xs"
+                      >
+                        Code ↗
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
-          <div class="divide-y divide-[#d8d6cf] border-y border-[#d8d6cf]">
-            {featuredPubs.map((publication, index) => (
-              <article data-reveal style={`--reveal-delay: ${Math.min(index * 70, 210)}ms`} class="interactive-row py-6">
-                <div class="mb-3 flex flex-wrap items-center gap-3 text-[0.67rem] font-bold uppercase tracking-[0.13em] text-[#81847f]">
-                  <span class="text-[#DF5B38]">{publication.data.year}</span>
-                  <span>{pubTypeLabels[publication.data.type] ?? publication.data.type}</span>
-                </div>
-                <h3 class="font-serif text-xl font-medium leading-snug text-[#172033] sm:text-2xl">
-                  {publication.data.title}
-                </h3>
-                <p class="mt-2 text-sm leading-6 text-[#666a73]">{publication.data.venue}</p>
-                <div class="mt-3 flex flex-wrap gap-4">
-                  {publication.data.doi && <a href={publication.data.doi} target="_blank" rel="noopener noreferrer" class="text-link text-xs">DOI ↗</a>}
-                  {publication.data.pdf && <a href={publication.data.pdf} target="_blank" rel="noopener noreferrer" class="text-link text-xs">PDF ↗</a>}
-                  {publication.data.code && <a href={publication.data.code} target="_blank" rel="noopener noreferrer" class="text-link text-xs">Code ↗</a>}
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
-  )}
+        </Container>
+      </section>
+    )
+  }
 
   <section class="section-rule py-16 sm:py-20" aria-labelledby="code-heading">
     <Container>
       <div class="grid gap-8 lg:grid-cols-[15rem_1fr] lg:items-start lg:gap-16">
         <div data-reveal>
           <p class="eyebrow">Code & experiments</p>
-          <h2 id="code-heading" class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl">
+          <h2
+            id="code-heading"
+            class="mt-3 font-serif text-3xl font-medium tracking-[-0.025em] text-[#172033] sm:text-4xl"
+          >
             Beyond the papers
           </h2>
         </div>
-        <div data-reveal style="--reveal-delay: 80ms" class="border-y border-[#c8c6bf] py-8 sm:flex sm:items-center sm:justify-between sm:gap-10">
+        <div
+          data-reveal
+          style="--reveal-delay: 80ms"
+          class="border-y border-[#c8c6bf] py-8 sm:flex sm:items-center sm:justify-between sm:gap-10"
+        >
           <p class="max-w-2xl text-base leading-7 text-[#555b67]">
-            Some of the projects, experiments, and code developed alongside my research can be found on GitHub.
+            Some of the projects, experiments, and code developed alongside my research can be found
+            on GitHub.
           </p>
           <a
             href={githubUrl}
@@ -237,22 +341,43 @@ const focusAreas = [
 
   <section class="pt-8 sm:pt-12">
     <Container>
-      <div data-reveal="fade" class="relative overflow-hidden rounded-[2rem] bg-[#172033] px-6 py-12 text-white sm:px-12 sm:py-16 lg:px-16">
-        <div class="ambient-ring ambient-ring-slow pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full border border-white/10" aria-hidden="true"></div>
-        <div class="ambient-ring pointer-events-none absolute -right-6 -top-10 h-52 w-52 rounded-full border border-[#DF5B38]/60" aria-hidden="true"></div>
+      <div
+        data-reveal="fade"
+        class="relative overflow-hidden rounded-[2rem] bg-[#172033] px-6 py-12 text-white sm:px-12 sm:py-16 lg:px-16"
+      >
+        <div
+          class="ambient-ring ambient-ring-slow pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full border border-white/10"
+          aria-hidden="true"
+        >
+        </div>
+        <div
+          class="ambient-ring pointer-events-none absolute -right-6 -top-10 h-52 w-52 rounded-full border border-[#DF5B38]/60"
+          aria-hidden="true"
+        >
+        </div>
         <div class="relative max-w-3xl">
           <p class="text-[0.7rem] font-bold uppercase tracking-[0.19em] text-[#f18a6e]">Contact</p>
-          <h2 class="mt-4 font-serif text-4xl font-medium leading-tight tracking-[-0.035em] sm:text-5xl">
+          <h2
+            class="mt-4 font-serif text-4xl font-medium leading-tight tracking-[-0.035em] sm:text-5xl"
+          >
             Interested in secure, resilient cyber-physical systems?
           </h2>
           <p class="mt-5 max-w-xl text-sm leading-6 text-white/65 sm:text-base sm:leading-7">
-            I welcome research collaborations, technical conversations, and opportunities to turn security questions into reproducible work.
+            I welcome research collaborations, technical conversations, and opportunities to turn
+            security questions into reproducible work.
           </p>
           <div class="mt-8 flex flex-wrap items-center gap-5">
-            <a href={`mailto:${profile.email}`} class="inline-flex rounded-full bg-[#DF5B38] px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(223,91,56,0.28)] active:translate-y-0 active:scale-[0.98]">
+            <a
+              href={`mailto:${profile.email}`}
+              class="inline-flex rounded-full bg-[#DF5B38] px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(223,91,56,0.28)] active:translate-y-0 active:scale-[0.98]"
+            >
               {profile.email}
             </a>
-            <a href="/contact" class="text-sm font-bold text-white transition-colors hover:text-[#f18a6e]">More ways to connect →</a>
+            <a
+              href="/contact"
+              class="text-sm font-bold text-white transition-colors hover:text-[#f18a6e]"
+              >More ways to connect →</a
+            >
           </div>
         </div>
       </div>
