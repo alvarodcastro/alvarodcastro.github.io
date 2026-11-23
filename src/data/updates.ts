@@ -140,6 +140,15 @@ export const academicUpdates: AcademicUpdate[] = [
     ],
   },
   {
+    slug: 'talk-2026-05-15',
+    date: '2026-05-15',
+    category: 'Talk',
+    title: 'Gave a talk at UJACKING Hacking Week',
+    description:
+      'Presented “Hack your CAN... and your Car: ¿Se puede hacker un coche real?”. El CAN (Controller Area Network) es uno de los principales protocolos de comunicación tanto en vehículos como en otros sistemas ciber-físicos (CPS). Vemos ejemplos y casos reales de cómo un compromiso en el CAN puede afectar a la seguridad y operación de estos sistemas críticos.',
+    location: 'University of Jaén, Spain',
+  },
+  {
     slug: 'smart-parking-paper-accepted-sat-cps-2026',
     date: '2026-04-18',
     category: 'Publication',
@@ -156,5 +165,12 @@ export const academicUpdates: AcademicUpdate[] = [
         href: 'https://sites.google.com/view/sat-cps2026/',
       },
     ],
+  },
+  {
+    slug: 'masters-thesis-defense',
+    date: '2026-03-26',
+    category: 'Event',
+    title: "Master's thesis defense: Development of Security Auditing Solutions for Automotive In-Vehicle Networks",
+    description: "Defended my Master's thesis. Awarded with distinction.",
   },
 ];

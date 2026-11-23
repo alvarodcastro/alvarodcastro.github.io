@@ -1,0 +1,50 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import ProjectItem from '@/components/academic/ProjectItem.astro';
+import { socialLinks } from '@/data/social';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.startDate.getTime() - a.data.startDate.getTime()
+);
+const githubUrl =
+  socialLinks.find((link) => link.label === 'GitHub')?.href ?? 'https://github.com/alvarodcastro';
+---
+
+<PageLayout
+  title="Projects"
+  description="Code, tools, and practical projects by Alvaro de Castro."
+  pageTitle="Projects"
+  pageSubtitle="Code, tools, and practical work beyond the academic publication record."
+>
+  <div class="py-10 sm:py-12">
+    {
+      projects.length > 0 ? (
+        <div class="border-y border-[#c8c6bf]">
+          {projects.map((project) => (
+            <ProjectItem project={project} />
+          ))}
+        </div>
+      ) : (
+        <div class="border-y border-[#c8c6bf] py-9 sm:flex sm:items-center sm:justify-between sm:gap-10">
+          <div>
+            <h2 class="font-serif text-2xl font-medium text-[#172033]">Project notes are coming</h2>
+            <p class="mt-2 max-w-2xl text-sm leading-6 text-[#666a73]">
+              Detailed project pages will appear here as the code and documentation are ready to
+              share.
+            </p>
+          </div>
+          <a
+            href={githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary mt-6 shrink-0 sm:mt-0"
+            aria-label="Browse GitHub repositories (opens in a new tab)"
+          >
+            Browse GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      )
+    }
+  </div>
+</PageLayout>

@@ -20,7 +20,9 @@ const statusVariant: Record<string, 'success' | 'accent' | 'muted'> = {
 
 const dateRange = endDate
   ? `${formatMonthYear(startDate)} – ${formatMonthYear(endDate)}`
-  : `${formatMonthYear(startDate)} – Present`;
+  : status === 'completed'
+    ? formatMonthYear(startDate)
+    : `${formatMonthYear(startDate)} – Present`;
 ---
 
 <BaseLayout title={title} description={summary}>

@@ -152,7 +152,7 @@ Optional: `slides`, `video`, `tags`.
 
 ### Projects
 
-Create a new file in `src/content/projects/`. The body (Markdown) is not currently rendered on the listing page but can be used for extended notes.
+Create a new file in `src/content/projects/`. Frontmatter populates the listing page, and the Markdown body is rendered on the individual project page. GitHub is the primary project link; a demo and related publication are optional.
 
 ```yaml
 title: 'Project title'

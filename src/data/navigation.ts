@@ -9,3 +9,8 @@ export const navItems: NavItem[] = [
   { label: 'About', href: '/about' },
   { label: 'CV', href: '/cv' },
 ];
+
+export const moreNavItems: NavItem[] = [
+  { label: 'Blog', href: '/blog' },
+  { label: 'Projects', href: '/projects/' },
+];

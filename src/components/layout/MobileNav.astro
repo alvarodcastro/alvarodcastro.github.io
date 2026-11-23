@@ -1,5 +1,14 @@
 ---
-import { navItems } from '@/data/navigation';
+import { moreNavItems, navItems } from '@/data/navigation';
+
+const pathname = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+
+const moreIsActive = moreNavItems.some((item) => isActive(item.href));
 ---
 
 <div class="md:hidden" id="mobile-nav-wrapper">
@@ -11,11 +20,32 @@ import { navItems } from '@/data/navigation';
     aria-label="Open navigation menu"
     class="grid h-10 w-10 place-items-center rounded-full border border-[#c8c6bf] text-[#172033] transition-all duration-300 hover:scale-105 hover:border-[#DF5B38] hover:text-[#DF5B38] active:scale-95"
   >
-    <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 8h14M5 16h14" />
+    <svg
+      id="icon-open"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 8h14M5 16h14"
+      ></path>
     </svg>
-    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="hidden h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 6l12 12M18 6L6 18" />
+    <svg
+      id="icon-close"
+      xmlns="http://www.w3.org/2000/svg"
+      class="hidden h-4 w-4"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.8"
+        d="M6 6l12 12M18 6L6 18"></path>
     </svg>
   </button>
 
@@ -26,21 +56,89 @@ import { navItems } from '@/data/navigation';
     class="pointer-events-none invisible absolute left-0 right-0 top-full z-50 -translate-y-2 border-b border-[#d8d6cf] bg-[#f3f1eb] opacity-0 shadow-[0_18px_40px_rgba(23,32,51,0.08)] transition-[opacity,transform,visibility] duration-300 ease-out"
   >
     <div class="mx-auto flex max-w-6xl flex-col px-5 py-5 sm:px-8">
-      {navItems.map((item, index) => (
-        <a
-          href={item.href}
-          class="flex items-center justify-between border-b border-[#d8d6cf] py-3.5 text-sm font-bold text-[#172033] transition-all duration-300 last:border-0 hover:pl-1 hover:text-[#DF5B38]"
+      {
+        navItems.map((item, index) => (
+          <a
+            href={item.href}
+            class="flex items-center justify-between border-b border-[#d8d6cf] py-3.5 text-sm font-bold text-[#172033] transition-all duration-300 last:border-0 hover:pl-1 hover:text-[#DF5B38]"
+          >
+            <span>{item.label}</span>
+            <span class="text-[0.65rem] font-semibold text-[#92948e]">0{index + 1}</span>
+          </a>
+        ))
+      }
+      <div class="border-b border-[#d8d6cf]">
+        <button
+          type="button"
+          data-mobile-more-toggle
+          aria-expanded="false"
+          aria-controls="mobile-more-navigation"
+          class:list={[
+            'flex w-full items-center justify-between py-3.5 text-sm font-bold transition-colors duration-300 hover:text-[#DF5B38]',
+            moreIsActive ? 'text-[#1E3A8A]' : 'text-[#172033]',
+          ]}
         >
-          <span>{item.label}</span>
-          <span class="text-[0.65rem] font-semibold text-[#92948e]">0{index + 1}</span>
-        </a>
-      ))}
+          <span>More</span>
+          <span class="flex items-center gap-2">
+            <span class="text-[0.65rem] font-semibold text-[#92948e]">0{navItems.length + 1}</span>
+            <svg
+              data-mobile-more-chevron
+              aria-hidden="true"
+              viewBox="0 0 12 12"
+              class="h-3 w-3 transition-transform duration-200"
+            >
+              <path
+                d="m3 4.5 3 3 3-3"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.4"></path>
+            </svg>
+          </span>
+        </button>
+        <div
+          id="mobile-more-navigation"
+          data-mobile-more-panel
+          hidden
+          aria-hidden="true"
+          class="border-t border-[#d8d6cf] pb-2 pl-4"
+        >
+          {
+            moreNavItems.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'flex min-h-11 items-center border-b border-[#d8d6cf] py-2.5 text-sm font-semibold transition-colors duration-200 last:border-0 hover:text-[#DF5B38]',
+                  isActive(item.href) ? 'text-[#1E3A8A]' : 'text-[#555b67]',
+                ]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
       <a href="/contact" class="btn-primary mt-4">Let’s talk</a>
     </div>
   </nav>
 </div>
 
 <script>
+  function setMobileMoreMenu(open: boolean, restoreFocus = false) {
+    const button = document.querySelector<HTMLButtonElement>('[data-mobile-more-toggle]');
+    const panel = document.querySelector<HTMLElement>('[data-mobile-more-panel]');
+    const chevron = document.querySelector<HTMLElement>('[data-mobile-more-chevron]');
+    if (!button || !panel) return;
+
+    button.setAttribute('aria-expanded', String(open));
+    panel.hidden = !open;
+    panel.setAttribute('aria-hidden', String(!open));
+    chevron?.classList.toggle('rotate-180', open);
+    if (restoreFocus) button.focus();
+  }
+
   function setMenu(open: boolean) {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
@@ -56,6 +154,7 @@ import { navItems } from '@/data/navigation';
     btn?.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
     iconOpen?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
+    if (!open) setMobileMoreMenu(false);
   }
 
   document.addEventListener('click', (event) => {
@@ -67,11 +166,34 @@ import { navItems } from '@/data/navigation';
       return;
     }
 
+    const moreButton = target.closest('[data-mobile-more-toggle]');
+    if (moreButton) {
+      setMobileMoreMenu(moreButton.getAttribute('aria-expanded') !== 'true');
+      return;
+    }
+
     const wrapper = document.getElementById('mobile-nav-wrapper');
     if (wrapper && !wrapper.contains(target)) setMenu(false);
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') setMenu(false);
+    if (event.key !== 'Escape') return;
+
+    const moreButton = document.querySelector<HTMLButtonElement>('[data-mobile-more-toggle]');
+    if (moreButton?.getAttribute('aria-expanded') === 'true') {
+      setMobileMoreMenu(false, true);
+      return;
+    }
+
+    const menuButton = document.getElementById('mobile-menu-btn');
+    if (menuButton?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menuButton.focus();
+    }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    setMenu(false);
+    setMobileMoreMenu(false);
   });
 </script>

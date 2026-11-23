@@ -24,38 +24,46 @@ const statusVariant: Record<string, 'success' | 'accent' | 'muted'> = {
   <h3 class="mb-2 font-serif text-xl font-medium leading-snug text-[#172033]">{title}</h3>
   <p class="mb-4 max-w-3xl text-sm leading-relaxed text-[#555b67]">{summary}</p>
 
-  {technologies.length > 0 && (
-    <div class="flex flex-wrap gap-1.5 mb-3">
-      {technologies.map((tech) => (
-        <span class="tag">
-          {tech}
-        </span>
-      ))}
-    </div>
-  )}
+  {
+    technologies.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mb-3">
+        {technologies.map((tech) => (
+          <span class="tag">{tech}</span>
+        ))}
+      </div>
+    )
+  }
 
   <div class="flex flex-wrap items-center gap-3 text-sm">
-    <a
-      href={`/projects/${project.slug}`}
-      class="inline-flex items-center rounded-full border border-[#1E3A8A] px-3 py-1.5 font-semibold text-[#1E3A8A] transition-colors hover:border-[#DF5B38] hover:text-[#DF5B38]"
-    >
-      Project page
+    {
+      links?.github && (
+        <a
+          href={links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+          aria-label="View code on GitHub (opens in a new tab)"
+        >
+          View code <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
+    <a href={`/projects/${project.slug}`} class="text-link">
+      Project details <span aria-hidden="true">→</span>
     </a>
-    {links && Object.values(links).some(Boolean) && (
-      <>
-      {links.github && (
-        <a href={links.github} target="_blank" rel="noopener noreferrer"
-           class="text-[#1E3A8A] hover:underline font-medium">GitHub</a>
-      )}
-      {links.demo && (
-        <a href={links.demo} target="_blank" rel="noopener noreferrer"
-           class="text-[#1E3A8A] hover:underline font-medium">Demo</a>
-      )}
-      {links.paper && (
-        <a href={links.paper} target="_blank" rel="noopener noreferrer"
-           class="text-[#1E3A8A] hover:underline font-medium">Paper</a>
-      )}
-      </>
-    )}
+    {
+      links?.demo && (
+        <a href={links.demo} target="_blank" rel="noopener noreferrer" class="text-link">
+          Demo <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
+    {
+      links?.paper && (
+        <a href={links.paper} target="_blank" rel="noopener noreferrer" class="text-link">
+          Publication <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
   </div>
 </article>
